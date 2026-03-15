@@ -78,6 +78,7 @@
           "log_ha_core_activity": "HA-Kernaktivität",
           "log_ha_state_changes": "HA-Zustandsänderungen, ohne Attribute oder Kontext",
           "log_ha_full_state_changes": "HA-Zustandsänderungen",
+          "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
           "custom_events": "Ein oder mehrere Ereignisse"
         },
         "data_description": {
@@ -86,6 +87,7 @@
           "log_ha_core_activity": "HA-Kernaktivität, einschließlich Dienstaufrufe, Automatisierungs- und Skriptausführung.",
           "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
           "log_ha_full_state_changes": "Home Assistant-Zustandsänderungen (vollständiges Ereignis) und Logbucheinträge.",
+          "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
           "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile (z. B. zha_event)."
         }
       }
@@ -161,6 +163,7 @@
           "log_ha_core_activity": "HA-Kernaktivität",
           "log_ha_state_changes": "HA-Zustandsänderungen, ohne Attribute oder Kontext",
           "log_ha_full_state_changes": "HA-Zustandsänderungen",
+          "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
           "custom_events": "Benutzerdefinierte Ereignisnamen"
         },
         "data_description": {
@@ -169,6 +172,7 @@
           "log_ha_core_activity": "HA-Kernaktivität, einschließlich Dienstaufrufe, Automatisierungs- und Skriptausführung.",
           "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
           "log_ha_full_state_changes": "Home Assistant-Zustandsänderungen (vollständiges Ereignis) und Logbucheinträge.",
+          "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
           "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile (z. B. zha_event)."
         }
       }

@@ -1,3 +1,7 @@
+# 1.4.4
+- Update to translation strings for new event serialization
+- French and Italian translations added
+- Don't double log events generated via system_log.event
 # 1.4.3
 - Option to serialize Home Assistant events into a single string, other than entity_id, component, domain to avoid schema pollution on log aggregators
 # 1.4.2

@@ -1,0 +1,197 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Choisir le backend d'export des journaux",
+        "description": "Sélectionnez comment exporter les journaux système de Home Assistant.",
+        "menu_options": {
+          "otel": "OpenTelemetry (OTLP)",
+          "syslog": "Syslog (RFC 5424)"
+        }
+      },
+      "otel": {
+        "title": "Configurer le point de terminaison OTLP",
+        "description": "Saisissez les informations de connexion de votre collecteur OpenTelemetry.",
+        "data": {
+          "host": "Hôte du collecteur",
+          "port": "Port du collecteur",
+          "use_tls": "Utiliser TLS (HTTPS)",
+          "encoding": "Encodage de la charge utile",
+          "batch_max_size": "Taille maximale du lot",
+          "resource_attributes": "Attributs de ressource personnalisés",
+          "token_type": "Type de jeton",
+          "token": "Jeton d'accès pour l'en-tête Authorization",
+          "headers": "En-têtes supplémentaires",
+          "path": "Chemin du point de terminaison des journaux"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP du collecteur OTLP.",
+          "port": "Port HTTP du collecteur OTLP (par défaut : 4318).",
+          "use_tls": "Activer HTTPS pour la connexion au collecteur.",
+          "encoding": "Format d'encodage de la charge utile OTLP : json ou protobuf.",
+          "batch_max_size": "Nombre maximum d'entrées de journal à mettre en mémoire tampon avant envoi (1-10000, par défaut : 100).",
+          "resource_attributes": "Paires clé=valeur séparées par des virgules ajoutées à chaque entrée de journal (ex. deployment.environment=production,service.namespace=home).",
+          "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'.",
+          "token": "Jeton optionnel. Envoyé dans l'en-tête 'Authorization'.",
+          "headers": "En-têtes HTTP supplémentaires optionnels, un par ligne au format 'Nom: valeur' (ex. stream-name: mon-stream).",
+          "path": "Chemin ajouté à hôte:port pour le point de terminaison des journaux (par défaut : /v1/logs). Préfixer avec tout chemin spécifique à l'API (ex. /api/otlp/v1/logs)."
+        }
+      },
+      "reauth_otel": {
+        "title": "Ré-authentifier le point de terminaison OTLP",
+        "description": "Authentification échouée. Saisissez un nouveau jeton.",
+        "data": {
+          "token_type": "Type de jeton",
+          "token": "Jeton"
+        },
+        "data_description": {
+          "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'. Raw Basic envoie tel que configuré. ApiKey envoie avec le préfixe 'ApiKey'.",
+          "token": "Nouveau jeton pour s'authentifier auprès du collecteur OTLP."
+        }
+      },
+      "syslog": {
+        "title": "Configurer le point de terminaison Syslog",
+        "description": "Saisissez les informations de connexion de votre serveur syslog RFC 5424.",
+        "data": {
+          "host": "Hôte du serveur syslog",
+          "port": "Port du serveur syslog",
+          "protocol": "Protocole de transport",
+          "use_tls": "Utiliser TLS (TCP uniquement)",
+          "app_name": "Nom de l'application",
+          "facility": "Facility syslog"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP du serveur syslog.",
+          "port": "Port du serveur syslog (par défaut : 514).",
+          "protocol": "Protocole de transport : UDP (sans confirmation) ou TCP (livraison fiable).",
+          "use_tls": "Activer le chiffrement TLS pour les connexions TCP. Ignoré pour UDP.",
+          "app_name": "Le champ APP-NAME dans les messages RFC 5424 (par défaut : homeassistant).",
+          "facility": "Code de facility syslog utilisé pour calculer la valeur PRI (par défaut : user)."
+        }
+      },
+      "common": {
+        "title": "Événements Home Assistant supplémentaires",
+        "description": "Abonnez-vous optionnellement aux événements Home Assistant au-delà des journaux système.",
+        "data": {
+          "log_ha_lifecycle": "Événements du cycle de vie de Home Assistant",
+          "log_ha_core_changes": "Événements de changement du cœur de Home Assistant",
+          "log_ha_core_activity": "Activité du cœur de Home Assistant",
+          "log_ha_state_changes": "Changements d'état de Home Assistant, sans attributs ni contexte",
+          "log_ha_full_state_changes": "Changements d'état de Home Assistant",
+          "log_ha_event_body": "Sérialiser les données d'événement dans le corps du journal",
+          "custom_events": "Un ou plusieurs événements"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "S'abonne aux événements homeassistant_start, homeassistant_started et homeassistant_stop.",
+          "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
+          "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires, un par ligne (ex. zha_event).",
+          "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
+          "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
+          "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal",
+          "log_ha_event_body": "Lorsqu'activé, les données complètes de l'événement sont sérialisées en JSON dans le corps du journal. Seuls entity_id, domain et service sont conservés comme attributs structurés."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter au point de terminaison. Vérifiez l'hôte, le port et les paramètres TLS.",
+      "invalid_attributes": "Format invalide. Utilisez des paires clé=valeur séparées par des virgules (ex. env=prod,region=fr).",
+      "invalid_headers": "Format invalide. Utilisez un en-tête 'Nom: valeur' par ligne.",
+      "invalid_auth": "Authentification échouée. Vérifiez le jeton bearer.",
+      "state_changes_exclusive": "Sélectionnez une seule option de changement d'état.",
+      "unknown": "Une erreur inattendue s'est produite."
+    },
+    "abort": {
+      "already_configured": "Ce point de terminaison est déjà configuré."
+    }
+  },
+  "options": {
+    "step": {
+      "otel": {
+        "title": "Configurer le point de terminaison OTLP",
+        "description": "Mettez à jour les informations de connexion de votre collecteur OpenTelemetry.",
+        "data": {
+          "host": "Hôte du collecteur",
+          "port": "Port du collecteur",
+          "use_tls": "Utiliser TLS (HTTPS)",
+          "encoding": "Encodage de la charge utile",
+          "batch_max_size": "Taille maximale du lot",
+          "resource_attributes": "Attributs de ressource personnalisés",
+          "token_type": "Type de jeton",
+          "token": "Jeton d'accès pour l'en-tête Authorization",
+          "headers": "En-têtes supplémentaires",
+          "path": "Chemin du point de terminaison des journaux"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP du collecteur OTLP.",
+          "port": "Port HTTP du collecteur OTLP (par défaut : 4318).",
+          "use_tls": "Activer HTTPS pour la connexion au collecteur.",
+          "encoding": "Format d'encodage de la charge utile OTLP : json ou protobuf.",
+          "batch_max_size": "Nombre maximum d'entrées de journal à mettre en mémoire tampon avant envoi (1-10000, par défaut : 100).",
+          "resource_attributes": "Paires clé=valeur séparées par des virgules ajoutées à chaque entrée de journal (ex. deployment.environment=production,service.namespace=home).",
+          "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'.",
+          "token": "Jeton optionnel. Envoyé dans l'en-tête 'Authorization'.",
+          "headers": "En-têtes HTTP supplémentaires optionnels, un par ligne au format 'Nom: valeur' (ex. stream-name: mon-stream).",
+          "path": "Chemin ajouté à hôte:port pour le point de terminaison des journaux (par défaut : /v1/logs). Préfixer avec tout chemin spécifique à l'API (ex. /api/otlp/v1/logs)."
+        }
+      },
+      "syslog": {
+        "title": "Configurer le point de terminaison Syslog",
+        "description": "Mettez à jour les informations de connexion de votre serveur syslog RFC 5424.",
+        "data": {
+          "host": "Hôte du serveur syslog",
+          "port": "Port du serveur syslog",
+          "protocol": "Protocole de transport",
+          "use_tls": "Utiliser TLS (TCP uniquement)",
+          "app_name": "Nom de l'application",
+          "facility": "Facility syslog"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP du serveur syslog.",
+          "port": "Port du serveur syslog (par défaut : 514).",
+          "protocol": "Protocole de transport : UDP (sans confirmation) ou TCP (livraison fiable).",
+          "use_tls": "Activer le chiffrement TLS pour les connexions TCP. Ignoré pour UDP.",
+          "app_name": "Le champ APP-NAME dans les messages RFC 5424 (par défaut : homeassistant).",
+          "facility": "Code de facility syslog utilisé pour calculer la valeur PRI (par défaut : user)."
+        }
+      },
+      "events": {
+        "title": "Événements Home Assistant supplémentaires",
+        "description": "Abonnez-vous optionnellement aux événements Home Assistant au-delà des journaux système.",
+        "data": {
+          "log_ha_lifecycle": "Événements du cycle de vie de Home Assistant",
+          "log_ha_core_changes": "Événements de changement du cœur de Home Assistant",
+          "log_ha_core_activity": "Activité du cœur de Home Assistant",
+          "log_ha_state_changes": "Changements d'état de Home Assistant, sans attributs ni contexte",
+          "log_ha_full_state_changes": "Changements d'état de Home Assistant",
+          "log_ha_event_body": "Sérialiser les données d'événement dans le corps du journal",
+          "custom_events": "Noms d'événements personnalisés"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "S'abonne aux événements homeassistant_start, homeassistant_started et homeassistant_stop.",
+          "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
+          "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires, un par ligne (ex. zha_event).",
+          "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
+          "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
+          "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal",
+          "log_ha_event_body": "Lorsqu'activé, les données complètes de l'événement sont sérialisées en JSON dans le corps du journal. Seuls entity_id, domain et service sont conservés comme attributs structurés."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "format_errors": {
+        "name": "Erreurs de formatage"
+      },
+      "posting_errors": {
+        "name": "Erreurs d'envoi"
+      },
+      "events": {
+        "name": "Événements de journal"
+      },
+      "postings": {
+        "name": "Envois"
+      }
+    }
+  }
+}

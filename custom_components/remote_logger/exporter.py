@@ -94,6 +94,13 @@ class LogExporter:
                 message: list[str] = [json.dumps(dict(event.data), default=_event_data_serializer)]
                 allowed_event_data_keys = _HA_EVENT_BODY_ATTRIBUTE_KEYS
             else:
+                if (
+                    event_type == EVENT_CALL_SERVICE
+                    and event.data.get("domain") == "system_log"
+                    and event.data.get("service") == "write"
+                ):
+                    # don't double count log events
+                    return
                 if event_type == EVENT_STATE_CHANGED:
                     old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
                     new_state: str = (event.data["new_state"] and event.data["new_state"].state) or "N/A"

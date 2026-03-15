@@ -78,6 +78,7 @@
           "log_ha_core_activity": "Home Assistant core activity",
           "log_ha_state_changes": "Home Assistant state changes, without attributes or context",
           "log_ha_full_state_changes": "Home Assistant state changes",
+          "log_ha_event_body": "Serialize event data into log body",
           "custom_events": "One or more events"
         },
         "data_description": {
@@ -86,7 +87,8 @@
           "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line (e.g. zha_event).",
           "log_ha_core_activity": "Home Assistant core activity, including service calls, automation and script execution.",
           "log_ha_state_changes": "Home Assistant state changes (without attributes or context) and logbook entries",
-          "log_ha_full_state_changes": "Home Assistant state changes (complete event) and logbook entries"
+          "log_ha_full_state_changes": "Home Assistant state changes (complete event) and logbook entries",
+          "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes."
         }
       }
     },
@@ -161,7 +163,8 @@
           "custom_events": "Custom event names",
           "log_ha_core_activity": "Home Assistant core activity",
           "log_ha_state_changes": "Home Assistant state changes, without attributes or context",
-          "log_ha_full_state_changes": "Home Assistant state changes"
+          "log_ha_full_state_changes": "Home Assistant state changes",
+          "log_ha_event_body": "Serialize event data into log body"
         },
         "data_description": {
           "log_ha_lifecycle": "Subscribe to homeassistant_start, homeassistant_started, and homeassistant_stop events.",
@@ -169,7 +172,8 @@
           "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line (e.g. zha_event).",
           "log_ha_core_activity": "Home Assistant core activity, including service calls, automation and script execution.",
           "log_ha_state_changes": "Home Assistant state changes (without attributes or context) and logbook entries",
-          "log_ha_full_state_changes": "Home Assistant state changes (complete event) and logbook entries"
+          "log_ha_full_state_changes": "Home Assistant state changes (complete event) and logbook entries",
+          "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes."
         }
       }
     }
