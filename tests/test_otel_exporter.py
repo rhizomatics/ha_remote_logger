@@ -544,13 +544,11 @@ class TestOtlpLogExporter:
         event = MagicMock()
         event.event_type = "call_service"
         event.time_fired.timestamp.return_value = 1700000000.0
-        event.data = {"domain": "light", "service": "turn_on", "entity_id": "light.x"}
+        event.data = {"domain": "light", "service": "turn_on", "entity_id": "light.x", "foo": 123}
         exporter.handle_ha_event("call_service", event, event_body=True)
         flat_event = exporter._buffer[0].payload["attributes"][3]["value"]["string_value"]
         parsed = json.loads(flat_event)
-        assert parsed["domain"] == "light"
-        assert parsed["service"] == "turn_on"
-        assert parsed["entity_id"] == "light.x"
+        assert parsed["foo"] == 123
 
     def test_handle_ha_event_body_restricts_attributes(self, exporter: OtlpLogExporter) -> None:
         event = MagicMock()
