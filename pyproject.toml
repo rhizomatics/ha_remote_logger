@@ -3,15 +3,15 @@ name = "remote_logger"
 readme = "README.md"
 description = "Log Home Assistant events to a Syslog or OTEL collector."
 dynamic = ["version"]
-requires-python = ">=3.14.1"
+requires-python = ">=3.14.2"
 
 dependencies = [
-    "homeassistant>=2026.2.3",
+    "homeassistant>=2026.3.1",
 ]
 
 [dependency-groups]
 dev=[
-    "homeassistant-stubs >= 2026.2.3",
+    "homeassistant-stubs >= 2026.3.1",
     "pytest==9.0.0",
     "pytest-cov>=7.0.0",
     "pytest-homeassistant-custom-component>=0.13.316",
@@ -33,7 +33,7 @@ docs=[
     "mkdocs-autorefs",
     "mkdocs-coverage",
     "mkdocs-pagetree-plugin",
-    "mkdocs",
+    "mkdocs<2.0.0",
     "pngquant",
     "mkdocstrings",
     "mkdocstrings-python",

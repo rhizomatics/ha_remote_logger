@@ -75,6 +75,7 @@ class LogExporter:
     def handle_ha_event(self, event_type: str, event: Event, state_only: bool = False) -> None:
         """Handle a non-system-log HA event (lifecycle, core change, or custom)."""
         self.on_event()
+        general_fields: list[str] = ["message", "id", "entity_id", "name", "component", "device_id"]
         try:
             if event_type == EVENT_STATE_CHANGED:
                 old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
@@ -88,6 +89,8 @@ class LogExporter:
                 message = [event_type, ":", event.data["name"], event.data["entity_id"]]
             elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
                 message = [event_type, ":", event.data["user_id"]]
+            elif any(v in event.data for v in general_fields):
+                message = [event_type, ":"] + [event.data[v] for v in general_fields]
             else:
                 message = [event_type]
 

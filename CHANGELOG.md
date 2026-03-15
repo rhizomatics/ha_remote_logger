@@ -1,3 +1,5 @@
+# 1.4.1
+- HA event generation more flexible in generating human sensible messages
 # 1.4.0
 - New action (aka service) to generate events directly
 - Logs flushed on Home Assistant shutdown
