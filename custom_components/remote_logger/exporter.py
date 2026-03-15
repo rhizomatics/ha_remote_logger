@@ -117,10 +117,7 @@ class LogExporter:
                 flat_event: dict[str, Any] = {k: v for k, v in event.data.items() if k not in _HA_EVENT_BODY_ATTRIBUTE_KEYS}
                 event.data = {k: v for k, v in event.data.items() if k in _HA_EVENT_BODY_ATTRIBUTE_KEYS}
                 if flat_event:
-                    event.data["event.data"] = json.dumps(
-                        flat_event,
-                        default=_event_data_serializer,
-                    )
+                    event.data["event.data"] = json.dumps(flat_event, default=_event_data_serializer, indent=2)
 
             record: LogMessage = self._to_log_record(
                 event, message_override=message, level_override="INFO", state_only=state_only
