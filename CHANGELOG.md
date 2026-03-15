@@ -1,5 +1,5 @@
 # 1.4.6
-- HA event serializatio tuning
+- HA event serialization tuning
 # 1.4.5
 - Retain `message` and `event` for simplified HA events
 # 1.4.4
