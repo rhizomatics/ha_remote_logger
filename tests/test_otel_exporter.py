@@ -546,8 +546,8 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"domain": "light", "service": "turn_on", "entity_id": "light.x"}
         exporter.handle_ha_event("call_service", event, event_body=True)
-        body = exporter._buffer[0].payload["body"]["string_value"]
-        parsed = json.loads(body)
+        flat_event = exporter._buffer[0].payload["attributes"][3]["value"]["string_value"]
+        parsed = json.loads(flat_event)
         assert parsed["domain"] == "light"
         assert parsed["service"] == "turn_on"
         assert parsed["entity_id"] == "light.x"
@@ -576,8 +576,8 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"key": _Opaque()}
         exporter.handle_ha_event("custom_event", event, event_body=True)
-        body = exporter._buffer[0].payload["body"]["string_value"]
-        parsed = json.loads(body)
+        flat_event = exporter._buffer[0].payload["attributes"][0]["value"]["string_value"]
+        parsed = json.loads(flat_event)
         assert parsed["key"] == "custom_str"
 
 

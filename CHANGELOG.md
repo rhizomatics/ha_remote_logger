@@ -1,3 +1,5 @@
+# 1.4.5
+- Retain `message` and `event` for simplified HA events
 # 1.4.4
 - Update to translation strings for new event serialization
 - French and Italian translations added

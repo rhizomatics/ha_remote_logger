@@ -234,7 +234,6 @@ class OtlpLogExporter(LogExporter):
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
-        allowed_event_data_keys: frozenset[str] | None = None,
     ) -> OtlpMessage:
         """Convert a system_log_event payload to an OTLP logRecord dict."""
         """ HA System Log Event
@@ -280,9 +279,8 @@ class OtlpLogExporter(LogExporter):
 
         else:
             for k, v in data.items():
-                if allowed_event_data_keys is None or k in allowed_event_data_keys:
-                    for flat_key, flat_val in flatten_event_data(f"event.data.{k}", v, state_only):
-                        attributes.append(_kv(flat_key, flat_val))
+                for flat_key, flat_val in flatten_event_data(f"event.data.{k}" if k != "event.data" else k, v, state_only):
+                    attributes.append(_kv(flat_key, flat_val))
 
         # https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/logs/v1/logs.proto
         return OtlpMessage(

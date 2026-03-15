@@ -89,42 +89,37 @@ class LogExporter:
         self.on_event()
         general_fields: list[str] = ["message", "id", "entity_id", "name", "component", "device_id"]
         try:
-            allowed_event_data_keys: frozenset[str] | None
-            if event_body:
-                message: list[str] = [json.dumps(dict(event.data), default=_event_data_serializer)]
-                allowed_event_data_keys = _HA_EVENT_BODY_ATTRIBUTE_KEYS
+            if (
+                event_type == EVENT_CALL_SERVICE
+                and event.data.get("domain") == "system_log"
+                and event.data.get("service") == "write"
+            ):
+                # don't double count log events
+                return
+            if event_type == EVENT_STATE_CHANGED:
+                old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
+                new_state: str = (event.data["new_state"] and event.data["new_state"].state) or "N/A"
+                message = [event_type, ":", event.data["entity_id"], old_state, "->", new_state]
+            elif event_type in (EVENT_CALL_SERVICE, EVENT_SERVICE_REGISTERED, EVENT_SERVICE_REMOVED):
+                message = [event_type, ":", event.data["domain"], event.data["service"]]
+            elif event_type == EVENT_COMPONENT_LOADED:
+                message = [event_type, ":", event.data["component"]]
+            elif event_type in (EVENT_SCRIPT_STARTED, EVENT_AUTOMATION_TRIGGERED):
+                message = [event_type, ":", event.data["name"], event.data["entity_id"]]
+            elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
+                message = [event_type, ":", event.data["user_id"]]
+            elif any(v in event.data for v in general_fields):
+                message = [event_type, ":"] + [event.data[v] for v in general_fields if v in event.data]
             else:
-                if (
-                    event_type == EVENT_CALL_SERVICE
-                    and event.data.get("domain") == "system_log"
-                    and event.data.get("service") == "write"
-                ):
-                    # don't double count log events
-                    return
-                if event_type == EVENT_STATE_CHANGED:
-                    old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
-                    new_state: str = (event.data["new_state"] and event.data["new_state"].state) or "N/A"
-                    message = [event_type, ":", event.data["entity_id"], old_state, "->", new_state]
-                elif event_type in (EVENT_CALL_SERVICE, EVENT_SERVICE_REGISTERED, EVENT_SERVICE_REMOVED):
-                    message = [event_type, ":", event.data["domain"], event.data["service"]]
-                elif event_type == EVENT_COMPONENT_LOADED:
-                    message = [event_type, ":", event.data["component"]]
-                elif event_type in (EVENT_SCRIPT_STARTED, EVENT_AUTOMATION_TRIGGERED):
-                    message = [event_type, ":", event.data["name"], event.data["entity_id"]]
-                elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
-                    message = [event_type, ":", event.data["user_id"]]
-                elif any(v in event.data for v in general_fields):
-                    message = [event_type, ":"] + [event.data[v] for v in general_fields if v in event.data]
-                else:
-                    message = [event_type]
-                allowed_event_data_keys = None
+                message = [event_type]
+
+            if event_body:
+                flat_event: str = json.dumps(dict(event.data), default=_event_data_serializer)
+                event.data = {k: v for k, v in event.data.items() if k in _HA_EVENT_BODY_ATTRIBUTE_KEYS}
+                event.data["event"] = flat_event
 
             record: LogMessage = self._to_log_record(
-                event,
-                message_override=message,
-                level_override="INFO",
-                state_only=state_only,
-                allowed_event_data_keys=allowed_event_data_keys,
+                event, message_override=message, level_override="INFO", state_only=state_only
             )
             self._buffer.append(record)
             if len(self._buffer) >= self._batch_max_size:
@@ -140,7 +135,6 @@ class LogExporter:
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
-        allowed_event_data_keys: frozenset[str] | None = None,
     ) -> LogMessage:
         pass
 
