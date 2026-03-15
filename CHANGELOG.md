@@ -1,3 +1,5 @@
+# 1.4.2
+- Event generation fixes and more tests
 # 1.4.1
 - HA event generation more flexible in generating human sensible messages
 # 1.4.0

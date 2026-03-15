@@ -90,7 +90,7 @@ class LogExporter:
             elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
                 message = [event_type, ":", event.data["user_id"]]
             elif any(v in event.data for v in general_fields):
-                message = [event_type, ":"] + [event.data[v] for v in general_fields]
+                message = [event_type, ":"] + [event.data[v] for v in general_fields if v in event.data]
             else:
                 message = [event_type]
 

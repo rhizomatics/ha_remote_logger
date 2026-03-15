@@ -444,6 +444,100 @@ class TestOtlpLogExporter:
             exporter.handle_ha_event("bad_event", event)
         assert exporter.format_error_count == 1
 
+    def test_handle_ha_event_state_changed_message(self, exporter: OtlpLogExporter) -> None:
+        from homeassistant.const import EVENT_STATE_CHANGED
+
+        old_state = MagicMock()
+        old_state.state = "off"
+        new_state = MagicMock()
+        new_state.state = "on"
+        event = MagicMock()
+        event.event_type = EVENT_STATE_CHANGED
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"entity_id": "light.kitchen", "old_state": old_state, "new_state": new_state}
+        exporter.handle_ha_event(str(EVENT_STATE_CHANGED), event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "light.kitchen" in body
+        assert "off" in body
+        assert "on" in body
+        assert "->" in body
+
+    def test_handle_ha_event_state_changed_none_states(self, exporter: OtlpLogExporter) -> None:
+        from homeassistant.const import EVENT_STATE_CHANGED
+
+        event = MagicMock()
+        event.event_type = EVENT_STATE_CHANGED
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"entity_id": "light.kitchen", "old_state": None, "new_state": None}
+        exporter.handle_ha_event(str(EVENT_STATE_CHANGED), event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "N/A" in body
+
+    def test_handle_ha_event_call_service_message(self, exporter: OtlpLogExporter) -> None:
+        from homeassistant.core import EVENT_CALL_SERVICE
+
+        event = MagicMock()
+        event.event_type = EVENT_CALL_SERVICE
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"domain": "light", "service": "turn_on"}
+        exporter.handle_ha_event(EVENT_CALL_SERVICE, event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "light" in body
+        assert "turn_on" in body
+
+    def test_handle_ha_event_component_loaded_message(self, exporter: OtlpLogExporter) -> None:
+        from homeassistant.const import EVENT_COMPONENT_LOADED
+
+        event = MagicMock()
+        event.event_type = EVENT_COMPONENT_LOADED
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"component": "sensor"}
+        exporter.handle_ha_event(EVENT_COMPONENT_LOADED, event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "sensor" in body
+
+    def test_handle_ha_event_automation_triggered_message(self, exporter: OtlpLogExporter) -> None:
+        from homeassistant.components.automation import EVENT_AUTOMATION_TRIGGERED
+
+        event = MagicMock()
+        event.event_type = EVENT_AUTOMATION_TRIGGERED
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"name": "My Automation", "entity_id": "automation.my_automation"}
+        exporter.handle_ha_event(EVENT_AUTOMATION_TRIGGERED, event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "My Automation" in body
+        assert "automation.my_automation" in body
+
+    def test_handle_ha_event_user_added_message(self, exporter: OtlpLogExporter) -> None:
+        from homeassistant.auth import EVENT_USER_ADDED
+
+        event = MagicMock()
+        event.event_type = EVENT_USER_ADDED
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"user_id": "abc123"}
+        exporter.handle_ha_event(EVENT_USER_ADDED, event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "abc123" in body
+
+    def test_handle_ha_event_general_fields_message(self, exporter: OtlpLogExporter) -> None:
+        event = MagicMock()
+        event.event_type = "custom_event"
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"name": "my thing", "device_id": "dev_42"}
+        exporter.handle_ha_event("custom_event", event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert "my thing" in body
+        assert "dev_42" in body
+
+    def test_handle_ha_event_default_message(self, exporter: OtlpLogExporter) -> None:
+        event = MagicMock()
+        event.event_type = "some_unknown_event"
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {}
+        exporter.handle_ha_event("some_unknown_event", event)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        assert body == "some_unknown_event"
+
 
 class TestOtlpLogDirectMethod:
     @pytest.fixture
