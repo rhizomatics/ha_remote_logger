@@ -1,6 +1,6 @@
 {
   "domain": "remote_logger",
-  "name": "OpenTelemetry and Syslog Log Exporter",
+  "name": "Remote Logger for OpenTelemetry and Syslog",
   "codeowners": ["@jey"],
   "config_flow": true,
   "dependencies": ["system_log"],
@@ -9,5 +9,5 @@
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/rhizomatics/remote_logger/issues",
   "requirements": [],
-  "version": "1.4.6"
+  "version": "1.4.7"
 }
