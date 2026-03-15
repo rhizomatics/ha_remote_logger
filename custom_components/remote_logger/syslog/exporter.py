@@ -99,6 +99,7 @@ class SyslogExporter(LogExporter):
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
+        allowed_event_data_keys: frozenset[str] | None = None,
     ) -> SyslogMessage:
         """Convert a system_log_event payload to an RFC 5424 syslog message."""
         """
@@ -150,8 +151,9 @@ class SyslogExporter(LogExporter):
             # Use HA event type as MSGID for non-system-log events; "-" otherwise
             msgid = event.event_type or "-"
             for k, v in data.items():
-                for flat_key, flat_val in flatten_event_data(f"event.data.{k}", v, state_only):
-                    sd_params.append(f'{_sd_escape(flat_key)}="{_sd_escape(str(flat_val))}"')
+                if allowed_event_data_keys is None or k in allowed_event_data_keys:
+                    for flat_key, flat_val in flatten_event_data(f"event.data.{k}", v, state_only):
+                        sd_params.append(f'{_sd_escape(flat_key)}="{_sd_escape(str(flat_val))}"')
 
         if sd_params:
             sd = f"[opentelemetry {' '.join(sd_params)}]"

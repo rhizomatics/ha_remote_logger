@@ -20,6 +20,7 @@ from .const import (
     CONF_ENCODING,
     CONF_LOG_HA_CORE_ACTIVITY,
     CONF_LOG_HA_CORE_CHANGES,
+    CONF_LOG_HA_EVENT_BODY,
     CONF_LOG_HA_FULL_STATE_CHANGES,
     CONF_LOG_HA_LIFECYCLE,
     CONF_LOG_HA_STATE_CHANGES,
@@ -41,6 +42,7 @@ COMMON_DATA_SCHEMA = vol.Schema({
     vol.Optional(CONF_LOG_HA_CORE_ACTIVITY, default=False): selector.BooleanSelector(),
     vol.Optional(CONF_LOG_HA_STATE_CHANGES, default=False): selector.BooleanSelector(),
     vol.Optional(CONF_LOG_HA_FULL_STATE_CHANGES, default=False): selector.BooleanSelector(),
+    vol.Optional(CONF_LOG_HA_EVENT_BODY, default=True): selector.BooleanSelector(),
     vol.Optional(CONF_CUSTOM_EVENTS, default=""): selector.TextSelector(selector.TextSelectorConfig(multiline=True)),
 })
 
@@ -317,6 +319,7 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
             CONF_LOG_HA_CORE_CHANGES: merged.get(CONF_LOG_HA_CORE_CHANGES, False),
             CONF_LOG_HA_STATE_CHANGES: merged.get(CONF_LOG_HA_STATE_CHANGES, False),
             CONF_LOG_HA_FULL_STATE_CHANGES: merged.get(CONF_LOG_HA_FULL_STATE_CHANGES, False),
+            CONF_LOG_HA_EVENT_BODY: merged.get(CONF_LOG_HA_EVENT_BODY, False),
             CONF_CUSTOM_EVENTS: merged.get(CONF_CUSTOM_EVENTS, ""),
         }
         return self.async_show_form(

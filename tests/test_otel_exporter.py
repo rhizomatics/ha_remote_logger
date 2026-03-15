@@ -538,6 +538,48 @@ class TestOtlpLogExporter:
         body = exporter._buffer[0].payload["body"]["string_value"]
         assert body == "some_unknown_event"
 
+    def test_handle_ha_event_body_serializes_event_data_as_json(self, exporter: OtlpLogExporter) -> None:
+        import json
+
+        event = MagicMock()
+        event.event_type = "call_service"
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"domain": "light", "service": "turn_on", "entity_id": "light.x"}
+        exporter.handle_ha_event("call_service", event, event_body=True)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        parsed = json.loads(body)
+        assert parsed["domain"] == "light"
+        assert parsed["service"] == "turn_on"
+        assert parsed["entity_id"] == "light.x"
+
+    def test_handle_ha_event_body_restricts_attributes(self, exporter: OtlpLogExporter) -> None:
+        event = MagicMock()
+        event.event_type = "call_service"
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"domain": "light", "service": "turn_on", "entity_id": "light.x", "extra": "ignored"}
+        exporter.handle_ha_event("call_service", event, event_body=True)
+        attr_keys = [a["key"] for a in exporter._buffer[0].payload["attributes"]]
+        assert "event.data.entity_id" in attr_keys
+        assert "event.data.domain" in attr_keys
+        assert "event.data.service" in attr_keys
+        assert "event.data.extra" not in attr_keys
+
+    def test_handle_ha_event_body_with_unserializable_object(self, exporter: OtlpLogExporter) -> None:
+        import json
+
+        class _Opaque:
+            def __str__(self) -> str:
+                return "custom_str"
+
+        event = MagicMock()
+        event.event_type = "custom_event"
+        event.time_fired.timestamp.return_value = 1700000000.0
+        event.data = {"key": _Opaque()}
+        exporter.handle_ha_event("custom_event", event, event_body=True)
+        body = exporter._buffer[0].payload["body"]["string_value"]
+        parsed = json.loads(body)
+        assert parsed["key"] == "custom_str"
+
 
 class TestOtlpLogDirectMethod:
     @pytest.fixture

@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -17,6 +18,17 @@ if TYPE_CHECKING:
     import datetime as dt
 
 _LOGGER = logging.getLogger(__name__)
+
+_HA_EVENT_BODY_ATTRIBUTE_KEYS: frozenset[str] = frozenset({"entity_id", "domain", "service"})
+
+
+def _event_data_serializer(obj: Any) -> Any:
+    """JSON serializer for HA event data objects."""
+    if hasattr(obj, "as_dict"):
+        return obj.as_dict()
+    if hasattr(obj, "value"):
+        return obj.value
+    return str(obj)
 
 
 @dataclass
@@ -72,30 +84,40 @@ class LogExporter:
             self.on_format_error(str(e))
 
     @callback
-    def handle_ha_event(self, event_type: str, event: Event, state_only: bool = False) -> None:
+    def handle_ha_event(self, event_type: str, event: Event, state_only: bool = False, event_body: bool = False) -> None:
         """Handle a non-system-log HA event (lifecycle, core change, or custom)."""
         self.on_event()
         general_fields: list[str] = ["message", "id", "entity_id", "name", "component", "device_id"]
         try:
-            if event_type == EVENT_STATE_CHANGED:
-                old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
-                new_state: str = (event.data["new_state"] and event.data["new_state"].state) or "N/A"
-                message: list[str] = [event_type, ":", event.data["entity_id"], old_state, "->", new_state]
-            elif event_type in (EVENT_CALL_SERVICE, EVENT_SERVICE_REGISTERED, EVENT_SERVICE_REMOVED):
-                message = [event_type, ":", event.data["domain"], event.data["service"]]
-            elif event_type == EVENT_COMPONENT_LOADED:
-                message = [event_type, ":", event.data["component"]]
-            elif event_type in (EVENT_SCRIPT_STARTED, EVENT_AUTOMATION_TRIGGERED):
-                message = [event_type, ":", event.data["name"], event.data["entity_id"]]
-            elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
-                message = [event_type, ":", event.data["user_id"]]
-            elif any(v in event.data for v in general_fields):
-                message = [event_type, ":"] + [event.data[v] for v in general_fields if v in event.data]
+            allowed_event_data_keys: frozenset[str] | None
+            if event_body:
+                message: list[str] = [json.dumps(dict(event.data), default=_event_data_serializer)]
+                allowed_event_data_keys = _HA_EVENT_BODY_ATTRIBUTE_KEYS
             else:
-                message = [event_type]
+                if event_type == EVENT_STATE_CHANGED:
+                    old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
+                    new_state: str = (event.data["new_state"] and event.data["new_state"].state) or "N/A"
+                    message = [event_type, ":", event.data["entity_id"], old_state, "->", new_state]
+                elif event_type in (EVENT_CALL_SERVICE, EVENT_SERVICE_REGISTERED, EVENT_SERVICE_REMOVED):
+                    message = [event_type, ":", event.data["domain"], event.data["service"]]
+                elif event_type == EVENT_COMPONENT_LOADED:
+                    message = [event_type, ":", event.data["component"]]
+                elif event_type in (EVENT_SCRIPT_STARTED, EVENT_AUTOMATION_TRIGGERED):
+                    message = [event_type, ":", event.data["name"], event.data["entity_id"]]
+                elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
+                    message = [event_type, ":", event.data["user_id"]]
+                elif any(v in event.data for v in general_fields):
+                    message = [event_type, ":"] + [event.data[v] for v in general_fields if v in event.data]
+                else:
+                    message = [event_type]
+                allowed_event_data_keys = None
 
             record: LogMessage = self._to_log_record(
-                event, message_override=message, level_override="INFO", state_only=state_only
+                event,
+                message_override=message,
+                level_override="INFO",
+                state_only=state_only,
+                allowed_event_data_keys=allowed_event_data_keys,
             )
             self._buffer.append(record)
             if len(self._buffer) >= self._batch_max_size:
@@ -111,6 +133,7 @@ class LogExporter:
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
+        allowed_event_data_keys: frozenset[str] | None = None,
     ) -> LogMessage:
         pass
 

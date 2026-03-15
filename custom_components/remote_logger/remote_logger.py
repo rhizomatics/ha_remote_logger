@@ -17,6 +17,7 @@ from .const import (
     CONF_CUSTOM_EVENTS,
     CONF_LOG_HA_CORE_ACTIVITY,
     CONF_LOG_HA_CORE_CHANGES,
+    CONF_LOG_HA_EVENT_BODY,
     CONF_LOG_HA_FULL_STATE_CHANGES,
     CONF_LOG_HA_LIFECYCLE,
     CONF_LOG_HA_STATE_CHANGES,
@@ -82,33 +83,44 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     ]
     _LOGGER.info("remote_logger: listening for system_log_event, exporting %s to %s", backend, label)
 
+    event_body: bool = bool(opts.get(CONF_LOG_HA_EVENT_BODY))
+
     if opts.get(CONF_LOG_HA_LIFECYCLE):
-        cancel_listeners.extend(hass.bus.async_listen(et, partial(exporter.handle_ha_event, et)) for et in LIFECYCLE_EVENTS)
+        cancel_listeners.extend(
+            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body)) for et in LIFECYCLE_EVENTS
+        )
         _LOGGER.info("remote_logger: listening for HA lifecycle events")
 
     if opts.get(CONF_LOG_HA_CORE_CHANGES):
-        cancel_listeners.extend(hass.bus.async_listen(et, partial(exporter.handle_ha_event, et)) for et in CORE_CHANGE_EVENTS)
+        cancel_listeners.extend(
+            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body)) for et in CORE_CHANGE_EVENTS
+        )
         _LOGGER.info("remote_logger: listening for HA core config events")
 
     if opts.get(CONF_LOG_HA_STATE_CHANGES):
         cancel_listeners.extend(
-            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, state_only=True)) for et in CORE_STATE_EVENTS
+            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, state_only=True, event_body=event_body))
+            for et in CORE_STATE_EVENTS
         )
         _LOGGER.info("remote_logger: listening for HA state changes")
 
     if opts.get(CONF_LOG_HA_FULL_STATE_CHANGES):
         cancel_listeners.extend(
-            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, state_only=False)) for et in CORE_STATE_EVENTS
+            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, state_only=False, event_body=event_body))
+            for et in CORE_STATE_EVENTS
         )
         _LOGGER.info("remote_logger: listening for HA state changes")
 
     if opts.get(CONF_LOG_HA_CORE_ACTIVITY):
-        cancel_listeners.extend(hass.bus.async_listen(et, partial(exporter.handle_ha_event, et)) for et in CORE_ACTIVITY_EVENTS)
+        cancel_listeners.extend(
+            hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body))
+            for et in CORE_ACTIVITY_EVENTS
+        )
         _LOGGER.info("remote_logger: listening for HA core activity")
 
     custom_events_raw = opts.get(CONF_CUSTOM_EVENTS, "")
     cancel_listeners.extend(
-        hass.bus.async_listen(et, partial(exporter.handle_ha_event, et))
+        hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body))
         for et in (e.strip() for e in custom_events_raw.splitlines() if e.strip())
     )
 

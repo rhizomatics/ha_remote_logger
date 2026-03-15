@@ -34,6 +34,7 @@ CONF_CUSTOM_EVENTS = "custom_events"
 CONF_LOG_HA_CORE_ACTIVITY = "log_ha_core_activity"
 CONF_LOG_HA_STATE_CHANGES = "log_ha_state_changes"
 CONF_LOG_HA_FULL_STATE_CHANGES = "log_ha_full_state_changes"
+CONF_LOG_HA_EVENT_BODY = "log_ha_event_body"
 
 # HA lifecycle event types (EVENT_HOMEASSISTANT_*)
 LIFECYCLE_EVENTS: list[str] = [
