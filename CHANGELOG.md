@@ -1,3 +1,6 @@
+# 1.4.7
+- Prettify flattened HA event json
+- Rename component in manifest to match public naming
 # 1.4.6
 - HA event serialization tuning
 # 1.4.5
