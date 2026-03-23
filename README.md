@@ -113,8 +113,6 @@ There are a zillion possible solutions for capturing, analyzing, aggregating and
 
 One combination that works well is using [Vector](https://vector.dev) and [GreptimeDb](https://greptime.com) - they are fast, lightweight, open source, customizable and run under Docker. Vector has support for OTEL logging, as well as Syslog, and has good remapping ability to fine tune each source. Its then easy to pull in logs from Docker servers, firewalls, Unifi switches or wherever else into one time-line, as well as server and network metrics.
 
-[hacs]: https://hacs.xyz
-[hacsbadge]: https://img.shields.io/badge/HACS-Default-blue.svg
 
 ## Diagnostic Entities
 
@@ -122,3 +120,6 @@ Home Assistant sensors are created and updated to monitor log activity, plus any
 log messages or posting them to remote servers.
 
 ![Diagnostic Entities](./assets/images/diagnostic_entities.png)
+
+[hacs]: https://hacs.xyz
+[hacsbadge]: https://img.shields.io/badge/HACS-Default-blue.svg
