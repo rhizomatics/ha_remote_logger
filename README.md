@@ -105,7 +105,7 @@ For convenience, four pre-defined bundles of events can be switched on.
 The free-form event box can be used as an alternative to pick specific
 Home Assistant events, or any other custom component events.
 
-![Home Assistant Events in OpenObserve](https://remote-logger.rhizomatics.org.uk/assets/images/ha_events_in_openobserve.png){width=500}
+![Home Assistant Events in OpenObserve](https://remote-logger.rhizomatics.org.uk/assets/images/ha_events_in_openobserve.png){width=720}
 
 ## Log Servers
 
@@ -119,7 +119,7 @@ One combination that works well is using [Vector](https://vector.dev) and [Grept
 Home Assistant sensors are created and updated to monitor log activity, plus any errors either generating
 log messages or posting them to remote servers.
 
-![Diagnostic Entities](https://remote-logger.rhizomatics.org.uk/assets/images/diagnostic_entities.png){width=400}
+![Diagnostic Entities](https://remote-logger.rhizomatics.org.uk/assets/images/diagnostic_entities.png){width=480}
 
 [hacs]: https://hacs.xyz
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-blue.svg
