@@ -1,4 +1,4 @@
-![Remote Logger](assets/images/remote-logger-dark-256x256.png){ align=left }
+![Remote Logger](https://remote-logger.rhizomatics.org.uk/assets/images/remote-logger-dark-256x256.png){ align=left }
 
 
 # Home Assistant Remote Logger
@@ -22,7 +22,7 @@ Listens to Home Assistant system log events and sends structured log events to a
 Syslog or OpenTelemetry (OTLP) collector. Optionally forwards other Home Assistant events, such
 as lifecycle events, service calls, configuration updates, state changes.
 
-![Example OTEL Stack Trace](./assets/images/otel_stack_trace.png){width=600}
+![Example OTEL Stack Trace](https://remote-logger.rhizomatics.org.uk/assets/images/otel_stack_trace.png){width=600}
 
 Logs structure is preserved from the Home Assistant internal event, so multi-line logs and stacktraces are preserved as single log entries, unlike console scrapers which will create a log event per line, and will capture script names, line numbers and versions properly.
 
@@ -34,7 +34,7 @@ Only Home Assistant server itself, with its custom components is supported. Logs
 
 The integration installs using the Home Assistant integrations page, and has **no YAML configuration**.
 
-![Choose Integration](./assets/images/config_choose.png){width=400}
+![Choose Integration](https://remote-logger.rhizomatics.org.uk/assets/images/config_choose.png){width=400}
 
 However, a YAML change is required to the Home Assistant [System Log](https://www.home-assistant.io/integrations/system_log/) integration, to enable event forwarding for `system_log_event`.
 
@@ -47,7 +47,7 @@ system_log:
 
 Logs are sent using Open Telemetry Logs specification over a [Open Telemetry Protocol](https://opentelemetry.io/docs/specs/otlp/)(OTLP) connection, either as Protobuf or JSON, and currently only as HTTP (gRPC may be added in future).
 
-![Configure OTLP](./assets/images/config_otel.png){width=500}
+![Configure OTLP](https://remote-logger.rhizomatics.org.uk/assets/images/config_otel.png){width=480}
 
 For more information, see [OpenTelemetry Logging](https://opentelemetry.io/docs/specs/otel/logs/).
 
@@ -59,7 +59,7 @@ Messages are sent using the more recent [RFC5424](https://datatracker.ietf.org/d
 
 Syslog can be sent as TCP or UDP.
 
-![Configure Syslog](./assets/images/config_syslog.png){width=400}
+![Configure Syslog](https://remote-logger.rhizomatics.org.uk/assets/images/config_syslog.png){width=360}
 
 ## Events
 
@@ -105,7 +105,7 @@ For convenience, four pre-defined bundles of events can be switched on.
 The free-form event box can be used as an alternative to pick specific
 Home Assistant events, or any other custom component events.
 
-![Home Assistant Events in OpenObserve](./assets/images/ha_events_in_openobserve.png)
+![Home Assistant Events in OpenObserve](https://remote-logger.rhizomatics.org.uk/assets/images/ha_events_in_openobserve.png){width=500}
 
 ## Log Servers
 
@@ -119,7 +119,7 @@ One combination that works well is using [Vector](https://vector.dev) and [Grept
 Home Assistant sensors are created and updated to monitor log activity, plus any errors either generating
 log messages or posting them to remote servers.
 
-![Diagnostic Entities](./assets/images/diagnostic_entities.png)
+![Diagnostic Entities](https://remote-logger.rhizomatics.org.uk/assets/images/diagnostic_entities.png){width=400}
 
 [hacs]: https://hacs.xyz
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-blue.svg
