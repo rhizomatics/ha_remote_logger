@@ -61,6 +61,42 @@ plugins:
             show_if_no_docstring: false
 
 
+extra:
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    - name: Nederlands
+      link: /nl/
+      lang: nl
+    - name: Français
+      link: /fr/
+      lang: fr
+    - name: Deutsch
+      link: /de/
+      lang: de
+    - name: हिन्दी
+      link: /hi/
+      lang: hi
+    - name: Italiano
+      link: /it/
+      lang: it
+    - name: 日本語
+      link: /ja/
+      lang: ja
+    - name: Polski
+      link: /pl/
+      lang: pl
+    - name: Português
+      link: /pt/
+      lang: pt
+    - name: 简体中文
+      link: /zh/
+      lang: zh
+    - name: Español
+      link: /es/
+      lang: es
+
 markdown_extensions:
   - admonition
   - pymdownx.details
