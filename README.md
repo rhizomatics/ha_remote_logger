@@ -18,15 +18,15 @@
 <br/>
 
 
-Listens to Home Assistant system log events and sends structured log events to a remote
-Syslog or OpenTelemetry (OTLP) collector. Optionally forwards other Home Assistant events, such
-as lifecycle events, service calls, configuration updates, state changes.
+Listens to Home Assistant system log events and sends structured log events to a remote Syslog or OpenTelemetry (OTLP) collector. Optionally forwards other Home Assistant events, such as lifecycle events, service calls, configuration updates, state changes.
 
 ![Example OTEL Stack Trace](https://remote-logger.rhizomatics.org.uk/assets/images/otel_stack_trace.png){width=600}
 
 Logs structure is preserved from the Home Assistant internal event, so multi-line logs and stacktraces are preserved as single log entries, unlike console scrapers which will create a log event per line, and will capture script names, line numbers and versions properly.
 
 Only Home Assistant server itself, with its custom components is supported. Logs from *apps* (previously known as 'add-ins'), HAOS or the HA Supervisor aren't provided as events to be captured, so require an alternative solution, like Bert Baron's [LogSpout Home Assistant App](https://github.com/bertbaron/hassio-addons/tree/main/logspout) will cover these. It can be used in combination with *Remote Logger* so that Home Assistant has good structured logs, and everything else is at least logged.
+
+Translations are available for Dutch, English, French, German, Hindi, Italian, Japanese, Polish, Portuguese, Simplified Mandarin and Spanish.
 
 ## Installation
 

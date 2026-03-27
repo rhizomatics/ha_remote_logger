@@ -1,0 +1,197 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "选择日志导出后端",
+        "description": "选择导出 Home Assistant 系统日志的方式。",
+        "menu_options": {
+          "otel": "OpenTelemetry (OTLP)",
+          "syslog": "Syslog (RFC 5424)"
+        }
+      },
+      "otel": {
+        "title": "配置 OTLP 端点",
+        "description": "输入 OpenTelemetry 采集器的连接信息。",
+        "data": {
+          "host": "采集器主机",
+          "port": "采集器端口",
+          "use_tls": "使用 TLS（HTTPS）",
+          "encoding": "载荷编码",
+          "batch_max_size": "批量最大条数",
+          "resource_attributes": "自定义资源属性",
+          "token_type": "令牌类型",
+          "token": "Authorization 请求头的访问令牌",
+          "headers": "附加请求头",
+          "path": "日志端点路径"
+        },
+        "data_description": {
+          "host": "OTLP 采集器的主机名或 IP 地址。",
+          "port": "OTLP 采集器的 HTTP 端口（默认：4318）。",
+          "use_tls": "为与采集器的连接启用 HTTPS。",
+          "encoding": "OTLP 载荷的编码格式：json 或 protobuf。",
+          "batch_max_size": "刷新前缓冲的最大日志记录条数（1-10000，默认：100）。",
+          "resource_attributes": "以逗号分隔的键=值对，附加到每条日志记录（例如 deployment.environment=production,service.namespace=home）。",
+          "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为"用户名:密码"。",
+          "token": "可选令牌，将在 Authorization 请求头中发送。",
+          "headers": "可选的附加 HTTP 请求头，每行一条，格式为"名称: 值"（例如 stream-name: my-stream）。",
+          "path": "附加到 host:port 的日志端点路径（默认：/v1/logs）。可在前面加上 API 专用路径（例如 /api/otlp/v1/logs）。"
+        }
+      },
+      "reauth_otel": {
+        "title": "重新验证 OTLP 端点",
+        "description": "认证失败，请输入新令牌。",
+        "data": {
+          "token_type": "令牌类型",
+          "token": "令牌"
+        },
+        "data_description": {
+          "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为"用户名:密码"；Raw Basic 按配置发送；ApiKey 以"ApiKey"前缀发送。",
+          "token": "用于向 OTLP 采集器进行认证的新令牌。"
+        }
+      },
+      "syslog": {
+        "title": "配置 Syslog 端点",
+        "description": "输入 RFC 5424 Syslog 服务器的连接信息。",
+        "data": {
+          "host": "Syslog 服务器主机",
+          "port": "Syslog 服务器端口",
+          "protocol": "传输协议",
+          "use_tls": "使用 TLS（仅 TCP）",
+          "app_name": "应用名称",
+          "facility": "Syslog 设施"
+        },
+        "data_description": {
+          "host": "Syslog 服务器的主机名或 IP 地址。",
+          "port": "Syslog 服务器端口（默认：514）。",
+          "protocol": "传输协议：UDP（即发即弃）或 TCP（可靠传输）。",
+          "use_tls": "为 TCP 连接启用 TLS 加密，UDP 时忽略此选项。",
+          "app_name": "RFC 5424 消息中的 APP-NAME 字段（默认：homeassistant）。",
+          "facility": "用于计算 PRI 值的 Syslog 设施代码（默认：user）。"
+        }
+      },
+      "common": {
+        "title": "附加 Home Assistant 事件",
+        "description": "可选择订阅系统日志消息以外的 Home Assistant 事件。",
+        "data": {
+          "log_ha_lifecycle": "Home Assistant 生命周期事件",
+          "log_ha_core_changes": "Home Assistant 核心变更事件",
+          "log_ha_core_activity": "Home Assistant 核心活动",
+          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）",
+          "log_ha_full_state_changes": "Home Assistant 状态变更",
+          "log_ha_event_body": "将事件数据序列化到日志正文",
+          "custom_events": "一个或多个事件"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "订阅 homeassistant_start、homeassistant_started 和 homeassistant_stop 事件。",
+          "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
+          "custom_events": "可选的附加 Home Assistant 事件名称列表，每行一个（例如 zha_event）。",
+          "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
+          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
+          "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目",
+          "log_ha_event_body": "启用后，完整的事件数据将以 JSON 格式序列化到日志正文中，仅保留 entity_id、domain 和 service 作为结构化属性。"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "无法连接到端点，请检查主机、端口和 TLS 设置。",
+      "invalid_attributes": "格式无效，请使用逗号分隔的键=值对（例如 env=prod,region=cn）。",
+      "invalid_headers": "格式无效，请每行使用一条"名称: 值"格式的请求头。",
+      "invalid_auth": "认证失败，请检查 Bearer 令牌。",
+      "state_changes_exclusive": "只能选择一种状态变更选项。",
+      "unknown": "发生意外错误。"
+    },
+    "abort": {
+      "already_configured": "该端点已配置。"
+    }
+  },
+  "options": {
+    "step": {
+      "otel": {
+        "title": "配置 OTLP 端点",
+        "description": "更新 OpenTelemetry 采集器的连接信息。",
+        "data": {
+          "host": "采集器主机",
+          "port": "采集器端口",
+          "use_tls": "使用 TLS（HTTPS）",
+          "encoding": "载荷编码",
+          "batch_max_size": "批量最大条数",
+          "resource_attributes": "自定义资源属性",
+          "token_type": "令牌类型",
+          "token": "Authorization 请求头的访问令牌",
+          "headers": "附加请求头",
+          "path": "日志端点路径"
+        },
+        "data_description": {
+          "host": "OTLP 采集器的主机名或 IP 地址。",
+          "port": "OTLP 采集器的 HTTP 端口（默认：4318）。",
+          "use_tls": "为与采集器的连接启用 HTTPS。",
+          "encoding": "OTLP 载荷的编码格式：json 或 protobuf。",
+          "batch_max_size": "刷新前缓冲的最大日志记录条数（1-10000，默认：100）。",
+          "resource_attributes": "以逗号分隔的键=值对，附加到每条日志记录（例如 deployment.environment=production,service.namespace=home）。",
+          "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为"用户名:密码"。",
+          "token": "可选令牌，将在 Authorization 请求头中发送。",
+          "headers": "可选的附加 HTTP 请求头，每行一条，格式为"名称: 值"（例如 stream-name: my-stream）。",
+          "path": "附加到 host:port 的日志端点路径（默认：/v1/logs）。可在前面加上 API 专用路径（例如 /api/otlp/v1/logs）。"
+        }
+      },
+      "syslog": {
+        "title": "配置 Syslog 端点",
+        "description": "更新 RFC 5424 Syslog 服务器的连接信息。",
+        "data": {
+          "host": "Syslog 服务器主机",
+          "port": "Syslog 服务器端口",
+          "protocol": "传输协议",
+          "use_tls": "使用 TLS（仅 TCP）",
+          "app_name": "应用名称",
+          "facility": "Syslog 设施"
+        },
+        "data_description": {
+          "host": "Syslog 服务器的主机名或 IP 地址。",
+          "port": "Syslog 服务器端口（默认：514）。",
+          "protocol": "传输协议：UDP（即发即弃）或 TCP（可靠传输）。",
+          "use_tls": "为 TCP 连接启用 TLS 加密，UDP 时忽略此选项。",
+          "app_name": "RFC 5424 消息中的 APP-NAME 字段（默认：homeassistant）。",
+          "facility": "用于计算 PRI 值的 Syslog 设施代码（默认：user）。"
+        }
+      },
+      "events": {
+        "title": "附加 Home Assistant 事件",
+        "description": "可选择订阅系统日志消息以外的 Home Assistant 事件。",
+        "data": {
+          "log_ha_lifecycle": "Home Assistant 生命周期事件",
+          "log_ha_core_changes": "Home Assistant 核心变更事件",
+          "custom_events": "自定义事件名称",
+          "log_ha_core_activity": "Home Assistant 核心活动",
+          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）",
+          "log_ha_full_state_changes": "Home Assistant 状态变更",
+          "log_ha_event_body": "将事件数据序列化到日志正文"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "订阅 homeassistant_start、homeassistant_started 和 homeassistant_stop 事件。",
+          "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
+          "custom_events": "可选的附加 Home Assistant 事件名称列表，每行一个（例如 zha_event）。",
+          "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
+          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
+          "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目",
+          "log_ha_event_body": "启用后，完整的事件数据将以 JSON 格式序列化到日志正文中，仅保留 entity_id、domain 和 service 作为结构化属性。"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "format_errors": {
+        "name": "格式错误"
+      },
+      "posting_errors": {
+        "name": "发送错误"
+      },
+      "events": {
+        "name": "日志事件"
+      },
+      "postings": {
+        "name": "发送次数"
+      }
+    }
+  }
+}

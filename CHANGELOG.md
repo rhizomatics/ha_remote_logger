@@ -1,3 +1,5 @@
+# 1.4.8
+- Translations for Dutch, French, German, Hindi, Italian, Japanese, Polish, Portuguese, Simplified Chinese and Spanish
 # 1.4.7
 - Prettify flattened HA event json
 - Rename component in manifest to match public naming

@@ -1,0 +1,197 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "लॉग निर्यात बैकएंड चुनें",
+        "description": "Home Assistant सिस्टम लॉग निर्यात करने का तरीका चुनें।",
+        "menu_options": {
+          "otel": "OpenTelemetry (OTLP)",
+          "syslog": "Syslog (RFC 5424)"
+        }
+      },
+      "otel": {
+        "title": "OTLP एंडपॉइंट कॉन्फ़िगर करें",
+        "description": "अपने OpenTelemetry कलेक्टर के कनेक्शन विवरण दर्ज करें।",
+        "data": {
+          "host": "कलेक्टर होस्ट",
+          "port": "कलेक्टर पोर्ट",
+          "use_tls": "TLS उपयोग करें (HTTPS)",
+          "encoding": "पेलोड एन्कोडिंग",
+          "batch_max_size": "बैच अधिकतम आकार",
+          "resource_attributes": "कस्टम रिसोर्स एट्रिब्यूट",
+          "token_type": "टोकन प्रकार",
+          "token": "Authorization हेडर के लिए एक्सेस टोकन",
+          "headers": "अतिरिक्त हेडर",
+          "path": "लॉग एंडपॉइंट पाथ"
+        },
+        "data_description": {
+          "host": "OTLP कलेक्टर का होस्टनेम या IP पता।",
+          "port": "OTLP कलेक्टर का HTTP पोर्ट (डिफ़ॉल्ट: 4318)।",
+          "use_tls": "कलेक्टर से कनेक्शन के लिए HTTPS सक्षम करें।",
+          "encoding": "OTLP पेलोड का एन्कोडिंग फॉर्मेट: json या protobuf।",
+          "batch_max_size": "फ्लश करने से पहले बफर में रखे जाने वाले अधिकतम लॉग रिकॉर्ड (1-10000, डिफ़ॉल्ट: 100)।",
+          "resource_attributes": "प्रत्येक लॉग रिकॉर्ड में जोड़े जाने वाले वैकल्पिक कॉमा-सेपरेटेड key=value जोड़े (उदा. deployment.environment=production,service.namespace=home)।",
+          "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है।",
+          "token": "वैकल्पिक टोकन। 'Authorization' हेडर में भेजा जाता है।",
+          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर, प्रति पंक्ति एक 'Name: value' फॉर्मेट में (उदा. stream-name: my-stream)।",
+          "path": "लॉग एंडपॉइंट के लिए host:port में जोड़ा जाने वाला पाथ (डिफ़ॉल्ट: /v1/logs)। किसी भी API-विशिष्ट पाथ से प्रीफिक्स करें (उदा. /api/otlp/v1/logs)।"
+        }
+      },
+      "reauth_otel": {
+        "title": "OTLP एंडपॉइंट पुनः प्रमाणित करें",
+        "description": "प्रमाणीकरण विफल हुआ। नया टोकन दर्ज करें।",
+        "data": {
+          "token_type": "टोकन प्रकार",
+          "token": "टोकन"
+        },
+        "data_description": {
+          "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है। Raw Basic कॉन्फ़िगर के अनुसार भेजता है। ApiKey 'ApiKey' प्रीफिक्स के साथ भेजता है।",
+          "token": "OTLP कलेक्टर से प्रमाणीकरण के लिए नया टोकन।"
+        }
+      },
+      "syslog": {
+        "title": "Syslog एंडपॉइंट कॉन्फ़िगर करें",
+        "description": "अपने RFC 5424 syslog सर्वर के कनेक्शन विवरण दर्ज करें।",
+        "data": {
+          "host": "Syslog सर्वर होस्ट",
+          "port": "Syslog सर्वर पोर्ट",
+          "protocol": "ट्रांसपोर्ट प्रोटोकॉल",
+          "use_tls": "TLS उपयोग करें (केवल TCP)",
+          "app_name": "एप्लिकेशन नाम",
+          "facility": "Syslog फैसिलिटी"
+        },
+        "data_description": {
+          "host": "Syslog सर्वर का होस्टनेम या IP पता।",
+          "port": "Syslog सर्वर का पोर्ट (डिफ़ॉल्ट: 514)।",
+          "protocol": "ट्रांसपोर्ट प्रोटोकॉल: UDP (fire-and-forget) या TCP (विश्वसनीय डिलीवरी)।",
+          "use_tls": "TCP कनेक्शन के लिए TLS एन्क्रिप्शन सक्षम करें। UDP के लिए अनदेखा किया जाता है।",
+          "app_name": "RFC 5424 संदेशों में APP-NAME फ़ील्ड (डिफ़ॉल्ट: homeassistant)।",
+          "facility": "PRI मान की गणना के लिए उपयोग किया जाने वाला Syslog फैसिलिटी कोड (डिफ़ॉल्ट: user)।"
+        }
+      },
+      "common": {
+        "title": "अतिरिक्त Home Assistant इवेंट",
+        "description": "सिस्टम लॉग संदेशों से परे Home Assistant इवेंट वैकल्पिक रूप से सब्सक्राइब करें।",
+        "data": {
+          "log_ha_lifecycle": "Home Assistant जीवनचक्र इवेंट",
+          "log_ha_core_changes": "Home Assistant कोर परिवर्तन इवेंट",
+          "log_ha_core_activity": "Home Assistant कोर गतिविधि",
+          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन, एट्रिब्यूट या संदर्भ के बिना",
+          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन",
+          "log_ha_event_body": "इवेंट डेटा को लॉग बॉडी में सीरियलाइज़ करें",
+          "custom_events": "एक या अधिक इवेंट"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
+          "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
+          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक (उदा. zha_event)।",
+          "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
+          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
+          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",
+          "log_ha_event_body": "सक्षम होने पर, पूर्ण इवेंट डेटा को JSON के रूप में लॉग बॉडी में सीरियलाइज़ किया जाता है। केवल entity_id, domain और service को संरचित एट्रिब्यूट के रूप में रखा जाता है।"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "एंडपॉइंट से कनेक्ट नहीं हो सका। होस्ट, पोर्ट और TLS सेटिंग्स जाँचें।",
+      "invalid_attributes": "अमान्य फॉर्मेट। कॉमा-सेपरेटेड key=value जोड़े उपयोग करें (उदा. env=prod,region=in)।",
+      "invalid_headers": "अमान्य फॉर्मेट। प्रति पंक्ति एक 'Name: value' हेडर उपयोग करें।",
+      "invalid_auth": "प्रमाणीकरण विफल। Bearer टोकन जाँचें।",
+      "state_changes_exclusive": "केवल एक स्थिति परिवर्तन विकल्प चुनें।",
+      "unknown": "एक अप्रत्याशित त्रुटि उत्पन्न हुई।"
+    },
+    "abort": {
+      "already_configured": "यह एंडपॉइंट पहले से कॉन्फ़िगर है।"
+    }
+  },
+  "options": {
+    "step": {
+      "otel": {
+        "title": "OTLP एंडपॉइंट कॉन्फ़िगर करें",
+        "description": "अपने OpenTelemetry कलेक्टर के कनेक्शन विवरण अपडेट करें।",
+        "data": {
+          "host": "कलेक्टर होस्ट",
+          "port": "कलेक्टर पोर्ट",
+          "use_tls": "TLS उपयोग करें (HTTPS)",
+          "encoding": "पेलोड एन्कोडिंग",
+          "batch_max_size": "बैच अधिकतम आकार",
+          "resource_attributes": "कस्टम रिसोर्स एट्रिब्यूट",
+          "token_type": "टोकन प्रकार",
+          "token": "Authorization हेडर के लिए एक्सेस टोकन",
+          "headers": "अतिरिक्त हेडर",
+          "path": "लॉग एंडपॉइंट पाथ"
+        },
+        "data_description": {
+          "host": "OTLP कलेक्टर का होस्टनेम या IP पता।",
+          "port": "OTLP कलेक्टर का HTTP पोर्ट (डिफ़ॉल्ट: 4318)।",
+          "use_tls": "कलेक्टर से कनेक्शन के लिए HTTPS सक्षम करें।",
+          "encoding": "OTLP पेलोड का एन्कोडिंग फॉर्मेट: json या protobuf।",
+          "batch_max_size": "फ्लश करने से पहले बफर में रखे जाने वाले अधिकतम लॉग रिकॉर्ड (1-10000, डिफ़ॉल्ट: 100)।",
+          "resource_attributes": "प्रत्येक लॉग रिकॉर्ड में जोड़े जाने वाले वैकल्पिक कॉमा-सेपरेटेड key=value जोड़े (उदा. deployment.environment=production,service.namespace=home)।",
+          "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है।",
+          "token": "वैकल्पिक टोकन। 'Authorization' हेडर में भेजा जाता है।",
+          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर, प्रति पंक्ति एक 'Name: value' फॉर्मेट में (उदा. stream-name: my-stream)।",
+          "path": "लॉग एंडपॉइंट के लिए host:port में जोड़ा जाने वाला पाथ (डिफ़ॉल्ट: /v1/logs)। किसी भी API-विशिष्ट पाथ से प्रीफिक्स करें (उदा. /api/otlp/v1/logs)।"
+        }
+      },
+      "syslog": {
+        "title": "Syslog एंडपॉइंट कॉन्फ़िगर करें",
+        "description": "अपने RFC 5424 syslog सर्वर के कनेक्शन विवरण अपडेट करें।",
+        "data": {
+          "host": "Syslog सर्वर होस्ट",
+          "port": "Syslog सर्वर पोर्ट",
+          "protocol": "ट्रांसपोर्ट प्रोटोकॉल",
+          "use_tls": "TLS उपयोग करें (केवल TCP)",
+          "app_name": "एप्लिकेशन नाम",
+          "facility": "Syslog फैसिलिटी"
+        },
+        "data_description": {
+          "host": "Syslog सर्वर का होस्टनेम या IP पता।",
+          "port": "Syslog सर्वर का पोर्ट (डिफ़ॉल्ट: 514)।",
+          "protocol": "ट्रांसपोर्ट प्रोटोकॉल: UDP (fire-and-forget) या TCP (विश्वसनीय डिलीवरी)।",
+          "use_tls": "TCP कनेक्शन के लिए TLS एन्क्रिप्शन सक्षम करें। UDP के लिए अनदेखा किया जाता है।",
+          "app_name": "RFC 5424 संदेशों में APP-NAME फ़ील्ड (डिफ़ॉल्ट: homeassistant)।",
+          "facility": "PRI मान की गणना के लिए उपयोग किया जाने वाला Syslog फैसिलिटी कोड (डिफ़ॉल्ट: user)।"
+        }
+      },
+      "events": {
+        "title": "अतिरिक्त Home Assistant इवेंट",
+        "description": "सिस्टम लॉग संदेशों से परे Home Assistant इवेंट वैकल्पिक रूप से सब्सक्राइब करें।",
+        "data": {
+          "log_ha_lifecycle": "Home Assistant जीवनचक्र इवेंट",
+          "log_ha_core_changes": "Home Assistant कोर परिवर्तन इवेंट",
+          "custom_events": "कस्टम इवेंट नाम",
+          "log_ha_core_activity": "Home Assistant कोर गतिविधि",
+          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन, एट्रिब्यूट या संदर्भ के बिना",
+          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन",
+          "log_ha_event_body": "इवेंट डेटा को लॉग बॉडी में सीरियलाइज़ करें"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
+          "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
+          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक (उदा. zha_event)।",
+          "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
+          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
+          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",
+          "log_ha_event_body": "सक्षम होने पर, पूर्ण इवेंट डेटा को JSON के रूप में लॉग बॉडी में सीरियलाइज़ किया जाता है। केवल entity_id, domain और service को संरचित एट्रिब्यूट के रूप में रखा जाता है।"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "format_errors": {
+        "name": "फॉर्मेटिंग त्रुटियाँ"
+      },
+      "posting_errors": {
+        "name": "पोस्टिंग त्रुटियाँ"
+      },
+      "events": {
+        "name": "लॉग इवेंट"
+      },
+      "postings": {
+        "name": "पोस्टिंग"
+      }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Escolher o backend de exportação de registos",
+        "description": "Selecione como exportar os registos do sistema do Home Assistant.",
+        "menu_options": {
+          "otel": "OpenTelemetry (OTLP)",
+          "syslog": "Syslog (RFC 5424)"
+        }
+      },
+      "otel": {
+        "title": "Configurar o endpoint OTLP",
+        "description": "Introduza os detalhes de ligação do seu coletor OpenTelemetry.",
+        "data": {
+          "host": "Anfitrião do coletor",
+          "port": "Porta do coletor",
+          "use_tls": "Usar TLS (HTTPS)",
+          "encoding": "Codificação do payload",
+          "batch_max_size": "Tamanho máximo do lote",
+          "resource_attributes": "Atributos de recurso personalizados",
+          "token_type": "Tipo de token",
+          "token": "Token de acesso para o cabeçalho Authorization",
+          "headers": "Cabeçalhos adicionais",
+          "path": "Caminho do endpoint de registos"
+        },
+        "data_description": {
+          "host": "Nome do anfitrião ou endereço IP do coletor OTLP.",
+          "port": "Porta HTTP do coletor OTLP (predefinição: 4318).",
+          "use_tls": "Ativar HTTPS para a ligação ao coletor.",
+          "encoding": "Formato de codificação do payload OTLP: json ou protobuf.",
+          "batch_max_size": "Número máximo de registos no buffer antes do envio (1-10000, predefinição: 100).",
+          "resource_attributes": "Pares chave=valor opcionais separados por vírgulas, adicionados a cada registo (ex.: deployment.environment=production,service.namespace=home).",
+          "token_type": "Esquema de autenticação: Bearer envia o token tal como está; Basic codifica-o em base64 como 'utilizador:palavra-passe'.",
+          "token": "Token opcional. Enviado no cabeçalho 'Authorization'.",
+          "headers": "Cabeçalhos HTTP adicionais opcionais, um por linha no formato 'Nome: valor' (ex.: stream-name: my-stream).",
+          "path": "Caminho acrescentado a anfitrião:porta para o endpoint de registos (predefinição: /v1/logs). Adicione qualquer caminho específico da API como prefixo (ex.: /api/otlp/v1/logs)."
+        }
+      },
+      "reauth_otel": {
+        "title": "Reautenticar o endpoint OTLP",
+        "description": "Falha na autenticação. Introduza um novo token.",
+        "data": {
+          "token_type": "Tipo de token",
+          "token": "Token"
+        },
+        "data_description": {
+          "token_type": "Esquema de autenticação: Bearer envia o token tal como está; Basic codifica-o em base64 como 'utilizador:palavra-passe'. Raw Basic envia conforme configurado. ApiKey envia com o prefixo 'ApiKey'.",
+          "token": "Novo token para autenticação no coletor OTLP."
+        }
+      },
+      "syslog": {
+        "title": "Configurar o endpoint Syslog",
+        "description": "Introduza os detalhes de ligação do seu servidor syslog RFC 5424.",
+        "data": {
+          "host": "Anfitrião do servidor Syslog",
+          "port": "Porta do servidor Syslog",
+          "protocol": "Protocolo de transporte",
+          "use_tls": "Usar TLS (apenas TCP)",
+          "app_name": "Nome da aplicação",
+          "facility": "Facility do Syslog"
+        },
+        "data_description": {
+          "host": "Nome do anfitrião ou endereço IP do servidor syslog.",
+          "port": "Porta do servidor syslog (predefinição: 514).",
+          "protocol": "Protocolo de transporte: UDP (sem confirmação) ou TCP (entrega fiável).",
+          "use_tls": "Ativar cifra TLS para ligações TCP. Ignorado para UDP.",
+          "app_name": "O campo APP-NAME nas mensagens RFC 5424 (predefinição: homeassistant).",
+          "facility": "Código de facility do syslog usado para calcular o valor PRI (predefinição: user)."
+        }
+      },
+      "common": {
+        "title": "Eventos adicionais do Home Assistant",
+        "description": "Subscreva opcionalmente eventos do Home Assistant para além das mensagens do registo do sistema.",
+        "data": {
+          "log_ha_lifecycle": "Eventos do ciclo de vida do Home Assistant",
+          "log_ha_core_changes": "Eventos de alteração do núcleo do Home Assistant",
+          "log_ha_core_activity": "Atividade do núcleo do Home Assistant",
+          "log_ha_state_changes": "Alterações de estado do Home Assistant, sem atributos ou contexto",
+          "log_ha_full_state_changes": "Alterações de estado do Home Assistant",
+          "log_ha_event_body": "Serializar dados do evento para o corpo do registo",
+          "custom_events": "Um ou mais eventos"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "Subscreve os eventos homeassistant_start, homeassistant_started e homeassistant_stop.",
+          "log_ha_core_changes": "Subscreve os eventos component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
+          "custom_events": "Lista opcional de nomes de eventos adicionais do Home Assistant, um por linha (ex.: zha_event).",
+          "log_ha_core_activity": "Atividade do núcleo do Home Assistant, incluindo chamadas de serviço, execução de automatizações e scripts.",
+          "log_ha_state_changes": "Alterações de estado do Home Assistant (sem atributos ou contexto) e entradas do livro de registo",
+          "log_ha_full_state_changes": "Alterações de estado do Home Assistant (evento completo) e entradas do livro de registo",
+          "log_ha_event_body": "Quando ativado, os dados completos do evento são serializados como JSON no corpo do registo. Apenas entity_id, domain e service são mantidos como atributos estruturados."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não é possível ligar ao endpoint. Verifique o anfitrião, a porta e as definições TLS.",
+      "invalid_attributes": "Formato inválido. Use pares chave=valor separados por vírgulas (ex.: env=prod,region=pt).",
+      "invalid_headers": "Formato inválido. Use um cabeçalho 'Nome: valor' por linha.",
+      "invalid_auth": "Falha na autenticação. Verifique o token bearer.",
+      "state_changes_exclusive": "Selecione apenas uma opção de alteração de estado.",
+      "unknown": "Ocorreu um erro inesperado."
+    },
+    "abort": {
+      "already_configured": "Este endpoint já está configurado."
+    }
+  },
+  "options": {
+    "step": {
+      "otel": {
+        "title": "Configurar o endpoint OTLP",
+        "description": "Atualize os detalhes de ligação do seu coletor OpenTelemetry.",
+        "data": {
+          "host": "Anfitrião do coletor",
+          "port": "Porta do coletor",
+          "use_tls": "Usar TLS (HTTPS)",
+          "encoding": "Codificação do payload",
+          "batch_max_size": "Tamanho máximo do lote",
+          "resource_attributes": "Atributos de recurso personalizados",
+          "token_type": "Tipo de token",
+          "token": "Token de acesso para o cabeçalho Authorization",
+          "headers": "Cabeçalhos adicionais",
+          "path": "Caminho do endpoint de registos"
+        },
+        "data_description": {
+          "host": "Nome do anfitrião ou endereço IP do coletor OTLP.",
+          "port": "Porta HTTP do coletor OTLP (predefinição: 4318).",
+          "use_tls": "Ativar HTTPS para a ligação ao coletor.",
+          "encoding": "Formato de codificação do payload OTLP: json ou protobuf.",
+          "batch_max_size": "Número máximo de registos no buffer antes do envio (1-10000, predefinição: 100).",
+          "resource_attributes": "Pares chave=valor opcionais separados por vírgulas, adicionados a cada registo (ex.: deployment.environment=production,service.namespace=home).",
+          "token_type": "Esquema de autenticação: Bearer envia o token tal como está; Basic codifica-o em base64 como 'utilizador:palavra-passe'.",
+          "token": "Token opcional. Enviado no cabeçalho 'Authorization'.",
+          "headers": "Cabeçalhos HTTP adicionais opcionais, um por linha no formato 'Nome: valor' (ex.: stream-name: my-stream).",
+          "path": "Caminho acrescentado a anfitrião:porta para o endpoint de registos (predefinição: /v1/logs). Adicione qualquer caminho específico da API como prefixo (ex.: /api/otlp/v1/logs)."
+        }
+      },
+      "syslog": {
+        "title": "Configurar o endpoint Syslog",
+        "description": "Atualize os detalhes de ligação do seu servidor syslog RFC 5424.",
+        "data": {
+          "host": "Anfitrião do servidor Syslog",
+          "port": "Porta do servidor Syslog",
+          "protocol": "Protocolo de transporte",
+          "use_tls": "Usar TLS (apenas TCP)",
+          "app_name": "Nome da aplicação",
+          "facility": "Facility do Syslog"
+        },
+        "data_description": {
+          "host": "Nome do anfitrião ou endereço IP do servidor syslog.",
+          "port": "Porta do servidor syslog (predefinição: 514).",
+          "protocol": "Protocolo de transporte: UDP (sem confirmação) ou TCP (entrega fiável).",
+          "use_tls": "Ativar cifra TLS para ligações TCP. Ignorado para UDP.",
+          "app_name": "O campo APP-NAME nas mensagens RFC 5424 (predefinição: homeassistant).",
+          "facility": "Código de facility do syslog usado para calcular o valor PRI (predefinição: user)."
+        }
+      },
+      "events": {
+        "title": "Eventos adicionais do Home Assistant",
+        "description": "Subscreva opcionalmente eventos do Home Assistant para além das mensagens do registo do sistema.",
+        "data": {
+          "log_ha_lifecycle": "Eventos do ciclo de vida do Home Assistant",
+          "log_ha_core_changes": "Eventos de alteração do núcleo do Home Assistant",
+          "custom_events": "Nomes de eventos personalizados",
+          "log_ha_core_activity": "Atividade do núcleo do Home Assistant",
+          "log_ha_state_changes": "Alterações de estado do Home Assistant, sem atributos ou contexto",
+          "log_ha_full_state_changes": "Alterações de estado do Home Assistant",
+          "log_ha_event_body": "Serializar dados do evento para o corpo do registo"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "Subscreve os eventos homeassistant_start, homeassistant_started e homeassistant_stop.",
+          "log_ha_core_changes": "Subscreve os eventos component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
+          "custom_events": "Lista opcional de nomes de eventos adicionais do Home Assistant, um por linha (ex.: zha_event).",
+          "log_ha_core_activity": "Atividade do núcleo do Home Assistant, incluindo chamadas de serviço, execução de automatizações e scripts.",
+          "log_ha_state_changes": "Alterações de estado do Home Assistant (sem atributos ou contexto) e entradas do livro de registo",
+          "log_ha_full_state_changes": "Alterações de estado do Home Assistant (evento completo) e entradas do livro de registo",
+          "log_ha_event_body": "Quando ativado, os dados completos do evento são serializados como JSON no corpo do registo. Apenas entity_id, domain e service são mantidos como atributos estruturados."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "format_errors": {
+        "name": "Erros de formatação"
+      },
+      "posting_errors": {
+        "name": "Erros de envio"
+      },
+      "events": {
+        "name": "Eventos de registo"
+      },
+      "postings": {
+        "name": "Envios"
+      }
+    }
+  }
+}

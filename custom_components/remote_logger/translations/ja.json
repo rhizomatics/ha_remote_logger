@@ -1,0 +1,197 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "ログエクスポートバックエンドを選択",
+        "description": "Home Assistantシステムログのエクスポート方法を選択してください。",
+        "menu_options": {
+          "otel": "OpenTelemetry (OTLP)",
+          "syslog": "Syslog (RFC 5424)"
+        }
+      },
+      "otel": {
+        "title": "OTLPエンドポイントの設定",
+        "description": "OpenTelemetryコレクターの接続情報を入力してください。",
+        "data": {
+          "host": "コレクターホスト",
+          "port": "コレクターポート",
+          "use_tls": "TLSを使用する（HTTPS）",
+          "encoding": "ペイロードエンコーディング",
+          "batch_max_size": "バッチ最大サイズ",
+          "resource_attributes": "カスタムリソース属性",
+          "token_type": "トークンタイプ",
+          "token": "Authorizationヘッダー用アクセストークン",
+          "headers": "追加ヘッダー",
+          "path": "ログエンドポイントパス"
+        },
+        "data_description": {
+          "host": "OTLPコレクターのホスト名またはIPアドレス。",
+          "port": "OTLPコレクターのHTTPポート（デフォルト: 4318）。",
+          "use_tls": "コレクターへの接続にHTTPSを有効化します。",
+          "encoding": "OTLPペイロードのエンコーディング形式: json または protobuf。",
+          "batch_max_size": "フラッシュ前にバッファするログレコードの最大数（1〜10000、デフォルト: 100）。",
+          "resource_attributes": "各ログレコードに追加するカンマ区切りのkey=valueペア（例: deployment.environment=production,service.namespace=home）。",
+          "token_type": "認証スキーム: Bearerはトークンをそのまま送信、Basicは「ユーザー名:パスワード」としてbase64エンコードして送信します。",
+          "token": "任意のトークン。「Authorization」ヘッダーで送信されます。",
+          "headers": "任意の追加HTTPヘッダー。「名前: 値」形式で1行に1つ（例: stream-name: my-stream）。",
+          "path": "ログエンドポイントのhost:portに追加するパス（デフォルト: /v1/logs）。API固有のパスをプレフィックスとして追加できます（例: /api/otlp/v1/logs）。"
+        }
+      },
+      "reauth_otel": {
+        "title": "OTLPエンドポイントの再認証",
+        "description": "認証に失敗しました。新しいトークンを入力してください。",
+        "data": {
+          "token_type": "トークンタイプ",
+          "token": "トークン"
+        },
+        "data_description": {
+          "token_type": "認証スキーム: Bearerはトークンをそのまま送信、Basicは「ユーザー名:パスワード」としてbase64エンコード。Raw Basicは設定どおりに送信。ApiKeyは「ApiKey」プレフィックスを付けて送信します。",
+          "token": "OTLPコレクターへの認証に使用する新しいトークン。"
+        }
+      },
+      "syslog": {
+        "title": "Syslogエンドポイントの設定",
+        "description": "RFC 5424 syslogサーバーの接続情報を入力してください。",
+        "data": {
+          "host": "Syslogサーバーホスト",
+          "port": "Syslogサーバーポート",
+          "protocol": "トランスポートプロトコル",
+          "use_tls": "TLSを使用する（TCPのみ）",
+          "app_name": "アプリケーション名",
+          "facility": "Syslogファシリティ"
+        },
+        "data_description": {
+          "host": "syslogサーバーのホスト名またはIPアドレス。",
+          "port": "syslogサーバーのポート（デフォルト: 514）。",
+          "protocol": "トランスポートプロトコル: UDP（ファイア・アンド・フォーゲット）またはTCP（信頼性の高い配信）。",
+          "use_tls": "TCP接続のTLS暗号化を有効にします。UDPでは無視されます。",
+          "app_name": "RFC 5424メッセージのAPP-NAMEフィールド（デフォルト: homeassistant）。",
+          "facility": "PRI値の計算に使用するSyslogファシリティコード（デフォルト: user）。"
+        }
+      },
+      "common": {
+        "title": "追加のHome Assistantイベント",
+        "description": "システムログメッセージ以外のHome Assistantイベントをオプションで購読します。",
+        "data": {
+          "log_ha_lifecycle": "Home Assistantライフサイクルイベント",
+          "log_ha_core_changes": "Home Assistantコア変更イベント",
+          "log_ha_core_activity": "Home Assistantコアアクティビティ",
+          "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）",
+          "log_ha_full_state_changes": "Home Assistant状態変化",
+          "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
+          "custom_events": "1つ以上のイベント"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
+          "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
+          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つ（例: zha_event）。",
+          "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
+          "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
+          "log_ha_full_state_changes": "Home Assistant状態変化（完全なイベント）とログブックエントリ",
+          "log_ha_event_body": "有効にすると、完全なイベントデータがJSONとしてログ本文にシリアライズされます。entity_id、domain、serviceのみが構造化属性として保持されます。"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "エンドポイントに接続できません。ホスト、ポート、TLS設定を確認してください。",
+      "invalid_attributes": "形式が無効です。カンマ区切りのkey=valueペアを使用してください（例: env=prod,region=jp）。",
+      "invalid_headers": "形式が無効です。「名前: 値」形式のヘッダーを1行に1つ使用してください。",
+      "invalid_auth": "認証に失敗しました。Bearerトークンを確認してください。",
+      "state_changes_exclusive": "状態変化オプションは1つだけ選択してください。",
+      "unknown": "予期しないエラーが発生しました。"
+    },
+    "abort": {
+      "already_configured": "このエンドポイントはすでに設定済みです。"
+    }
+  },
+  "options": {
+    "step": {
+      "otel": {
+        "title": "OTLPエンドポイントの設定",
+        "description": "OpenTelemetryコレクターの接続情報を更新してください。",
+        "data": {
+          "host": "コレクターホスト",
+          "port": "コレクターポート",
+          "use_tls": "TLSを使用する（HTTPS）",
+          "encoding": "ペイロードエンコーディング",
+          "batch_max_size": "バッチ最大サイズ",
+          "resource_attributes": "カスタムリソース属性",
+          "token_type": "トークンタイプ",
+          "token": "Authorizationヘッダー用アクセストークン",
+          "headers": "追加ヘッダー",
+          "path": "ログエンドポイントパス"
+        },
+        "data_description": {
+          "host": "OTLPコレクターのホスト名またはIPアドレス。",
+          "port": "OTLPコレクターのHTTPポート（デフォルト: 4318）。",
+          "use_tls": "コレクターへの接続にHTTPSを有効化します。",
+          "encoding": "OTLPペイロードのエンコーディング形式: json または protobuf。",
+          "batch_max_size": "フラッシュ前にバッファするログレコードの最大数（1〜10000、デフォルト: 100）。",
+          "resource_attributes": "各ログレコードに追加するカンマ区切りのkey=valueペア（例: deployment.environment=production,service.namespace=home）。",
+          "token_type": "認証スキーム: Bearerはトークンをそのまま送信、Basicは「ユーザー名:パスワード」としてbase64エンコードして送信します。",
+          "token": "任意のトークン。「Authorization」ヘッダーで送信されます。",
+          "headers": "任意の追加HTTPヘッダー。「名前: 値」形式で1行に1つ（例: stream-name: my-stream）。",
+          "path": "ログエンドポイントのhost:portに追加するパス（デフォルト: /v1/logs）。API固有のパスをプレフィックスとして追加できます（例: /api/otlp/v1/logs）。"
+        }
+      },
+      "syslog": {
+        "title": "Syslogエンドポイントの設定",
+        "description": "RFC 5424 syslogサーバーの接続情報を更新してください。",
+        "data": {
+          "host": "Syslogサーバーホスト",
+          "port": "Syslogサーバーポート",
+          "protocol": "トランスポートプロトコル",
+          "use_tls": "TLSを使用する（TCPのみ）",
+          "app_name": "アプリケーション名",
+          "facility": "Syslogファシリティ"
+        },
+        "data_description": {
+          "host": "syslogサーバーのホスト名またはIPアドレス。",
+          "port": "syslogサーバーのポート（デフォルト: 514）。",
+          "protocol": "トランスポートプロトコル: UDP（ファイア・アンド・フォーゲット）またはTCP（信頼性の高い配信）。",
+          "use_tls": "TCP接続のTLS暗号化を有効にします。UDPでは無視されます。",
+          "app_name": "RFC 5424メッセージのAPP-NAMEフィールド（デフォルト: homeassistant）。",
+          "facility": "PRI値の計算に使用するSyslogファシリティコード（デフォルト: user）。"
+        }
+      },
+      "events": {
+        "title": "追加のHome Assistantイベント",
+        "description": "システムログメッセージ以外のHome Assistantイベントをオプションで購読します。",
+        "data": {
+          "log_ha_lifecycle": "Home Assistantライフサイクルイベント",
+          "log_ha_core_changes": "Home Assistantコア変更イベント",
+          "custom_events": "カスタムイベント名",
+          "log_ha_core_activity": "Home Assistantコアアクティビティ",
+          "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）",
+          "log_ha_full_state_changes": "Home Assistant状態変化",
+          "log_ha_event_body": "イベントデータをログ本文にシリアライズ"
+        },
+        "data_description": {
+          "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
+          "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
+          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つ（例: zha_event）。",
+          "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
+          "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
+          "log_ha_full_state_changes": "Home Assistant状態変化（完全なイベント）とログブックエントリ",
+          "log_ha_event_body": "有効にすると、完全なイベントデータがJSONとしてログ本文にシリアライズされます。entity_id、domain、serviceのみが構造化属性として保持されます。"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "format_errors": {
+        "name": "フォーマットエラー"
+      },
+      "posting_errors": {
+        "name": "送信エラー"
+      },
+      "events": {
+        "name": "ログイベント"
+      },
+      "postings": {
+        "name": "送信数"
+      }
+    }
+  }
+}

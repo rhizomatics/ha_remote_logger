@@ -31,7 +31,7 @@
           "encoding": "Encoding format for the OTLP payload: json or protobuf.",
           "batch_max_size": "Maximum number of log records to buffer before flushing (1-10000, default 100).",
           "resource_attributes": "Optional comma-separated key=value pairs added to every log record (e.g. deployment.environment=production,service.namespace=home).",
-          "token_type": "Authentication scheme: Bearer sends the token as-is; Basic base64-encodes it as 'username:password'.",
+          "token_type": "Authentication scheme: Bearer sends the token as-is; Basic base64-encodes it as 'username:password'. Raw basic accepts an already encoded token and sends it raw. api_key sends in a Apikey header",
           "token": "Optional token. Sent in 'Authorization' header.",
           "headers": "Optional extra HTTP headers, one per line in 'Name: value' format (e.g. stream-name: my-stream).",
           "path": "Path appended to host:port for the logs endpoint (default /v1/logs). Prefix with any API-specific path (e.g. /api/otlp/v1/logs)."
