@@ -121,6 +121,8 @@ log messages or posting them to remote servers.
 
 ![Diagnostic Entities](https://remote-logger.rhizomatics.org.uk/assets/images/diagnostic_entities.png){width=480}
 
+![Event Counter Sensor](https://remote-logger.rhizomatics.org.uk/assets/images/events_counter_sensor.png){width=480}
+
 ##  Rhizomatics Open Source for Home Assistant
 
 ### HACS
