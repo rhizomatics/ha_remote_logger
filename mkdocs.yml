@@ -97,6 +97,18 @@ extra:
       link: /es/
       lang: es
 
+not_in_nav: |
+  de/
+  es/
+  fr/
+  hi/
+  it/
+  ja/
+  nl/
+  pl/
+  pt/
+  zh-Hans/
+
 markdown_extensions:
   - admonition
   - pymdownx.details

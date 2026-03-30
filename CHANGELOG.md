@@ -1,3 +1,5 @@
+# 1.4.9
+- Flush logs to remote back end on all 3 of the Home Assistant closing events
 # 1.4.8
 - Translations for Dutch, French, German, Hindi, Italian, Japanese, Polish, Portuguese, Simplified Chinese and Spanish
 - Vertalingen voor Nederlands, Traductions en français, Übersetzungen auf Deutsch, हिंदी में अनुवाद, Traduzioni in italiano, 日本語の翻訳, Tłumaczenia po polsku, Traduções em português, 简体中文翻译 en traducciones al español

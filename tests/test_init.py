@@ -58,7 +58,7 @@ class TestAsyncSetupEntry:
 
         entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
         # system_log + update_listener + 3 lifecycle listeners
-        assert len(entry_data["cancel_listeners"]) == 3 + len(LIFECYCLE_EVENTS)
+        assert len(entry_data["cancel_listeners"]) == 5 + len(LIFECYCLE_EVENTS)
 
         entry_data["flush_task"].cancel()
         with contextlib.suppress(asyncio.CancelledError):
@@ -70,7 +70,7 @@ class TestAsyncSetupEntry:
             await async_setup_entry(hass, mock_entry_otel)
 
         entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
-        assert len(entry_data["cancel_listeners"]) == 3 + len(CORE_CHANGE_EVENTS)
+        assert len(entry_data["cancel_listeners"]) == 5 + len(CORE_CHANGE_EVENTS)
 
         entry_data["flush_task"].cancel()
         with contextlib.suppress(asyncio.CancelledError):
@@ -82,7 +82,9 @@ class TestAsyncSetupEntry:
             await async_setup_entry(hass, mock_entry_otel)
 
         entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
-        assert len(entry_data["cancel_listeners"]) == 3 + 2  # system_log + stop_listener + update_listener + 2 custom
+        assert (
+            len(entry_data["cancel_listeners"]) == 5 + 2
+        )  # system_log + stop_listener + final_write + shutdown + update_listener + 2 custom
 
         entry_data["flush_task"].cancel()
         with contextlib.suppress(asyncio.CancelledError):
@@ -96,7 +98,7 @@ class TestAsyncSetupEntry:
             await async_setup_entry(hass, mock_entry_otel)
 
         entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
-        assert len(entry_data["cancel_listeners"]) == 3 + len(LIFECYCLE_EVENTS)
+        assert len(entry_data["cancel_listeners"]) == 5 + len(LIFECYCLE_EVENTS)
 
         entry_data["flush_task"].cancel()
         with contextlib.suppress(asyncio.CancelledError):

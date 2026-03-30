@@ -9,7 +9,8 @@ from functools import partial
 from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
-from homeassistant.core import callback
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.core import EVENT_HOMEASSISTANT_CLOSE, EVENT_HOMEASSISTANT_FINAL_WRITE, callback
 
 from .const import (
     BACKEND_SYSLOG,
@@ -78,7 +79,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     cancel_listeners: list[Callable[[], None]] = [
         hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event),
-        hass.bus.async_listen_once("homeassistant_stop", _flush_on_stop),
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _flush_on_stop),
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_CLOSE, _flush_on_stop),
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_FINAL_WRITE, _flush_on_stop),
         entry.add_update_listener(_async_update_listener),
     ]
     _LOGGER.info("remote_logger: listening for system_log_event, exporting %s to %s", backend, label)
@@ -154,14 +157,20 @@ def handle_send_log(domain_data: dict[str, Any], call: ServiceCall) -> None:
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Unload remote_logger config entry."""
+    """Unload remote_logger config entry.
+
+    https://developers.home-assistant.io/docs/config_entries_index#unloading-entries
+    """
     await hass.config_entries.async_unload_platforms(entry, ["sensor"])
     data = hass.data[DOMAIN].pop(entry.entry_id, None)
     if data is None:
         return True
 
     for cancel in data.get(REF_CANCEL_LISTENERS, []):
-        cancel()
+        try:
+            cancel()
+        except Exception as e:
+            _LOGGER.warning("Failed to cancel listener on unload: %s", e)
 
     if data.get(REF_FLUSH_TASK):
         data[REF_FLUSH_TASK].cancel()
