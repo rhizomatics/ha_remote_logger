@@ -8,6 +8,7 @@ from unittest.mock import MagicMock
 import pytest
 from homeassistant.core import Event
 
+from custom_components.remote_logger.const import EVENT_SYSTEM_LOG
 from custom_components.remote_logger.otel.exporter import (
     OtlpLogExporter,
     OtlpMessage,
@@ -17,6 +18,8 @@ from custom_components.remote_logger.otel.exporter import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from homeassistant.core import HomeAssistant
 
 # ---------------------------------------------------------------------------
@@ -414,6 +417,13 @@ class TestOtlpLogExporter:
     def test_to_log_record_ha_event_name_as_event_name(self, exporter: OtlpLogExporter) -> None:
         record = exporter._to_log_record(Event("component_loaded"))
         assert record.payload["eventName"] == "component_loaded"
+
+    def test_to_log_record_system_log_has_no_event_name(self, exporter: OtlpLogExporter) -> None:
+        event: Event[Mapping[str, list[str] | str | float]] = Event(
+            EVENT_SYSTEM_LOG, {"message": ["test"], "level": "error", "timestamp": 1700000000.0}
+        )
+        record: OtlpMessage = exporter._to_log_record(event)
+        assert "eventName" not in record.payload
 
     def test_handle_ha_event_buffers(self, exporter: OtlpLogExporter) -> None:
         event = MagicMock()

@@ -283,17 +283,17 @@ class OtlpLogExporter(LogExporter):
                     attributes.append(_kv(flat_key, flat_val))
 
         # https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/logs/v1/logs.proto
-        return OtlpMessage(
-            payload={
-                "timeUnixNano": time_unix_nano,
-                "observedTimeUnixNano": observed_time_unix_nano,
-                "severityNumber": severity_number,
-                "severityText": severity_text,
-                "body": {"stringValue": message},
-                "attributes": attributes,
-                "eventName": event.event_type if event != EVENT_SYSTEM_LOG else None,
-            }
-        )
+        payload: dict[str, Any] = {
+            "timeUnixNano": time_unix_nano,
+            "observedTimeUnixNano": observed_time_unix_nano,
+            "severityNumber": severity_number,
+            "severityText": severity_text,
+            "body": {"stringValue": message},
+            "attributes": attributes,
+        }
+        if event.event_type != EVENT_SYSTEM_LOG:
+            payload["eventName"] = event.event_type
+        return OtlpMessage(payload=payload)
 
     def generate_submission(self, records: list[OtlpMessage]) -> dict[str, Any]:
         request = self._build_export_request(records)
