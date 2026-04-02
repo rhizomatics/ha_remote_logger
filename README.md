@@ -43,6 +43,10 @@ system_log:
     fire_event: true
 ```
 
+!!! tip "Choosing a Log Format"
+
+    If you're not sure about which log format to choose, Open Telemetry (*aka* **OTEL Logging**, *aka* **OTLP**) is the best if you have a modern logging service that can handle it. It has the richest format, for example knows how to hold a multi-line stacktrace attached to a log message, and generally requires minimal configuration. Syslog is the best choice if the back end logging is more primitive, since it has been around since the dawn of time, although is much more semantically limited.
+
 ## Open Telemetry (OTEL)
 
 Logs are sent using Open Telemetry Logs specification over a [Open Telemetry Protocol](https://opentelemetry.io/docs/specs/otlp/)(OTLP) connection, either as Protobuf or JSON, and currently only as HTTP (gRPC may be added in future).
@@ -112,13 +116,13 @@ Home Assistant events, or any other custom component events.
 There are a zillion possible solutions for capturing, analyzing, aggregating and storing logs. Generally a log setup requires:
 
 * **Collector** - The thing that sits on the monitored service and sends out the logs. This *Remote Logger* is a collector for Home Assistant core, as is [LogSpout Home Assistant App](https://github.com/bertbaron/hassio-addons/tree/main/logspout) for HAOS.
-* **Aggregator** - Receives logs from collectors, enriches, filters, converts formats and forwards on.
+* **Aggregator** - Receives logs from collectors, enriches, filters, converts formats and forwards on. See [Log Aggregators](aggregators.md) for more information.
 * **Store** - Typically a database that holds the logs, and any column indexes or free text search indexes
 * **Analytics** - Query by SQL or similar, keyword search, graphing, counting etc
 
 These suggestions are for options that are open source and free, at least for home use, and will work in Docker.
 
-* [Vector](https://vector.dev) as the aggregator and [GreptimeDb](https://greptime.com) as the store and analytics - they are fast, lightweight, open source, customizable and run under Docker. Vector has support for OTEL logging, as well as Syslog, and has good remapping ability to fine tune each source. Its then easy to pull in logs from Docker servers, firewalls, Unifi switches or wherever else into one time-line, as well as server and network metrics.
+* [Vector](https://vector.dev) as the aggregator and [GreptimeDb](https://greptime.com) as the store and analytics - they are fast, lightweight, open source, customizable and run under Docker. Vector has support for OTEL logging, as well as Syslog, and has good remapping ability to fine tune each source. Its then easy to pull in logs from Docker servers, firewalls, Unifi switches or wherever else into one time-line, as well as server and network metrics.  See the [examples](examples/vector_greptimedb/index.md) for a sample configuration.
 
 * [OpenObserve](https://openobserve.ai) can do all three jobs ( aggregator, store, analytics ) for many sources, although it now recommends using Vector for Syslog. It also has a more functional log query interface, especially for people used to Splunk, and reuses the *VRL* (Vector Remap Language) for its own pipelines.
 
