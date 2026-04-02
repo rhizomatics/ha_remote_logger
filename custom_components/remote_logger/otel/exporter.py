@@ -104,16 +104,16 @@ def parse_headers(raw: str) -> dict[str, str]:
 def _kv(key: str, value: Any) -> dict[str, Any]:
     """Build an OTLP KeyValue attribute"""
     if isinstance(value, str):
-        return {"key": key, "value": {"string_value": value}}
+        return {"key": key, "value": {"stringValue": value}}
     if isinstance(value, bool):
-        return {"key": key, "value": {"bool_value": value}}
+        return {"key": key, "value": {"boolValue": value}}
     if isinstance(value, int):
-        return {"key": key, "value": {"int_value": value}}
+        return {"key": key, "value": {"intValue": value}}
     if isinstance(value, float):
-        return {"key": key, "value": {"float_value": value}}
+        return {"key": key, "value": {"doubleValue": value}}
     if isinstance(value, bytes):
-        return {"key": key, "value": {"byte_value": value}}
-    return {"key": key, "value": {"string_value": str(value)}}
+        return {"key": key, "value": {"bytesValue": value}}
+    return {"key": key, "value": {"stringValue": str(value)}}
 
 
 async def validate(
@@ -289,7 +289,7 @@ class OtlpLogExporter(LogExporter):
                 "observedTimeUnixNano": observed_time_unix_nano,
                 "severityNumber": severity_number,
                 "severityText": severity_text,
-                "body": {"string_value": message},
+                "body": {"stringValue": message},
                 "attributes": attributes,
                 "eventName": event.event_type if event != EVENT_SYSTEM_LOG else None,
             }
@@ -363,7 +363,7 @@ class OtlpLogExporter(LogExporter):
                 "observedTimeUnixNano": time_unix_nano,
                 "severityNumber": severity_number,
                 "severityText": severity_text,
-                "body": {"string_value": message},
+                "body": {"stringValue": message},
                 "attributes": attrs,
                 "eventName": event_name,
             }

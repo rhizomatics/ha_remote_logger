@@ -77,24 +77,24 @@ class TestEncodeStringField:
 
 class TestEncodeAnyValue:
     def test_string_value(self) -> None:
-        result = _encode_any_value({"string_value": "hello"})
+        result = _encode_any_value({"stringValue": "hello"})
         assert b"hello" in result
         assert len(result) > 0
 
     def test_int_value(self) -> None:
-        result = _encode_any_value({"int_value": 42})
+        result = _encode_any_value({"intValue": 42})
         assert len(result) > 0
 
     def test_bool_true(self) -> None:
-        result = _encode_any_value({"bool_value": True})
+        result = _encode_any_value({"boolValue": True})
         assert len(result) > 0
 
     def test_bool_false(self) -> None:
-        result = _encode_any_value({"bool_value": False})
+        result = _encode_any_value({"boolValue": False})
         assert len(result) > 0
 
     def test_bytes_value(self) -> None:
-        result = _encode_any_value({"byte_value": b"\x01\x02"})
+        result = _encode_any_value({"bytesValue": b"\x01\x02"})
         assert b"\x01\x02" in result
 
     def test_empty_dict(self) -> None:
@@ -103,7 +103,7 @@ class TestEncodeAnyValue:
 
 class TestEncodeKeyValue:
     def test_string_kv(self) -> None:
-        kv = {"key": "service.name", "value": {"string_value": "test"}}
+        kv = {"key": "service.name", "value": {"stringValue": "test"}}
         result = _encode_key_value(kv)
         assert b"service.name" in result
         assert b"test" in result
@@ -113,7 +113,7 @@ class TestEncodeResource:
     def test_resource_with_attributes(self) -> None:
         resource = {
             "attributes": [
-                {"key": "service.name", "value": {"string_value": "core"}},
+                {"key": "service.name", "value": {"stringValue": "core"}},
             ]
         }
         result = _encode_resource(resource)
@@ -132,9 +132,9 @@ class TestEncodeLogRecord:
             "observedTimeUnixNano": "1700000000000000000",
             "severityNumber": 17,
             "severityText": "ERROR",
-            "body": {"string_value": "test message"},
+            "body": {"stringValue": "test message"},
             "attributes": [
-                {"key": "logger.name", "value": {"string_value": "test"}},
+                {"key": "logger.name", "value": {"stringValue": "test"}},
             ],
         }
         result = _encode_log_record(record)
@@ -144,7 +144,7 @@ class TestEncodeLogRecord:
         assert b"logger.name" in result
 
     def test_minimal_record(self) -> None:
-        record = {"severityNumber": 9, "body": {"string_value": "hi"}}
+        record = {"severityNumber": 9, "body": {"stringValue": "hi"}}
         result = _encode_log_record(record)
         assert len(result) > 0
         assert b"hi" in result
@@ -152,7 +152,7 @@ class TestEncodeLogRecord:
     def test_record_with_trace_and_span_id(self) -> None:
         record = {
             "severityNumber": 9,
-            "body": {"string_value": "traced"},
+            "body": {"stringValue": "traced"},
             "traceId": "0102030405060708090a0b0c0d0e0f10",
             "spanId": "0102030405060708",
         }
@@ -177,7 +177,7 @@ class TestEncodeExportLogsRequest:
                 {
                     "resource": {
                         "attributes": [
-                            {"key": "service.name", "value": {"string_value": "core"}},
+                            {"key": "service.name", "value": {"stringValue": "core"}},
                         ]
                     },
                     "scopeLogs": [
@@ -188,7 +188,7 @@ class TestEncodeExportLogsRequest:
                                     "timeUnixNano": "1700000000000000000",
                                     "severityNumber": 17,
                                     "severityText": "ERROR",
-                                    "body": {"string_value": "something broke"},
+                                    "body": {"stringValue": "something broke"},
                                     "attributes": [],
                                 }
                             ],
@@ -216,8 +216,8 @@ class TestEncodeExportLogsRequest:
                         {
                             "scope": {"name": "ha"},
                             "logRecords": [
-                                {"severityNumber": 9, "body": {"string_value": "msg1"}},
-                                {"severityNumber": 17, "body": {"string_value": "msg2"}},
+                                {"severityNumber": 9, "body": {"stringValue": "msg1"}},
+                                {"severityNumber": 17, "body": {"stringValue": "msg2"}},
                             ],
                         }
                     ],

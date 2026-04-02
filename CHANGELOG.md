@@ -1,3 +1,5 @@
+# 1.4.10
+- OLTP JSON now in camel case, to suit strict interpretation by some log aggregators, and corrected handling of float values
 # 1.4.9
 - Flush logs to remote back end on all 3 of the Home Assistant closing events
 # 1.4.8

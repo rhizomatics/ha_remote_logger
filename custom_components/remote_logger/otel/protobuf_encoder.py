@@ -84,16 +84,16 @@ def _encode_uint32_field(field_number: int, value: int) -> bytes:
 
 def _encode_any_value(av: dict[str, Any]) -> bytes:
     """Encode an AnyValue message."""
-    if "string_value" in av:
-        return _encode_string_field(1, av["string_value"])
-    if "int_value" in av:
-        return _encode_uint32_field(3, av["int_value"])
-    if "byte_value" in av:
-        return _encode_bytes_field(7, av["byte_value"])
-    if "bool_value" in av:
-        return _encode_uint32_field(2, 1 if av["bool_value"] else 0)
-    if "float_value" in av:
-        return _encode_float64(4, av["float_value"])
+    if "stringValue" in av:
+        return _encode_string_field(1, av["stringValue"])
+    if "intValue" in av:
+        return _encode_uint32_field(3, av["intValue"])
+    if "bytesValue" in av:
+        return _encode_bytes_field(7, av["bytesValue"])
+    if "boolValue" in av:
+        return _encode_uint32_field(2, 1 if av["boolValue"] else 0)
+    if "doubleValue" in av:
+        return _encode_float64(4, av["doubleValue"])
     return b""
 
 

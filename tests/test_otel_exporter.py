@@ -88,23 +88,23 @@ class TestParseResourceAttributes:
 
 class TestKv:
     def test_string_value(self) -> None:
-        assert _kv("key", "val") == {"key": "key", "value": {"string_value": "val"}}
+        assert _kv("key", "val") == {"key": "key", "value": {"stringValue": "val"}}
 
     def test_int_value(self) -> None:
-        assert _kv("key", 42) == {"key": "key", "value": {"int_value": 42}}
+        assert _kv("key", 42) == {"key": "key", "value": {"intValue": 42}}
 
     def test_bool_value(self) -> None:
-        assert _kv("key", True) == {"key": "key", "value": {"bool_value": True}}
+        assert _kv("key", True) == {"key": "key", "value": {"boolValue": True}}
 
     def test_float_value(self) -> None:
-        assert _kv("key", 3.14) == {"key": "key", "value": {"float_value": 3.14}}
+        assert _kv("key", 3.14) == {"key": "key", "value": {"doubleValue": 3.14}}
 
     def test_bytes_value(self) -> None:
-        assert _kv("key", b"data") == {"key": "key", "value": {"byte_value": b"data"}}
+        assert _kv("key", b"data") == {"key": "key", "value": {"bytesValue": b"data"}}
 
     def test_other_value_becomes_string(self) -> None:
         result = _kv("key", [1, 2, 3])
-        assert result == {"key": "key", "value": {"string_value": "[1, 2, 3]"}}
+        assert result == {"key": "key", "value": {"stringValue": "[1, 2, 3]"}}
 
 
 # ---------------------------------------------------------------------------
@@ -193,7 +193,7 @@ class TestOtlpLogExporter:
 
         assert record.payload["severityNumber"] == 17
         assert record.payload["severityText"] == "ERROR"
-        assert record.payload["body"] == {"string_value": "Something went wrong"}
+        assert record.payload["body"] == {"stringValue": "Something went wrong"}
         assert "timeUnixNano" in record.payload
         assert "observedTimeUnixNano" in record.payload
 
@@ -210,7 +210,7 @@ class TestOtlpLogExporter:
 
         assert record.payload["severityNumber"] == 9
         assert record.payload["severityText"] == "INFO"
-        assert record.payload["body"] == {"string_value": "Simple info message"}
+        assert record.payload["body"] == {"stringValue": "Simple info message"}
         # No source, name, exception attributes
         assert record.payload["attributes"] == []
 
@@ -222,7 +222,7 @@ class TestOtlpLogExporter:
 
     def test_to_log_record_multiple_messages(self, exporter: OtlpLogExporter) -> None:
         record = exporter._to_log_record(Event("system_log_event", data={"message": ["line 1", "line 2", "line 3"]}))
-        assert record.payload["body"]["string_value"] == "line 1\nline 2\nline 3"
+        assert record.payload["body"]["stringValue"] == "line 1\nline 2\nline 3"
 
     def test_to_protobuf(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
         record = exporter._to_log_record(sample_log_event)
@@ -238,7 +238,7 @@ class TestOtlpLogExporter:
         result = exporter.generate_submission([record])
         body = result["json"]
         resource_attrs = {a["key"]: a["value"] for a in body["resourceLogs"][0]["resource"]["attributes"]}
-        assert resource_attrs["service.name"]["string_value"] == "homeassistant.core"
+        assert resource_attrs["service.name"]["stringValue"] == "homeassistant.core"
         log_record = body["resourceLogs"][0]["scopeLogs"][0]["logRecords"][0]
         assert log_record["timeUnixNano"] == "1700000000000000000"
 
@@ -269,7 +269,7 @@ class TestOtlpLogExporter:
         assert len(exporter._buffer) == 1
 
     def test_build_export_request_structure(self, exporter: OtlpLogExporter) -> None:
-        records = [OtlpMessage({"body": {"string_value": "test"}, "severityNumber": 9})]
+        records = [OtlpMessage({"body": {"stringValue": "test"}, "severityNumber": 9})]
         request = exporter._build_export_request(records)
 
         assert "resourceLogs" in request
@@ -456,7 +456,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"entity_id": "light.kitchen", "old_state": old_state, "new_state": new_state}
         exporter.handle_ha_event(str(EVENT_STATE_CHANGED), event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "light.kitchen" in body
         assert "off" in body
         assert "on" in body
@@ -470,7 +470,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"entity_id": "light.kitchen", "old_state": None, "new_state": None}
         exporter.handle_ha_event(str(EVENT_STATE_CHANGED), event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "N/A" in body
 
     def test_handle_ha_event_call_service_message(self, exporter: OtlpLogExporter) -> None:
@@ -481,7 +481,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"domain": "light", "service": "turn_on"}
         exporter.handle_ha_event(EVENT_CALL_SERVICE, event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "light" in body
         assert "turn_on" in body
 
@@ -493,7 +493,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"component": "sensor"}
         exporter.handle_ha_event(EVENT_COMPONENT_LOADED, event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "sensor" in body
 
     def test_handle_ha_event_automation_triggered_message(self, exporter: OtlpLogExporter) -> None:
@@ -504,7 +504,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"name": "My Automation", "entity_id": "automation.my_automation"}
         exporter.handle_ha_event(EVENT_AUTOMATION_TRIGGERED, event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "My Automation" in body
         assert "automation.my_automation" in body
 
@@ -516,7 +516,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"user_id": "abc123"}
         exporter.handle_ha_event(EVENT_USER_ADDED, event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "abc123" in body
 
     def test_handle_ha_event_general_fields_message(self, exporter: OtlpLogExporter) -> None:
@@ -525,7 +525,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"name": "my thing", "device_id": "dev_42"}
         exporter.handle_ha_event("custom_event", event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "my thing" in body
         assert "dev_42" in body
 
@@ -535,7 +535,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {}
         exporter.handle_ha_event("some_unknown_event", event)
-        body = exporter._buffer[0].payload["body"]["string_value"]
+        body = exporter._buffer[0].payload["body"]["stringValue"]
         assert body == "some_unknown_event"
 
     def test_handle_ha_event_body_serializes_event_data_as_json(self, exporter: OtlpLogExporter) -> None:
@@ -546,7 +546,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"domain": "light", "service": "turn_on", "entity_id": "light.x", "foo": 123}
         exporter.handle_ha_event("call_service", event, event_body=True)
-        flat_event = exporter._buffer[0].payload["attributes"][3]["value"]["string_value"]
+        flat_event = exporter._buffer[0].payload["attributes"][3]["value"]["stringValue"]
         parsed = json.loads(flat_event)
         assert parsed["foo"] == 123
 
@@ -574,7 +574,7 @@ class TestOtlpLogExporter:
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {"key": _Opaque()}
         exporter.handle_ha_event("custom_event", event, event_body=True)
-        flat_event = exporter._buffer[0].payload["attributes"][0]["value"]["string_value"]
+        flat_event = exporter._buffer[0].payload["attributes"][0]["value"]["stringValue"]
         parsed = json.loads(flat_event)
         assert parsed["key"] == "custom_str"
 
@@ -605,7 +605,7 @@ class TestOtlpLogDirectMethod:
 
     def test_log_direct_message_in_body(self, exporter: OtlpLogExporter) -> None:
         exporter.log_direct("unit_test", "custom message", "INFO")
-        assert exporter._buffer[0].payload["body"] == {"string_value": "custom message"}
+        assert exporter._buffer[0].payload["body"] == {"stringValue": "custom message"}
 
     def test_log_direct_with_attributes(self, exporter: OtlpLogExporter) -> None:
         exporter.log_direct("unit_test", "msg", "INFO", {"env": "prod", "region": "eu"})

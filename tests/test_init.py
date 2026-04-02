@@ -199,7 +199,7 @@ class TestSendLogService:
         )
 
         assert len(exporter._buffer) == 1
-        assert exporter._buffer[0].payload["body"] == {"string_value": "direct log"}
+        assert exporter._buffer[0].payload["body"] == {"stringValue": "direct log"}
         assert exporter._buffer[0].payload["severityNumber"] == 17
 
         entry_data["flush_task"].cancel()
