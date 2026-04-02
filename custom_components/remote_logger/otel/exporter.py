@@ -5,6 +5,7 @@ import base64
 import json
 import logging
 import time
+from abc import abstractmethod
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, cast
 
@@ -22,7 +23,7 @@ from custom_components.remote_logger.const import (
     DEFAULT_CLIENT_TIMEOUT,
     EVENT_SYSTEM_LOG,
 )
-from custom_components.remote_logger.exporter import LogExporter, LogMessage
+from custom_components.remote_logger.exporter import LogExporter, LogMessage, LogSubmission
 from custom_components.remote_logger.helpers import flatten_event_data, isotimestamp
 
 from .const import (
@@ -165,6 +166,68 @@ class OtlpMessage(LogMessage):
     payload: dict[str, Any]
 
 
+class OtlpSubmission(LogSubmission):
+    def __init__(
+        self, resource: dict[str, Any], records: list[OtlpMessage], extra_headers: dict[str, Any] | None = None
+    ) -> None:
+        self.extra_headers = extra_headers or {}
+        self.resource: dict[str, Any] = resource
+        self.request: dict[str, Any] = self._build_export_request(records)
+
+    @abstractmethod
+    def body(self) -> dict[str, Any]:
+        pass
+
+    def _build_export_request(self, records: list[OtlpMessage]) -> dict[str, Any]:
+        """Wrap logRecords in the ExportLogsServiceRequest envelope."""
+        return {
+            "resourceLogs": [
+                {
+                    "resource": self.resource,
+                    "scopeLogs": [
+                        {
+                            "scope": {
+                                "name": SCOPE_NAME,
+                                "version": SCOPE_VERSION,
+                            },
+                            "logRecords": [r.payload for r in records],
+                        }
+                    ],
+                }
+            ],
+        }
+
+
+class OtlpJsonSubmission(OtlpSubmission):
+    def __init__(
+        self, resource: dict[str, Any], records: list[OtlpMessage], extra_headers: dict[str, Any] | None = None
+    ) -> None:
+        super().__init__(resource, records, extra_headers)
+
+    def body(self) -> dict[str, Any]:
+        return {"headers": {"Content-Type": "application/json", **self.extra_headers}, "json": self.request}
+
+    def for_display(self) -> dict[str, Any]:
+        return self.body()
+
+
+class OtlpProtobufSubmission(OtlpSubmission):
+    def __init__(
+        self, resource: dict[str, Any], records: list[OtlpMessage], extra_headers: dict[str, Any] | None = None
+    ) -> None:
+        super().__init__(resource, records, extra_headers)
+
+    def body(self) -> dict[str, Any]:
+        return {
+            "headers": {"Content-Type": "application/x-protobuf", **self.extra_headers},
+            "data": encode_export_logs_request(self.request),
+        }
+
+    def for_display(self) -> dict[str, Any]:
+        base = self.body()
+        return {"headers": base["headers"], "data": base["data"].decode("utf-8", errors="replace").replace("\ufffd", "?")}
+
+
 class OtlpLogExporter(LogExporter):
     """Buffers system_log_event records and flushes them as OTLP/HTTP JSON."""
 
@@ -174,7 +237,6 @@ class OtlpLogExporter(LogExporter):
         super().__init__(hass)
         self.name = entry.title
 
-        self._in_progress: dict[str, Any] | None = None  # wrapped collection of OtlpMessages
         self._lock = asyncio.Lock()
         if hass and hass.config and hass.config.api:
             self.server_address = hass.config.api.local_ip
@@ -183,37 +245,39 @@ class OtlpLogExporter(LogExporter):
             self.server_address = None
             self.server_port = None
 
-        host = entry.data[CONF_HOST]
-        port = entry.data[CONF_PORT]
-        encoding = entry.data[CONF_ENCODING]
-        use_tls = entry.data[CONF_USE_TLS]
+        opts = {**entry.data, **entry.options}
+
+        host = opts[CONF_HOST]
+        port = opts[CONF_PORT]
+        encoding = opts[CONF_ENCODING]
+        use_tls = opts[CONF_USE_TLS]
         scheme = "https" if use_tls else "http"
-        path = entry.data.get(CONF_PATH, OTLP_LOGS_PATH)
+        path = opts.get(CONF_PATH, OTLP_LOGS_PATH)
         self.endpoint_url = f"{scheme}://{host}:{port}{path}"
         self.destination = (host, str(port), encoding)
         self._use_tls = use_tls
         self._use_protobuf = encoding == ENCODING_PROTOBUF
         self._entry = entry
-        self._batch_max_size = entry.data.get(CONF_BATCH_MAX_SIZE, 100)
-        self._client_timeout = entry.data.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
-        self._extra_headers = self._build_extra_headers(entry)
+        self._batch_max_size = opts.get(CONF_BATCH_MAX_SIZE, 100)
+        self._client_timeout = opts.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
+        self._extra_headers = self._build_extra_headers(opts)
 
-        self._resource = self._build_resource(entry)
+        self._resource = self._build_resource(opts)
 
         _LOGGER.info(f"remote_logger: otel configured for {self.endpoint_url}, protobuf={self._use_protobuf}")
 
-    def _build_extra_headers(self, entry: ConfigEntry) -> dict[str, str]:
+    def _build_extra_headers(self, opts: dict[str, Any]) -> dict[str, str]:
         headers: dict[str, str] = {}
-        token = entry.data.get(CONF_TOKEN, "").strip()
+        token = opts.get(CONF_TOKEN, "").strip()
         if token:
-            token_type = entry.data.get(CONF_TOKEN_TYPE, TOKEN_TYPE_BEARER)
+            token_type = opts.get(CONF_TOKEN_TYPE, TOKEN_TYPE_BEARER)
             headers["Authorization"] = build_auth_header(token, token_type)
-        raw_headers = entry.data.get(CONF_HEADERS, "").strip()
+        raw_headers = opts.get(CONF_HEADERS, "").strip()
         if raw_headers:
             headers.update(parse_headers(raw_headers))
         return headers
 
-    def _build_resource(self, entry: ConfigEntry) -> dict[str, Any]:
+    def _build_resource(self, opts: dict[str, Any]) -> dict[str, Any]:
         """Build the OTLP Resource object with attributes."""
         attrs: list[dict[str, Any]] = [
             _kv("service.name", DEFAULT_SERVICE_NAME),
@@ -224,7 +288,7 @@ class OtlpLogExporter(LogExporter):
         if self.server_port:
             attrs.append(_kv("service.port", self.server_port))
 
-        raw = entry.data.get(CONF_RESOURCE_ATTRIBUTES, DEFAULT_RESOURCE_ATTRIBUTES)
+        raw = opts.get(CONF_RESOURCE_ATTRIBUTES, DEFAULT_RESOURCE_ATTRIBUTES)
         if raw and raw.strip():
             for key, value in parse_resource_attributes(raw):
                 attrs.append(_kv(key, value))
@@ -298,40 +362,28 @@ class OtlpLogExporter(LogExporter):
             payload["eventName"] = event.event_type
         return OtlpMessage(payload=payload)
 
-    def generate_submission(self, records: list[OtlpMessage]) -> dict[str, Any]:
-        request = self._build_export_request(records)
-        if self._use_protobuf:
-            content_type = "application/x-protobuf"
-            result: dict[str, Any] = {"data": encode_export_logs_request(request)}
-        else:
-            content_type = "application/json"
-            result = {"json": request}
-        result["headers"] = {"Content-Type": content_type, **self._extra_headers}
-        return result
-
     async def flush(self) -> None:
         """Flush all buffered log records to the OTLP endpoint."""
         records: list[OtlpMessage] | None = None
         async with self._lock:
-            if not self._in_progress:
-                if not self._buffer:
-                    return
-                records = cast("list[OtlpMessage]", self._buffer.copy())
-                self._buffer.clear()
+            if not self._buffer:
+                return
+            records = cast("list[OtlpMessage]", self._buffer.copy())
+            self._buffer.clear()
 
         try:
-            if records and not self._in_progress:
-                msg: dict[str, Any] = self.generate_submission(records)
-            elif self._in_progress:
-                msg = self._in_progress
+            if records:
+                if self._use_protobuf:
+                    submission: OtlpSubmission = OtlpProtobufSubmission(self._resource, records, self._extra_headers)
+                else:
+                    submission = OtlpJsonSubmission(self._resource, records, self._extra_headers)
             else:
                 return
             session: aiohttp.ClientSession = async_get_clientsession(self._hass, verify_ssl=self._use_tls)
             timeout = aiohttp.ClientTimeout(total=self._client_timeout)
-            async with session.post(self.endpoint_url, timeout=timeout, **msg) as resp:
+            async with session.post(self.endpoint_url, timeout=timeout, **submission.body()) as resp:
                 if resp.status in (401, 403):
                     _LOGGER.warning("remote_logger: OTLP authentication failed (%s), triggering reauth", resp.status)
-                    self._in_progress = None
                     self._entry.async_start_reauth(self._hass)
                     return
                 if resp.status >= 400:
@@ -344,7 +396,8 @@ class OtlpLogExporter(LogExporter):
                     self.on_posting_error(body)
                 if resp.ok or (resp.status >= 400 and resp.status < 500):
                     # records were sent, or there was a client-side error
-                    self._in_progress = None
+                    if records:
+                        self.last_sent_payload = submission
                     self.on_success()
 
         except aiohttp.ClientError as err:
@@ -353,7 +406,6 @@ class OtlpLogExporter(LogExporter):
         except Exception as e:
             _LOGGER.exception("remote_logger: unexpected error %s sending logs, skipping records", e)
             self.on_posting_error(str(e))
-            self._in_progress = None
 
     def log_direct(self, event_name: str, message: str, level: str, attributes: dict[str, Any] | None = None) -> None:
         """Buffer a custom log record without requiring a HA Event."""
@@ -376,22 +428,3 @@ class OtlpLogExporter(LogExporter):
         self.on_event()
         if len(self._buffer) >= self._batch_max_size:
             self._hass.async_create_task(self.flush())
-
-    def _build_export_request(self, records: list[OtlpMessage]) -> dict[str, Any]:
-        """Wrap logRecords in the ExportLogsServiceRequest envelope."""
-        return {
-            "resourceLogs": [
-                {
-                    "resource": self._resource,
-                    "scopeLogs": [
-                        {
-                            "scope": {
-                                "name": SCOPE_NAME,
-                                "version": SCOPE_VERSION,
-                            },
-                            "logRecords": [r.payload for r in records],
-                        }
-                    ],
-                }
-            ],
-        }

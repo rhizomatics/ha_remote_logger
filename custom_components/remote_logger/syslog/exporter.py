@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import logging
+import os
 import socket
 import ssl
 import time
@@ -21,7 +22,7 @@ from custom_components.remote_logger.const import (
     DEFAULT_CLIENT_TIMEOUT,
     EVENT_SYSTEM_LOG,
 )
-from custom_components.remote_logger.exporter import LogExporter, LogMessage
+from custom_components.remote_logger.exporter import LogExporter, LogMessage, LogSubmission
 from custom_components.remote_logger.helpers import flatten_event_data, isotimestamp
 
 from .const import (
@@ -44,6 +45,18 @@ class SyslogMessage(LogMessage):
     payload: bytes
 
 
+class SyslogSubmission(LogSubmission):
+    def __init__(self, records: list[SyslogMessage], protocol: str) -> None:
+        self.records: list[SyslogMessage] = records
+        self.protocol: str = protocol
+
+    def for_display(self) -> dict[str, Any]:
+        return {
+            "protocol": self.protocol,
+            "data": cast("str", os.linesep).join(r.payload.decode("utf-8") for r in self.records),
+        }
+
+
 class SyslogExporter(LogExporter):
     """Buffers system_log_event records and flushes them as RFC 5424 syslog messages."""
 
@@ -55,16 +68,18 @@ class SyslogExporter(LogExporter):
         self._in_progress: list[SyslogMessage] = []
         self._lock = asyncio.Lock()
 
-        self._host = entry.data[CONF_HOST]
-        self._port = entry.data[CONF_PORT]
-        self._protocol = entry.data.get(CONF_PROTOCOL, PROTOCOL_UDP)
+        opts = {**entry.data, **entry.options}
+
+        self._host = opts[CONF_HOST]
+        self._port = opts[CONF_PORT]
+        self._protocol = opts.get(CONF_PROTOCOL, PROTOCOL_UDP)
         self.destination = (self._host, str(self._port), self._protocol)
-        self._use_tls = entry.data.get(CONF_USE_TLS, False)
-        self._app_name = entry.data.get(CONF_APP_NAME, DEFAULT_APP_NAME)
-        facility_name = entry.data.get(CONF_FACILITY, DEFAULT_FACILITY)
+        self._use_tls = opts.get(CONF_USE_TLS, False)
+        self._app_name = opts.get(CONF_APP_NAME, DEFAULT_APP_NAME)
+        facility_name = opts.get(CONF_FACILITY, DEFAULT_FACILITY)
         self._facility = SYSLOG_FACILITY_MAP.get(facility_name, 1)
-        self._batch_max_size = entry.data.get(CONF_BATCH_MAX_SIZE, 10)
-        self._client_timeout = entry.data.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
+        self._batch_max_size = opts.get(CONF_BATCH_MAX_SIZE, 10)
+        self._client_timeout = opts.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
         self._hostname = "-"
 
         # TCP connection state (lazily created)
@@ -201,6 +216,9 @@ class SyslogExporter(LogExporter):
                 await self._send_udp(self._in_progress)
             else:
                 await self._send_tcp(self._in_progress)
+            sent: list[SyslogMessage] = [m for m in self._in_progress if m.sent]
+            if sent:
+                self.last_sent_payload = SyslogSubmission(sent, protocol=self._protocol)
             self.on_success()
             self._in_progress = [m for m in self._in_progress if not m.sent]
         except Exception as e:

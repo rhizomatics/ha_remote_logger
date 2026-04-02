@@ -37,6 +37,12 @@ class LogMessage:
     sent: bool = False
 
 
+class LogSubmission:
+    @abstractmethod
+    def for_display(self) -> dict[str, Any]:
+        pass
+
+
 class LogExporter:
     """Base class for log exporters"""
 
@@ -61,6 +67,7 @@ class LogExporter:
 
         self._buffer: list[LogMessage] = []
         self.self_source: str = f"custom_components/remote_logger/{self.logger_type}"
+        self.last_sent_payload: LogSubmission | None = None
 
     @callback
     def handle_event(self, event: Event) -> None:

@@ -10,6 +10,7 @@ from homeassistant.core import Event
 
 from custom_components.remote_logger.const import EVENT_SYSTEM_LOG
 from custom_components.remote_logger.otel.exporter import (
+    OtlpJsonSubmission,
     OtlpLogExporter,
     OtlpMessage,
     _kv,
@@ -228,17 +229,21 @@ class TestOtlpLogExporter:
         assert record.payload["body"]["stringValue"] == "line 1\nline 2\nline 3"
 
     def test_to_protobuf(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
+        from custom_components.remote_logger.otel.exporter import OtlpProtobufSubmission
+
         record = exporter._to_log_record(sample_log_event)
-        exporter._use_protobuf = True
-        result = exporter.generate_submission([record])
+        submission = OtlpProtobufSubmission(exporter._resource, [record])
+        result = submission.body()
         assert result["data"] is not None
         assert isinstance(result["data"], bytes)
         assert len(result["data"]) > 400
 
     def test_to_json(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
+        from custom_components.remote_logger.otel.exporter import OtlpJsonSubmission
+
         record = exporter._to_log_record(sample_log_event)
-        exporter._use_protobuf = False
-        result = exporter.generate_submission([record])
+        submission = OtlpJsonSubmission(exporter._resource, [record])
+        result = submission.body()
         body = result["json"]
         resource_attrs = {a["key"]: a["value"] for a in body["resourceLogs"][0]["resource"]["attributes"]}
         assert resource_attrs["service.name"]["stringValue"] == "homeassistant.core"
@@ -271,9 +276,9 @@ class TestOtlpLogExporter:
         exporter.handle_event(event)
         assert len(exporter._buffer) == 1
 
-    def test_build_export_request_structure(self, exporter: OtlpLogExporter) -> None:
+    def test_build_export_request_structure(self) -> None:
         records = [OtlpMessage({"body": {"stringValue": "test"}, "severityNumber": 9})]
-        request = exporter._build_export_request(records)
+        request = OtlpJsonSubmission({}, records).body()["json"]
 
         assert "resourceLogs" in request
         rl = request["resourceLogs"][0]

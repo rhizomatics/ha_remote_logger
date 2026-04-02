@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP
-from homeassistant.core import EVENT_HOMEASSISTANT_CLOSE, EVENT_HOMEASSISTANT_FINAL_WRITE, callback
+from homeassistant.core import EVENT_HOMEASSISTANT_CLOSE, EVENT_HOMEASSISTANT_FINAL_WRITE, SupportsResponse, callback
 
 from .const import (
     BACKEND_SYSLOG,
@@ -45,11 +45,20 @@ SERVICE_SEND_LOG_SCHEMA = vol.Schema({
     vol.Optional("attributes"): dict,
 })
 
+SERVICE_FLUSH = "flush"
+
+SERVICE_LAST_LOG = "last_log"
+SERVICE_LAST_LOG_SCHEMA = vol.Schema({
+    vol.Required("config_entry_id"): str,
+})
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
     from homeassistant.config_entries import ConfigEntry
     from homeassistant.core import HomeAssistant, ServiceCall
+
+    from custom_components.remote_logger.exporter import LogSubmission
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -141,9 +150,43 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             DOMAIN, SERVICE_SEND_LOG, partial(handle_send_log, hass.data[DOMAIN]), schema=SERVICE_SEND_LOG_SCHEMA
         )
 
+    if not hass.services.has_service(DOMAIN, SERVICE_FLUSH):
+        hass.services.async_register(DOMAIN, SERVICE_FLUSH, partial(handle_flush, hass.data[DOMAIN]))
+
+    if not hass.services.has_service(DOMAIN, SERVICE_LAST_LOG):
+        hass.services.async_register(
+            DOMAIN,
+            SERVICE_LAST_LOG,
+            partial(handle_last_log, hass.data[DOMAIN]),
+            schema=SERVICE_LAST_LOG_SCHEMA,
+            supports_response=SupportsResponse.ONLY,
+        )
+
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
+
+
+async def handle_flush(domain_data: dict[str, Any], _call: ServiceCall) -> None:
+    for entry in domain_data.values():
+        await entry[REF_EXPORTER].flush()
+
+
+@callback
+def handle_last_log(domain_data: dict[str, Any], call: ServiceCall) -> dict[str, Any]:
+    entry_id: str | None = call.data.get("config_entry_id")
+    if entry_id is None and domain_data:
+        entry = next(v for v in domain_data.values())
+    elif entry_id is not None:
+        entry = domain_data.get(entry_id)
+    else:
+        entry = None
+    if entry is None:
+        raise ValueError(f"No remote_logger config entry found with id {entry_id!r}")
+    submission: LogSubmission = entry[REF_EXPORTER].last_sent_payload
+    if submission is None:
+        return {}
+    return submission.for_display()
 
 
 @callback

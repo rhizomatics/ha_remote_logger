@@ -116,8 +116,12 @@ One combination that works well is using [Vector](https://vector.dev) and [Grept
 
 ## Diagnostic Entities
 
-Home Assistant sensors are created and updated to monitor log activity, plus any errors either generating
-log messages or posting them to remote servers.
+Home Assistant sensors are created and updated to monitor log activity, plus any errors either generating log messages or posting them to remote servers.
+
+## Diagnostic Actions
+
+Home Assistant actions are supported to send a test event, force flush the log
+buffers and show the last payload posted.
 
 ![Diagnostic Entities](https://remote-logger.rhizomatics.org.uk/assets/images/diagnostic_entities.png){width=480}
 

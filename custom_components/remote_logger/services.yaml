@@ -1,3 +1,21 @@
+flush:
+  name: Flush
+  description: >
+    Immediately flush all buffered log records to the remote endpoint.
+
+last_log:
+  name: Last Log
+  description: >
+    Return the JSON content of the last log message sent for a specific configuration.
+  fields:
+    config_entry_id:
+      name: Configuration
+      description: The remote logger configuration to query.
+      required: true
+      selector:
+        config_entry:
+          integration: remote_logger
+
 send_log:
   name: Create Log Event
   description: >
