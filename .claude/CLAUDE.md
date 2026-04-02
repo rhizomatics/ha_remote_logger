@@ -74,6 +74,8 @@ Documentation uses mkdocs with the Material theme, and will be published using G
 
 While this is a HACS component, it should be built wherever possible to adhere to the [Home Assistant Integration Quality Scale](https://developers.home-assistant.io/docs/core/integration-quality-scale/) at the highest level. This also means all dependencies must be consistent with the set of Home Assistant production dependencies, and test coverage maintained above 90%, with regression tests for bug fixes and new tests for all new features.
 
+OpenTelemetry integration must align with the current [OTLP](https://opentelemetry.io/docs/specs/otlp/) standards.
+
 ### Project Commands
 
 Common commands:
