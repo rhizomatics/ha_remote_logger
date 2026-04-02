@@ -27,9 +27,7 @@ dev=[
 docs=[
     "mkdocs-minify-plugin",
     "pymdown-extensions",
-    "mkdocs-material>=9.7.1",
-    "pillow>=12.0", # mkdocs-material[imaging] has elderly pillow demand
-    "cairosvg~=2.6", # mkdocs-material[imaging]
+    "mkdocs-material[imaging]>=9.7.1",
     "mkdocs-autorefs",
     "mkdocs-coverage",
     "mkdocs-pagetree-plugin",
