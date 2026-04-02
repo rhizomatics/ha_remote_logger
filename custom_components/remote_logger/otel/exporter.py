@@ -15,9 +15,11 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from custom_components.remote_logger.const import (
     CONF_BATCH_MAX_SIZE,
+    CONF_CLIENT_TIMEOUT,
     CONF_ENCODING,
     CONF_RESOURCE_ATTRIBUTES,
     CONF_USE_TLS,
+    DEFAULT_CLIENT_TIMEOUT,
     EVENT_SYSTEM_LOG,
 )
 from custom_components.remote_logger.exporter import LogExporter, LogMessage
@@ -193,6 +195,7 @@ class OtlpLogExporter(LogExporter):
         self._use_protobuf = encoding == ENCODING_PROTOBUF
         self._entry = entry
         self._batch_max_size = entry.data.get(CONF_BATCH_MAX_SIZE, 100)
+        self._client_timeout = entry.data.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
         self._extra_headers = self._build_extra_headers(entry)
 
         self._resource = self._build_resource(entry)
@@ -324,7 +327,8 @@ class OtlpLogExporter(LogExporter):
             else:
                 return
             session: aiohttp.ClientSession = async_get_clientsession(self._hass, verify_ssl=self._use_tls)
-            async with session.post(self.endpoint_url, timeout=aiohttp.ClientTimeout(total=10), **msg) as resp:
+            timeout = aiohttp.ClientTimeout(total=self._client_timeout)
+            async with session.post(self.endpoint_url, timeout=timeout, **msg) as resp:
                 if resp.status in (401, 403):
                     _LOGGER.warning("remote_logger: OTLP authentication failed (%s), triggering reauth", resp.status)
                     self._in_progress = None
@@ -347,7 +351,7 @@ class OtlpLogExporter(LogExporter):
             _LOGGER.warning("remote_logger: failed to send logs: %s", err)
             self.on_posting_error(str(err))
         except Exception as e:
-            _LOGGER.exception("remote_logger: unexpected error sending logs, skipping records")
+            _LOGGER.exception("remote_logger: unexpected error %s sending logs, skipping records", e)
             self.on_posting_error(str(e))
             self._in_progress = None
 

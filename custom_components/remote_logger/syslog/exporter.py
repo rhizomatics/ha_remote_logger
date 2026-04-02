@@ -15,8 +15,10 @@ from homeassistant.core import Event, HomeAssistant, callback
 from custom_components.remote_logger.const import (
     CONF_APP_NAME,
     CONF_BATCH_MAX_SIZE,
+    CONF_CLIENT_TIMEOUT,
     CONF_FACILITY,
     CONF_USE_TLS,
+    DEFAULT_CLIENT_TIMEOUT,
     EVENT_SYSTEM_LOG,
 )
 from custom_components.remote_logger.exporter import LogExporter, LogMessage
@@ -62,6 +64,7 @@ class SyslogExporter(LogExporter):
         facility_name = entry.data.get(CONF_FACILITY, DEFAULT_FACILITY)
         self._facility = SYSLOG_FACILITY_MAP.get(facility_name, 1)
         self._batch_max_size = entry.data.get(CONF_BATCH_MAX_SIZE, 10)
+        self._client_timeout = entry.data.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
         self._hostname = "-"
 
         # TCP connection state (lazily created)
@@ -249,7 +252,7 @@ class SyslogExporter(LogExporter):
 
         self._tcp_reader, self._tcp_writer = await asyncio.wait_for(
             asyncio.open_connection(self._host, self._port, ssl=ssl_ctx),
-            timeout=10,
+            timeout=self._client_timeout,
         )
 
     async def _close_tcp(self) -> None:

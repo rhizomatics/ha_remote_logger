@@ -5,9 +5,11 @@ from homeassistant.helpers import selector
 from custom_components.remote_logger.const import (
     CONF_APP_NAME,
     CONF_BATCH_MAX_SIZE,
+    CONF_CLIENT_TIMEOUT,
     CONF_FACILITY,
     CONF_USE_TLS,
     DEFAULT_BATCH_MAX_SIZE,
+    DEFAULT_CLIENT_TIMEOUT,
     DEFAULT_USE_TLS,
 )
 
@@ -62,4 +64,5 @@ SYSLOG_DATA_SCHEMA = vol.Schema({
         selector.SelectSelectorConfig(options=list(SYSLOG_FACILITY_MAP.keys()))
     ),
     vol.Optional(CONF_BATCH_MAX_SIZE, default=DEFAULT_BATCH_MAX_SIZE): vol.All(int, vol.Range(min=1, max=10000)),
+    vol.Optional(CONF_CLIENT_TIMEOUT, default=DEFAULT_CLIENT_TIMEOUT): vol.All(int, vol.Range(min=1, max=300)),
 })

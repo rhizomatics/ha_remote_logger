@@ -4,10 +4,12 @@ from homeassistant.helpers import selector
 
 from custom_components.remote_logger.const import (
     CONF_BATCH_MAX_SIZE,
+    CONF_CLIENT_TIMEOUT,
     CONF_ENCODING,
     CONF_RESOURCE_ATTRIBUTES,
     CONF_USE_TLS,
     DEFAULT_BATCH_MAX_SIZE,
+    DEFAULT_CLIENT_TIMEOUT,
 )
 
 CONF_TOKEN_TYPE = "token_type"  # noqa: S105 # nosec
@@ -65,6 +67,7 @@ OTEL_DATA_SCHEMA = vol.Schema({
     ),
     vol.Optional(CONF_HEADERS, default=""): selector.TextSelector(selector.TextSelectorConfig(multiline=True)),
     vol.Optional(CONF_PATH, default=OTLP_LOGS_PATH): str,
+    vol.Optional(CONF_CLIENT_TIMEOUT, default=DEFAULT_CLIENT_TIMEOUT): vol.All(int, vol.Range(min=1, max=300)),
 })
 
 REAUTH_OTEL_DATA_SCHEMA = vol.Schema({

@@ -1,4 +1,5 @@
-# 1.4.10
+# 1.5.0
+- Timeout for remote posting now configurable, defaults to old hard-coded value 10
 - OLTP JSON now in camel case, to suit strict interpretation by some log aggregators, and corrected handling of float/null values
 # 1.4.9
 - Flush logs to remote back end on all 3 of the Home Assistant closing events
