@@ -105,7 +105,14 @@ def parse_headers(raw: str) -> dict[str, str]:
 
 
 def _mask_auth_headers(headers: dict[str, str]) -> dict[str, str]:
-    return {k: "***" if k.lower() == "authorization" else v for k, v in headers.items()}
+    def _mask_credential(v: str) -> str:
+        parts = v.split(" ", 1)
+        if len(parts) == 2:
+            scheme, token = parts
+            return f"{scheme} {'*' * len(token)}"
+        return "*" * len(v)
+
+    return {k: _mask_credential(v) if k.lower() == "authorization" else v for k, v in headers.items()}
 
 
 def _kv(key: str, value: Any) -> dict[str, Any]:
