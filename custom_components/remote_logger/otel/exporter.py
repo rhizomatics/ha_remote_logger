@@ -104,6 +104,10 @@ def parse_headers(raw: str) -> dict[str, str]:
     return result
 
 
+def _mask_auth_headers(headers: dict[str, str]) -> dict[str, str]:
+    return {k: "***" if k.lower() == "authorization" else v for k, v in headers.items()}
+
+
 def _kv(key: str, value: Any) -> dict[str, Any]:
     """Build an OTLP KeyValue attribute"""
     if isinstance(value, str):
@@ -208,7 +212,8 @@ class OtlpJsonSubmission(OtlpSubmission):
         return {"headers": {"Content-Type": "application/json", **self.extra_headers}, "json": self.request}
 
     def for_display(self) -> dict[str, Any]:
-        return self.body()
+        body = self.body()
+        return {**body, "headers": _mask_auth_headers(body["headers"])}
 
 
 class OtlpProtobufSubmission(OtlpSubmission):
@@ -225,7 +230,10 @@ class OtlpProtobufSubmission(OtlpSubmission):
 
     def for_display(self) -> dict[str, Any]:
         base = self.body()
-        return {"headers": base["headers"], "data": base["data"].decode("utf-8", errors="replace").replace("\ufffd", "?")}
+        return {
+            "headers": _mask_auth_headers(base["headers"]),
+            "data": base["data"].decode("utf-8", errors="replace").replace("\ufffd", "?"),
+        }
 
 
 class OtlpLogExporter(LogExporter):
