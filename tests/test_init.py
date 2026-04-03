@@ -4,10 +4,8 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from unittest.mock import AsyncMock, MagicMock, patch
-
-import pytest
 
 from custom_components.remote_logger import async_setup_entry, async_unload_entry
 from custom_components.remote_logger.const import (
@@ -414,15 +412,15 @@ class TestLastLogService:
         assert result["protocol"] == "udp"
         assert "hello syslog" in result["data"]
 
-    async def test_last_log_raises_for_unknown_entry(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+    async def test_last_log_returns_empty_dict_for_unknown_entry(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
 
         with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
             await async_setup_entry(hass, mock_entry_otel)
 
-        with pytest.raises(Exception, match="No remote_logger config entry"):
-            await hass.services.async_call(
-                "remote_logger", "last_log", {"config_entry_id": "nonexistent"}, blocking=True, return_response=True
-            )
+        result: dict[str, Any] = await hass.services.async_call(
+            "remote_logger", "last_log", {"config_entry_id": "nonexistent"}, blocking=True, return_response=True
+        )
+        assert result == {}
 
 
 class TestUpdateListener:
