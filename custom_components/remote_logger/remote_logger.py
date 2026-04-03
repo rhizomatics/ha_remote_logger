@@ -175,15 +175,12 @@ async def handle_flush(domain_data: dict[str, Any], _call: ServiceCall) -> None:
 @callback
 def handle_last_log(domain_data: dict[str, Any], call: ServiceCall) -> dict[str, Any]:
     entry_id: str | None = call.data.get("config_entry_id")
-    if entry_id is None and domain_data:
-        entry = next(v for v in domain_data.values())
-    elif entry_id is not None:
+    entry = None
+    if entry_id:
         entry = domain_data.get(entry_id)
-    else:
-        entry = None
     if entry is None:
-        raise ValueError(f"No remote_logger config entry found with id {entry_id!r}")
-    submission: LogSubmission = entry[REF_EXPORTER].last_sent_payload
+        return {}
+    submission: LogSubmission | None = entry[REF_EXPORTER].last_sent_payload
     if submission is None:
         return {}
     return submission.for_display()
