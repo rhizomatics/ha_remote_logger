@@ -1,3 +1,6 @@
+# 1.5.1
+- For JSON, send integers as strings if they're not representable as signed 32 bit values, to meet limitations of JSON, and align with OTLP spec
+- For JSON, suppress empty attributes and NaaN float values
 # 1.5.0
 - Timeout for remote posting now configurable, defaults to old hard-coded value 10
 - OLTP JSON now in camel case, to suit strict interpretation by some log aggregators, and corrected handling of float/null values

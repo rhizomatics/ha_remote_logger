@@ -115,16 +115,25 @@ def _mask_auth_headers(headers: dict[str, str]) -> dict[str, str]:
     return {k: _mask_credential(v) if k.lower() == "authorization" else v for k, v in headers.items()}
 
 
-def _kv(key: str, value: Any) -> dict[str, Any]:
+def append_attr(attrs: list[dict[str, Any]], key: str, value: Any, force_null: bool = False) -> None:
+    attr: dict[str, Any] | None = _kv(key, value, force_null=force_null)
+    if attr is not None:
+        attrs.append(attr)
+
+
+def _kv(key: str, value: Any, force_null: bool = False) -> dict[str, Any] | None:
     """Build an OTLP KeyValue attribute"""
+    if value is None and not force_null:
+        return None
     if isinstance(value, str):
         return {"key": key, "value": {"stringValue": value}}
     if isinstance(value, bool):
         return {"key": key, "value": {"boolValue": value}}
     if isinstance(value, int):
-        return {"key": key, "value": {"intValue": value}}
+        int_val: int | str = value if -(2**31) <= value <= 2**31 - 1 else str(value)
+        return {"key": key, "value": {"intValue": int_val}}
     if isinstance(value, float):
-        return {"key": key, "value": {"doubleValue": value}}
+        return {"key": key, "value": {"doubleValue": None if value != value else value}}
     if isinstance(value, bytes):
         return {"key": key, "value": {"bytesValue": value}}
     return {"key": key, "value": {"stringValue": str(value)}}
@@ -294,19 +303,19 @@ class OtlpLogExporter(LogExporter):
 
     def _build_resource(self, opts: dict[str, Any]) -> dict[str, Any]:
         """Build the OTLP Resource object with attributes."""
-        attrs: list[dict[str, Any]] = [
-            _kv("service.name", DEFAULT_SERVICE_NAME),
-            _kv("service.version", hass_version or "unknown"),
-        ]
+        attrs: list[dict[str, Any]] = []
+        append_attr(attrs, "service.name", DEFAULT_SERVICE_NAME)
+        append_attr(attrs, "service.version", hass_version or "unknown")
+
         if self.server_address:
-            attrs.append(_kv("service.address", self.server_address))
+            append_attr(attrs, "service.address", self.server_address)
         if self.server_port:
-            attrs.append(_kv("service.port", self.server_port))
+            append_attr(attrs, "service.port", self.server_port)
 
         raw = opts.get(CONF_RESOURCE_ATTRIBUTES, DEFAULT_RESOURCE_ATTRIBUTES)
         if raw and raw.strip():
             for key, value in parse_resource_attributes(raw):
-                attrs.append(_kv(key, value))
+                append_attr(attrs, key, value)
 
         return {"attributes": attrs}
 
@@ -346,23 +355,23 @@ class OtlpLogExporter(LogExporter):
             source = data.get("source")
             if source and isinstance(source, tuple):
                 source_path, source_lineno = source
-                attributes.append(_kv("code.file.path", source_path))
-                attributes.append(_kv("code.line.number", source_lineno))
+                append_attr(attributes, "code.file.path", source_path)
+                append_attr(attributes, "code.line.number", source_lineno)
             logger_name = data.get("name")
             if data.get("count"):
-                attributes.append(_kv("exception.count", data["count"]))
+                append_attr(attributes, "exception.count", data["count"])
             if data.get("first_occurred"):
-                attributes.append(_kv("exception.first_occurred", isotimestamp(data["first_occurred"])))
+                append_attr(attributes, "exception.first_occurred", isotimestamp(data["first_occurred"]))
             if logger_name:
-                attributes.append(_kv("code.function.name", logger_name))
+                append_attr(attributes, "code.function.name", logger_name)
             exception = data.get("exception")
             if exception:
-                attributes.append(_kv("exception.stacktrace", exception))
+                append_attr(attributes, "exception.stacktrace", exception)
 
         else:
             for k, v in data.items():
                 for flat_key, flat_val in flatten_event_data(f"event.data.{k}" if k != "event.data" else k, v, state_only):
-                    attributes.append(_kv(flat_key, flat_val))
+                    append_attr(attributes, flat_key, flat_val)
 
         # https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/logs/v1/logs.proto
         payload: dict[str, Any] = {
@@ -427,7 +436,10 @@ class OtlpLogExporter(LogExporter):
         now = time.time()
         time_unix_nano = str(int(now * 1_000_000_000))
         severity_number, severity_text = SEVERITY_MAP.get(level.upper(), DEFAULT_SEVERITY)
-        attrs = [_kv(k, v) for k, v in (attributes or {}).items()]
+        attrs: list[dict[str, Any]] = []
+        for k, v in (attributes or {}).items():
+            append_attr(attrs, k, v)
+
         record = OtlpMessage(
             payload={
                 "timeUnixNano": time_unix_nano,

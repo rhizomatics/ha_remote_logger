@@ -87,7 +87,7 @@ def _encode_any_value(av: dict[str, Any]) -> bytes:
     if "stringValue" in av:
         return _encode_string_field(1, av["stringValue"])
     if "intValue" in av:
-        return _encode_uint32_field(3, av["intValue"])
+        return _encode_uint32_field(3, int(av["intValue"]))
     if "bytesValue" in av:
         return _encode_bytes_field(7, av["bytesValue"])
     if "boolValue" in av:

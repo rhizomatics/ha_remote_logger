@@ -94,14 +94,25 @@ class TestKv:
     def test_string_value(self) -> None:
         assert _kv("key", "val") == {"key": "key", "value": {"stringValue": "val"}}
 
-    def test_int_value(self) -> None:
+    def test_int_value_small(self) -> None:
         assert _kv("key", 42) == {"key": "key", "value": {"intValue": 42}}
+
+    def test_int_value_large(self) -> None:
+        large = 2**31
+        assert _kv("key", large) == {"key": "key", "value": {"intValue": str(large)}}
+
+    def test_int_value_boundary(self) -> None:
+        assert _kv("key", 2**31 - 1) == {"key": "key", "value": {"intValue": 2**31 - 1}}
+        assert _kv("key", -(2**31)) == {"key": "key", "value": {"intValue": -(2**31)}}
 
     def test_bool_value(self) -> None:
         assert _kv("key", True) == {"key": "key", "value": {"boolValue": True}}
 
     def test_float_value(self) -> None:
         assert _kv("key", 3.14) == {"key": "key", "value": {"doubleValue": 3.14}}
+
+    def test_float_nan_becomes_none(self) -> None:
+        assert _kv("key", float("nan")) == {"key": "key", "value": {"doubleValue": None}}
 
     def test_bytes_value(self) -> None:
         assert _kv("key", b"data") == {"key": "key", "value": {"bytesValue": b"data"}}
