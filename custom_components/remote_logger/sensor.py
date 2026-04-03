@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription, SensorStateClass
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.util import slugify
 
@@ -124,3 +125,12 @@ async def async_setup_entry(
         name=f"{exporter.name} Remote Logger",
     )
     async_add_entities(LoggerEntity(exporter, description, device_info) for description in SENSORS)
+
+    # Remove any disabled duplicate devices for this config entry that are not
+    # the canonical one (identified by entry.entry_id). These can accumulate
+    # when the integration previously used endpoint-derived identifiers.
+    registry: dr.DeviceRegistry = dr.async_get(hass)
+    canonical_id: tuple[str, str] = (DOMAIN, entry.entry_id)
+    for device in dr.async_entries_for_config_entry(registry, entry.entry_id):
+        if canonical_id not in device.identifiers and device.disabled:
+            registry.async_remove_device(device.id)
