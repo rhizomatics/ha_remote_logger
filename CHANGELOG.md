@@ -1,3 +1,7 @@
+# 1.5.2
+- Remote Logger devices can be renamed in the UI without being replaced by a new device with default identifier
+- Suppress error message when aiohttp session is force closed by HA at shutdown
+- Switch off buffer at shutdown so all logs captured
 # 1.5.1
 - For JSON, send integers as strings if they're not representable as signed 32 bit values, to meet limitations of JSON, and align with OTLP spec
 - For JSON, suppress empty attributes and NaaN float values

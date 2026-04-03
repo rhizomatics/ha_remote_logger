@@ -84,7 +84,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     opts = {**entry.data, **entry.options}
 
     async def _flush_on_stop(_: Any) -> None:
-        await exporter.flush()
+        await exporter.disable_buffer()
 
     cancel_listeners: list[Callable[[], None]] = [
         hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event),

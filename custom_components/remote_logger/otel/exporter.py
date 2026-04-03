@@ -427,6 +427,12 @@ class OtlpLogExporter(LogExporter):
         except aiohttp.ClientError as err:
             _LOGGER.warning("remote_logger: failed to send logs: %s", err)
             self.on_posting_error(str(err))
+        except RuntimeError as err:
+            if "Session is closed" in str(err):
+                _LOGGER.debug("remote_logger: session closed during flush (shutdown), dropping %d records", len(records or []))
+            else:
+                _LOGGER.exception("remote_logger: unexpected error %s sending logs, skipping records", err)
+                self.on_posting_error(str(err))
         except Exception as e:
             _LOGGER.exception("remote_logger: unexpected error %s sending logs, skipping records", e)
             self.on_posting_error(str(e))

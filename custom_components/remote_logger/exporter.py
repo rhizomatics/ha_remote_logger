@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import threading
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
@@ -68,6 +69,13 @@ class LogExporter:
         self._buffer: list[LogMessage] = []
         self.self_source: str = f"custom_components/remote_logger/{self.logger_type}"
         self.last_sent_payload: LogSubmission | None = None
+        self.flushing: threading.Event = threading.Event()
+
+    async def disable_buffer(self) -> None:
+        """Flush logs and prevent future buffering, use for shutdowns"""
+        self._batch_max_size = 0
+        self.flushing.clear()
+        await self.flush()
 
     @callback
     def handle_event(self, event: Event) -> None:
@@ -153,8 +161,9 @@ class LogExporter:
 
     async def flush_loop(self) -> None:
         """Periodically flush buffered log records."""
+        self.flushing.set()
         try:
-            while True:
+            while self.flushing.is_set():
                 await asyncio.sleep(BATCH_FLUSH_INTERVAL_SECONDS)
                 await self.flush()
         except asyncio.CancelledError:

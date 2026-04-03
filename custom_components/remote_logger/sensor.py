@@ -119,7 +119,7 @@ async def async_setup_entry(
     exporter: LogExporter = hass.data[DOMAIN][entry.entry_id][REF_EXPORTER]
     device_info = DeviceInfo(
         entry_type=DeviceEntryType.SERVICE,
-        identifiers={(DOMAIN, slugify("_".join([exporter.logger_type, *exporter.destination])))},
+        identifiers={(DOMAIN, entry.entry_id)},
         manufacturer="Rhizomatics",
         name=f"{exporter.name} Remote Logger",
     )
