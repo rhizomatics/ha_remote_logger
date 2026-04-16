@@ -6,7 +6,7 @@ dynamic = ["version"]
 requires-python = ">=3.14.2"
 
 dependencies = [
-    "homeassistant>=2026.3.2",
+    "homeassistant>=2026.4.1",
 ]
 
 [dependency-groups]
@@ -14,7 +14,7 @@ dev=[
     "homeassistant-stubs >= 2026.3.2",
     "pytest",
     "pytest-cov",
-    "pytest-homeassistant-custom-component>=0.13.316",
+    "pytest-homeassistant-custom-component>=0.13.322",
     "pytest-unordered",
     "pytest-mock",
     "pytest-xdist",
@@ -23,12 +23,12 @@ dev=[
     "ruff",
     "mypy",
     "genbadge[all]",
-    "uv==0.10.6" # hass compatibility
+    "uv==0.11.6" # hass compatibility
 ]
 docs=[
     "mkdocs-minify-plugin",
     "pymdown-extensions",
-    "mkdocs-material[imaging]>=9.7.1",
+    "mkdocs-material[imaging]>=9.7.6",
     "mkdocs-autorefs",
     "mkdocs-coverage",
     "mkdocs-pagetree-plugin",
@@ -66,7 +66,7 @@ namespaces = true # to disable scanning PEP 420 namespaces (true by default)
 
 
 [tool.poetry.group.dev.dependencies]
-homeassistant-stubs = "2026.2.1"
+homeassistant-stubs = "2026.4.1"
 
 [tool.ruff]
 line-length = 128
