@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subscreve os eventos homeassistant_start, homeassistant_started e homeassistant_stop.",
           "log_ha_core_changes": "Subscreve os eventos component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
-          "custom_events": "Lista opcional de nomes de eventos adicionais do Home Assistant, um por linha (ex.: zha_event).",
+          "custom_events": "Lista opcional de nomes de eventos adicionais do Home Assistant, um por linha ou separados por vírgula (ex.: zha_event).",
           "log_ha_core_activity": "Atividade do núcleo do Home Assistant, incluindo chamadas de serviço, execução de automatizações e scripts.",
           "log_ha_state_changes": "Alterações de estado do Home Assistant (sem atributos ou contexto) e entradas do livro de registo",
           "log_ha_full_state_changes": "Alterações de estado do Home Assistant (evento completo) e entradas do livro de registo",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subscreve os eventos homeassistant_start, homeassistant_started e homeassistant_stop.",
           "log_ha_core_changes": "Subscreve os eventos component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
-          "custom_events": "Lista opcional de nomes de eventos adicionais do Home Assistant, um por linha (ex.: zha_event).",
+          "custom_events": "Lista opcional de nomes de eventos adicionais do Home Assistant, um por linha ou separados por vírgula (ex.: zha_event).",
           "log_ha_core_activity": "Atividade do núcleo do Home Assistant, incluindo chamadas de serviço, execução de automatizações e scripts.",
           "log_ha_state_changes": "Alterações de estado do Home Assistant (sem atributos ou contexto) e entradas do livro de registo",
           "log_ha_full_state_changes": "Alterações de estado do Home Assistant (evento completo) e entradas do livro de registo",

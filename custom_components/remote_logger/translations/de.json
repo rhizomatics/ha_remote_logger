@@ -88,7 +88,7 @@
           "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
           "log_ha_full_state_changes": "Home Assistant-Zustandsänderungen (vollständiges Ereignis) und Logbucheinträge.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
-          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile (z. B. zha_event)."
+          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile oder kommagetrennt (z. B. zha_event)."
         }
       }
     },
@@ -173,7 +173,7 @@
           "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
           "log_ha_full_state_changes": "Home Assistant-Zustandsänderungen (vollständiges Ereignis) und Logbucheinträge.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
-          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile (z. B. zha_event)."
+          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile oder kommagetrennt (z. B. zha_event)."
         }
       }
     }

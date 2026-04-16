@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
           "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
-          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant, jedna w wierszu (np. zha_event).",
+          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant, jedna w wierszu lub oddzielone przecinkami (np. zha_event).",
           "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
           "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
           "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
           "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
-          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant, jedna w wierszu (np. zha_event).",
+          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant, jedna w wierszu lub oddzielone przecinkami (np. zha_event).",
           "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
           "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
           "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika",

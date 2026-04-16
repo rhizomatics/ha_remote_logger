@@ -12,8 +12,8 @@ dependencies = [
 [dependency-groups]
 dev=[
     "homeassistant-stubs >= 2026.3.2",
-    "pytest==9.0.0",
-    "pytest-cov>=7.0.0",
+    "pytest",
+    "pytest-cov",
     "pytest-homeassistant-custom-component>=0.13.316",
     "pytest-unordered",
     "pytest-mock",
@@ -23,6 +23,7 @@ dev=[
     "ruff",
     "mypy",
     "genbadge[all]",
+    "uv==0.10.6" # hass compatibility
 ]
 docs=[
     "mkdocs-minify-plugin",

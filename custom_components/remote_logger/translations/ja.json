@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
           "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
-          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つ（例: zha_event）。",
+          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つまたはカンマ区切り（例: zha_event）。",
           "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
           "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
           "log_ha_full_state_changes": "Home Assistant状態変化（完全なイベント）とログブックエントリ",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
           "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
-          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つ（例: zha_event）。",
+          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つまたはカンマ区切り（例: zha_event）。",
           "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
           "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
           "log_ha_full_state_changes": "Home Assistant状態変化（完全なイベント）とログブックエントリ",

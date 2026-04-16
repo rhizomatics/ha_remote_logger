@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subscribe to homeassistant_start, homeassistant_started, and homeassistant_stop events.",
           "log_ha_core_changes": "Subscribe to component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated, and user_removed events.",
-          "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line (e.g. zha_event).",
+          "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line or comma-separated (e.g. zha_event).",
           "log_ha_core_activity":"Home Assistant core activity, including service calls, automation and script execution.",
           "log_ha_state_changes":"Home Assistant state changes (without attributes or context) and logbook entries",
           "log_ha_full_state_changes":"Home Assistant state changes (complete event) and logbook entries",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subscribe to homeassistant_start, homeassistant_started, and homeassistant_stop events.",
           "log_ha_core_changes": "Subscribe to component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated, and user_removed events.",
-          "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line (e.g. zha_event).",
+          "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line or comma-separated (e.g. zha_event).",
           "log_ha_core_activity":"Home Assistant core activity, including service calls, automation and script execution.",
           "log_ha_state_changes":"Home Assistant state changes (without attributes or context) and logbook entries",
           "log_ha_full_state_changes":"Home Assistant state changes (complete event) and logbook entries",

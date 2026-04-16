@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Abonneren op homeassistant_start, homeassistant_started en homeassistant_stop.",
           "log_ha_core_changes": "Abonneren op component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated en user_removed.",
-          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen, één per regel (bijv. zha_event).",
+          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen, één per regel of kommagescheiden (bijv. zha_event).",
           "log_ha_core_activity": "Kernactiviteit van Home Assistant, inclusief serviceaanroepen, automatiserings- en scriptuitvoering.",
           "log_ha_state_changes": "Statuswijzigingen van Home Assistant (zonder attributen of context) en logboekitems",
           "log_ha_full_state_changes": "Statuswijzigingen van Home Assistant (volledige gebeurtenis) en logboekitems",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Abonneren op homeassistant_start, homeassistant_started en homeassistant_stop.",
           "log_ha_core_changes": "Abonneren op component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated en user_removed.",
-          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen, één per regel (bijv. zha_event).",
+          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen, één per regel of kommagescheiden (bijv. zha_event).",
           "log_ha_core_activity": "Kernactiviteit van Home Assistant, inclusief serviceaanroepen, automatiserings- en scriptuitvoering.",
           "log_ha_state_changes": "Statuswijzigingen van Home Assistant (zonder attributen of context) en logboekitems",
           "log_ha_full_state_changes": "Statuswijzigingen van Home Assistant (volledige gebeurtenis) en logboekitems",

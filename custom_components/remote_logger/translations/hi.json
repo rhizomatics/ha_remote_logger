@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
           "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
-          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक (उदा. zha_event)।",
+          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. zha_event)।",
           "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
           "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
           "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
           "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
-          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक (उदा. zha_event)।",
+          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. zha_event)।",
           "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
           "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
           "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",

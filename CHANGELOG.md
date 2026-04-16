@@ -1,3 +1,5 @@
+# 1.5.3
+- Accept comma separated custom event names
 # 1.5.2
 - Remote Logger devices can be renamed in the UI without being replaced by a new device with default identifier
 - Suppress error message when aiohttp session is force closed by HA at shutdown

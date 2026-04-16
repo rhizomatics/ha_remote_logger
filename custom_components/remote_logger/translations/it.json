@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Si iscrive agli eventi homeassistant_start, homeassistant_started e homeassistant_stop.",
           "log_ha_core_changes": "Si iscrive agli eventi component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
-          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi, uno per riga (es. zha_event).",
+          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi, uno per riga o separati da virgole (es. zha_event).",
           "log_ha_core_activity": "Attività del core di Home Assistant, incluse le chiamate di servizio, l'esecuzione di automazioni e script.",
           "log_ha_state_changes": "Cambiamenti di stato di Home Assistant (senza attributi o contesto) e voci del diario",
           "log_ha_full_state_changes": "Cambiamenti di stato di Home Assistant (evento completo) e voci del diario",
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Si iscrive agli eventi homeassistant_start, homeassistant_started e homeassistant_stop.",
           "log_ha_core_changes": "Si iscrive agli eventi component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
-          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi, uno per riga (es. zha_event).",
+          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi, uno per riga o separati da virgole (es. zha_event).",
           "log_ha_core_activity": "Attività del core di Home Assistant, incluse le chiamate di servizio, l'esecuzione di automazioni e script.",
           "log_ha_state_changes": "Cambiamenti di stato di Home Assistant (senza attributi o contesto) e voci del diario",
           "log_ha_full_state_changes": "Cambiamenti di stato di Home Assistant (evento completo) e voci del diario",
