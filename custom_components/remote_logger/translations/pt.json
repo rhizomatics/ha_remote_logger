@@ -33,7 +33,7 @@
           "resource_attributes": "Pares chave=valor opcionais separados por vírgulas, adicionados a cada registo (ex.: deployment.environment=production,service.namespace=home).",
           "token_type": "Esquema de autenticação: Bearer envia o token tal como está; Basic codifica-o em base64 como 'utilizador:palavra-passe'.",
           "token": "Token opcional. Enviado no cabeçalho 'Authorization'.",
-          "headers": "Cabeçalhos HTTP adicionais opcionais, um por linha no formato 'Nome: valor' (ex.: stream-name: my-stream).",
+          "headers": "Cabeçalhos HTTP adicionais opcionais no formato 'Nome: valor', um por linha ou separados por vírgula (ex.: stream-name: my-stream).",
           "path": "Caminho acrescentado a anfitrião:porta para o endpoint de registos (predefinição: /v1/logs). Adicione qualquer caminho específico da API como prefixo (ex.: /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Pares chave=valor opcionais separados por vírgulas, adicionados a cada registo (ex.: deployment.environment=production,service.namespace=home).",
           "token_type": "Esquema de autenticação: Bearer envia o token tal como está; Basic codifica-o em base64 como 'utilizador:palavra-passe'.",
           "token": "Token opcional. Enviado no cabeçalho 'Authorization'.",
-          "headers": "Cabeçalhos HTTP adicionais opcionais, um por linha no formato 'Nome: valor' (ex.: stream-name: my-stream).",
+          "headers": "Cabeçalhos HTTP adicionais opcionais no formato 'Nome: valor', um por linha ou separados por vírgula (ex.: stream-name: my-stream).",
           "path": "Caminho acrescentado a anfitrião:porta para o endpoint de registos (predefinição: /v1/logs). Adicione qualquer caminho específico da API como prefixo (ex.: /api/otlp/v1/logs)."
         }
       },

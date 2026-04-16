@@ -33,7 +33,7 @@
           "resource_attributes": "Paires clé=valeur séparées par des virgules ajoutées à chaque entrée de journal (ex. deployment.environment=production,service.namespace=home).",
           "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'.",
           "token": "Jeton optionnel. Envoyé dans l'en-tête 'Authorization'.",
-          "headers": "En-têtes HTTP supplémentaires optionnels, un par ligne au format 'Nom: valeur' (ex. stream-name: mon-stream).",
+          "headers": "En-têtes HTTP supplémentaires optionnels au format 'Nom: valeur', un par ligne ou séparés par des virgules (ex. stream-name: mon-stream).",
           "path": "Chemin ajouté à hôte:port pour le point de terminaison des journaux (par défaut : /v1/logs). Préfixer avec tout chemin spécifique à l'API (ex. /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Paires clé=valeur séparées par des virgules ajoutées à chaque entrée de journal (ex. deployment.environment=production,service.namespace=home).",
           "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'.",
           "token": "Jeton optionnel. Envoyé dans l'en-tête 'Authorization'.",
-          "headers": "En-têtes HTTP supplémentaires optionnels, un par ligne au format 'Nom: valeur' (ex. stream-name: mon-stream).",
+          "headers": "En-têtes HTTP supplémentaires optionnels au format 'Nom: valeur', un par ligne ou séparés par des virgules (ex. stream-name: mon-stream).",
           "path": "Chemin ajouté à hôte:port pour le point de terminaison des journaux (par défaut : /v1/logs). Préfixer avec tout chemin spécifique à l'API (ex. /api/otlp/v1/logs)."
         }
       },

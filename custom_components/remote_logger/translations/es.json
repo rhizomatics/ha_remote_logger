@@ -33,7 +33,7 @@
           "resource_attributes": "Pares clave=valor opcionales separados por comas añadidos a cada registro de log (p. ej. deployment.environment=production,service.namespace=home).",
           "token_type": "Esquema de autenticación: Bearer envía el token tal cual; Basic lo codifica en base64 como 'usuario:contraseña'.",
           "token": "Token opcional. Se envía en el encabezado 'Authorization'.",
-          "headers": "Encabezados HTTP adicionales opcionales, uno por línea en el formato 'Nombre: valor' (p. ej. stream-name: mi-stream).",
+          "headers": "Encabezados HTTP adicionales opcionales en el formato 'Nombre: valor', uno por línea o separados por comas (p. ej. stream-name: mi-stream).",
           "path": "Ruta añadida a host:puerto para el endpoint de registros (por defecto: /v1/logs). Añade cualquier ruta específica de la API como prefijo (p. ej. /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Pares clave=valor opcionales separados por comas añadidos a cada registro de log (p. ej. deployment.environment=production,service.namespace=home).",
           "token_type": "Esquema de autenticación: Bearer envía el token tal cual; Basic lo codifica en base64 como 'usuario:contraseña'.",
           "token": "Token opcional. Se envía en el encabezado 'Authorization'.",
-          "headers": "Encabezados HTTP adicionales opcionales, uno por línea en el formato 'Nombre: valor' (p. ej. stream-name: mi-stream).",
+          "headers": "Encabezados HTTP adicionales opcionales en el formato 'Nombre: valor', uno por línea o separados por comas (p. ej. stream-name: mi-stream).",
           "path": "Ruta añadida a host:puerto para el endpoint de registros (por defecto: /v1/logs). Añade cualquier ruta específica de la API como prefijo (p. ej. /api/otlp/v1/logs)."
         }
       },

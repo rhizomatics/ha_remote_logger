@@ -33,7 +33,7 @@
           "resource_attributes": "Optionele door komma's gescheiden sleutel=waarde-paren die aan elk logrecord worden toegevoegd (bijv. deployment.environment=production,service.namespace=home).",
           "token_type": "Verificatieschema: Bearer stuurt het token ongewijzigd; Basic codeert het als 'gebruiker:wachtwoord' in base64.",
           "token": "Optioneel token. Verstuurd in de 'Authorization'-header.",
-          "headers": "Optionele extra HTTP-headers, één per regel in het formaat 'Naam: waarde' (bijv. stream-name: my-stream).",
+          "headers": "Optionele extra HTTP-headers in het formaat 'Naam: waarde', één per regel of kommagescheiden (bijv. stream-name: my-stream).",
           "path": "Pad dat wordt toegevoegd aan host:poort voor het logboekeindpunt (standaard: /v1/logs). Voeg een API-specifiek pad toe als voorvoegsel (bijv. /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Optionele door komma's gescheiden sleutel=waarde-paren die aan elk logrecord worden toegevoegd (bijv. deployment.environment=production,service.namespace=home).",
           "token_type": "Verificatieschema: Bearer stuurt het token ongewijzigd; Basic codeert het als 'gebruiker:wachtwoord' in base64.",
           "token": "Optioneel token. Verstuurd in de 'Authorization'-header.",
-          "headers": "Optionele extra HTTP-headers, één per regel in het formaat 'Naam: waarde' (bijv. stream-name: my-stream).",
+          "headers": "Optionele extra HTTP-headers in het formaat 'Naam: waarde', één per regel of kommagescheiden (bijv. stream-name: my-stream).",
           "path": "Pad dat wordt toegevoegd aan host:poort voor het logboekeindpunt (standaard: /v1/logs). Voeg een API-specifiek pad toe als voorvoegsel (bijv. /api/otlp/v1/logs)."
         }
       },

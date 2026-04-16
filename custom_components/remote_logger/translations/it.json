@@ -33,7 +33,7 @@
           "resource_attributes": "Coppie chiave=valore separate da virgola aggiunte a ogni record di log (es. deployment.environment=production,service.namespace=home).",
           "token_type": "Schema di autenticazione: Bearer invia il token così com'è; Basic lo codifica in base64 come 'utente:password'.",
           "token": "Token opzionale. Inviato nell'intestazione 'Authorization'.",
-          "headers": "Intestazioni HTTP aggiuntive opzionali, una per riga nel formato 'Nome: valore' (es. stream-name: mio-stream).",
+          "headers": "Intestazioni HTTP aggiuntive opzionali nel formato 'Nome: valore', una per riga o separate da virgole (es. stream-name: mio-stream).",
           "path": "Percorso aggiunto a host:porta per l'endpoint dei log (predefinito: /v1/logs). Prefissare con qualsiasi percorso specifico dell'API (es. /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Coppie chiave=valore separate da virgola aggiunte a ogni record di log (es. deployment.environment=production,service.namespace=home).",
           "token_type": "Schema di autenticazione: Bearer invia il token così com'è; Basic lo codifica in base64 come 'utente:password'.",
           "token": "Token opzionale. Inviato nell'intestazione 'Authorization'.",
-          "headers": "Intestazioni HTTP aggiuntive opzionali, una per riga nel formato 'Nome: valore' (es. stream-name: mio-stream).",
+          "headers": "Intestazioni HTTP aggiuntive opzionali nel formato 'Nome: valore', una per riga o separate da virgole (es. stream-name: mio-stream).",
           "path": "Percorso aggiunto a host:porta per l'endpoint dei log (predefinito: /v1/logs). Prefissare con qualsiasi percorso specifico dell'API (es. /api/otlp/v1/logs)."
         }
       },

@@ -33,7 +33,7 @@
           "resource_attributes": "Optional comma-separated key=value pairs added to every log record (e.g. deployment.environment=production,service.namespace=home).",
           "token_type": "Authentication scheme: Bearer sends the token as-is; Basic base64-encodes it as 'username:password'.",
           "token": "Optional token. Sent in the 'Authorization' header.",
-          "headers": "Optional extra HTTP headers, one per line in 'Name: value' format (e.g. stream-name: my-stream).",
+          "headers": "Optional extra HTTP headers in 'Name: value' format, one per line or comma-separated (e.g. stream-name: my-stream).",
           "path": "Path appended to host:port for the logs endpoint (default /v1/logs). Prefix with any API-specific path (e.g. /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Optional comma-separated key=value pairs added to every log record (e.g. deployment.environment=production,service.namespace=home).",
           "token_type": "Authentication scheme: Bearer sends the token as-is; Basic base64-encodes it as 'username:password'.",
           "token": "Optional token. Sent in the 'Authorization' header.",
-          "headers": "Optional extra HTTP headers, one per line in 'Name: value' format (e.g. stream-name: my-stream).",
+          "headers": "Optional extra HTTP headers in 'Name: value' format, one per line or comma-separated (e.g. stream-name: my-stream).",
           "path": "Path appended to host:port for the logs endpoint (default /v1/logs). Prefix with any API-specific path (e.g. /api/otlp/v1/logs)."
         }
       },

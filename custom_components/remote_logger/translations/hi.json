@@ -33,7 +33,7 @@
           "resource_attributes": "प्रत्येक लॉग रिकॉर्ड में जोड़े जाने वाले वैकल्पिक कॉमा-सेपरेटेड key=value जोड़े (उदा. deployment.environment=production,service.namespace=home)।",
           "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है।",
           "token": "वैकल्पिक टोकन। 'Authorization' हेडर में भेजा जाता है।",
-          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर, प्रति पंक्ति एक 'Name: value' फॉर्मेट में (उदा. stream-name: my-stream)।",
+          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर 'Name: value' फॉर्मेट में, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. stream-name: my-stream)।",
           "path": "लॉग एंडपॉइंट के लिए host:port में जोड़ा जाने वाला पाथ (डिफ़ॉल्ट: /v1/logs)। किसी भी API-विशिष्ट पाथ से प्रीफिक्स करें (उदा. /api/otlp/v1/logs)।"
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "प्रत्येक लॉग रिकॉर्ड में जोड़े जाने वाले वैकल्पिक कॉमा-सेपरेटेड key=value जोड़े (उदा. deployment.environment=production,service.namespace=home)।",
           "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है।",
           "token": "वैकल्पिक टोकन। 'Authorization' हेडर में भेजा जाता है।",
-          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर, प्रति पंक्ति एक 'Name: value' फॉर्मेट में (उदा. stream-name: my-stream)।",
+          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर 'Name: value' फॉर्मेट में, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. stream-name: my-stream)।",
           "path": "लॉग एंडपॉइंट के लिए host:port में जोड़ा जाने वाला पाथ (डिफ़ॉल्ट: /v1/logs)। किसी भी API-विशिष्ट पाथ से प्रीफिक्स करें (उदा. /api/otlp/v1/logs)।"
         }
       },

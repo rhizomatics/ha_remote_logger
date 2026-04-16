@@ -4,6 +4,7 @@ import asyncio
 import base64
 import json
 import logging
+import re
 import time
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -85,12 +86,13 @@ def parse_resource_attributes(raw: str) -> list[tuple[str, str]]:
 
 
 def parse_headers(raw: str) -> dict[str, str]:
-    """Parse 'Name: value' lines (newline-separated) into a dict.
+    """Parse 'Name: value' entries into a dict.
 
-    Raises ValueError if a line is malformed.
+    Entries may be newline- or comma-separated (commas inside values are safe).
+    Raises ValueError if an entry is malformed.
     """
     result: dict[str, str] = {}
-    for line in raw.splitlines():
+    for line in re.split(r"\n|,(?=\s*[\w-]+\s*:)", raw):
         line = line.strip()
         if not line:
             continue

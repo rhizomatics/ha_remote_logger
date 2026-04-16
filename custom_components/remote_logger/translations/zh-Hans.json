@@ -33,7 +33,7 @@
           "resource_attributes": "以逗号分隔的键=值对，附加到每条日志记录（例如 deployment.environment=production,service.namespace=home）。",
           "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为'用户名:密码'。",
           "token": "可选令牌，将在 Authorization 请求头中发送。",
-          "headers": "可选的附加 HTTP 请求头，每行一条，格式为'名称: 值'（例如 stream-name: my-stream）。",
+          "headers": "可选的附加 HTTP 请求头，格式为'名称: 值'，每行一条或逗号分隔（例如 stream-name: my-stream）。",
           "path": "附加到 host:port 的日志端点路径（默认：/v1/logs）。可在前面加上 API 专用路径（例如 /api/otlp/v1/logs）。"
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "以逗号分隔的键=值对，附加到每条日志记录（例如 deployment.environment=production,service.namespace=home）。",
           "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为'用户名:密码'。",
           "token": "可选令牌，将在 Authorization 请求头中发送。",
-          "headers": "可选的附加 HTTP 请求头，每行一条，格式为'名称: 值'（例如 stream-name: my-stream）。",
+          "headers": "可选的附加 HTTP 请求头，格式为'名称: 值'，每行一条或逗号分隔（例如 stream-name: my-stream）。",
           "path": "附加到 host:port 的日志端点路径（默认：/v1/logs）。可在前面加上 API 专用路径（例如 /api/otlp/v1/logs）。"
         }
       },

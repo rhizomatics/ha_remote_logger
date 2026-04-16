@@ -33,7 +33,7 @@
           "resource_attributes": "Opcjonalne pary klucz=wartość oddzielone przecinkami, dodawane do każdego rekordu dziennika (np. deployment.environment=production,service.namespace=home).",
           "token_type": "Schemat uwierzytelniania: Bearer wysyła token bez zmian; Basic koduje go w base64 jako 'użytkownik:hasło'.",
           "token": "Opcjonalny token. Wysyłany w nagłówku 'Authorization'.",
-          "headers": "Opcjonalne dodatkowe nagłówki HTTP, jeden w wierszu w formacie 'Nazwa: wartość' (np. stream-name: my-stream).",
+          "headers": "Opcjonalne dodatkowe nagłówki HTTP w formacie 'Nazwa: wartość', jeden w wierszu lub oddzielone przecinkami (np. stream-name: my-stream).",
           "path": "Ścieżka dołączana do host:port dla punktu końcowego dzienników (domyślnie: /v1/logs). Poprzedź dowolną ścieżką specyficzną dla API (np. /api/otlp/v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Opcjonalne pary klucz=wartość oddzielone przecinkami, dodawane do każdego rekordu dziennika (np. deployment.environment=production,service.namespace=home).",
           "token_type": "Schemat uwierzytelniania: Bearer wysyła token bez zmian; Basic koduje go w base64 jako 'użytkownik:hasło'.",
           "token": "Opcjonalny token. Wysyłany w nagłówku 'Authorization'.",
-          "headers": "Opcjonalne dodatkowe nagłówki HTTP, jeden w wierszu w formacie 'Nazwa: wartość' (np. stream-name: my-stream).",
+          "headers": "Opcjonalne dodatkowe nagłówki HTTP w formacie 'Nazwa: wartość', jeden w wierszu lub oddzielone przecinkami (np. stream-name: my-stream).",
           "path": "Ścieżka dołączana do host:port dla punktu końcowego dzienników (domyślnie: /v1/logs). Poprzedź dowolną ścieżką specyficzną dla API (np. /api/otlp/v1/logs)."
         }
       },

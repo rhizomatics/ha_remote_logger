@@ -33,7 +33,7 @@
           "resource_attributes": "Optionale kommagetrennte Schlüssel=Wert-Paare, die jedem Protokolleintrag hinzugefügt werden (z. B. deployment.environment=production,service.namespace=home).",
           "token_type": "Authentifizierungsschema: Bearer sendet das Token unverändert; Basic kodiert es als 'Benutzername:Passwort' in Base64.",
           "token": "Optionales Token. Wird im Authorization-Header gesendet.",
-          "headers": "Optionale zusätzliche HTTP-Header, einer pro Zeile im Format 'Name: Wert' (z. B. stream-name: mein-stream).",
+          "headers": "Optionale zusätzliche HTTP-Header im Format 'Name: Wert', einer pro Zeile oder kommagetrennt (z. B. stream-name: mein-stream).",
           "path": "Pfad, der an Host:Port für den Protokoll-Endpunkt angehängt wird (Standard: /v1/logs)."
         }
       },
@@ -130,7 +130,7 @@
           "resource_attributes": "Optionale kommagetrennte Schlüssel=Wert-Paare, die jedem Protokolleintrag hinzugefügt werden (z. B. deployment.environment=production,service.namespace=home).",
           "token_type": "Authentifizierungsschema: Bearer sendet das Token unverändert; Basic kodiert es als 'Benutzername:Passwort' in Base64.",
           "token": "Optionales Token. Wird im Authorization-Header gesendet.",
-          "headers": "Optionale zusätzliche HTTP-Header, einer pro Zeile im Format 'Name: Wert' (z. B. stream-name: mein-stream).",
+          "headers": "Optionale zusätzliche HTTP-Header im Format 'Name: Wert', einer pro Zeile oder kommagetrennt (z. B. stream-name: mein-stream).",
           "path": "Pfad, der an Host:Port für den Protokoll-Endpunkt angehängt wird (Standard: /v1/logs)."
         }
       },
