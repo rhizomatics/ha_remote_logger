@@ -1,3 +1,6 @@
+# 1.5.4
+- Switch event names to multi value rather than multi-line and remove comma separation
+- Use multi-value also for custom header configuration
 # 1.5.3
 - Accept comma separated custom event names
 # 1.5.2
