@@ -33,7 +33,7 @@
           "resource_attributes": "以逗号分隔的键=值对，附加到每条日志记录（例如 deployment.environment=production,service.namespace=home）。",
           "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为'用户名:密码'。",
           "token": "可选令牌，将在 Authorization 请求头中发送。",
-          "headers": "可选的附加 HTTP 请求头，格式为'名称: 值'，每行一条或逗号分隔（例如 stream-name: my-stream）。",
+          "headers": "可选的附加 HTTP 请求头，格式为'名称: 值'（例如 stream-name: my-stream）。每条请求头单独填写一项。",
           "path": "附加到 host:port 的日志端点路径（默认：/v1/logs）。可在前面加上 API 专用路径（例如 /api/otlp/v1/logs）。"
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "订阅 homeassistant_start、homeassistant_started 和 homeassistant_stop 事件。",
           "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
-          "custom_events": "可选的附加 Home Assistant 事件名称列表，每行一个或逗号分隔（例如 zha_event）。",
+          "custom_events": "可选的附加 Home Assistant 事件名称列表（例如 zha_event）。每个事件名称单独填写一项。",
           "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
           "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
           "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "无法连接到端点，请检查主机、端口和 TLS 设置。",
       "invalid_attributes": "格式无效，请使用逗号分隔的键=值对（例如 env=prod,region=cn）。",
-      "invalid_headers": "格式无效，请每行使用一条'名称: 值'格式的请求头。",
+      "invalid_headers": "格式无效，每项必须为'名称: 值'格式（例如 stream-name: my-stream）。",
       "invalid_auth": "认证失败，请检查 Bearer 令牌。",
       "state_changes_exclusive": "只能选择一种状态变更选项。",
       "unknown": "发生意外错误。"
@@ -130,7 +130,7 @@
           "resource_attributes": "以逗号分隔的键=值对，附加到每条日志记录（例如 deployment.environment=production,service.namespace=home）。",
           "token_type": "认证方案：Bearer 原样发送令牌；Basic 将其 base64 编码为'用户名:密码'。",
           "token": "可选令牌，将在 Authorization 请求头中发送。",
-          "headers": "可选的附加 HTTP 请求头，格式为'名称: 值'，每行一条或逗号分隔（例如 stream-name: my-stream）。",
+          "headers": "可选的附加 HTTP 请求头，格式为'名称: 值'（例如 stream-name: my-stream）。每条请求头单独填写一项。",
           "path": "附加到 host:port 的日志端点路径（默认：/v1/logs）。可在前面加上 API 专用路径（例如 /api/otlp/v1/logs）。"
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "订阅 homeassistant_start、homeassistant_started 和 homeassistant_stop 事件。",
           "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
-          "custom_events": "可选的附加 Home Assistant 事件名称列表，每行一个或逗号分隔（例如 zha_event）。",
+          "custom_events": "可选的附加 Home Assistant 事件名称列表（例如 zha_event）。每个事件名称单独填写一项。",
           "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
           "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
           "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目",

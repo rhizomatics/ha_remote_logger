@@ -33,7 +33,7 @@
           "resource_attributes": "各ログレコードに追加するカンマ区切りのkey=valueペア（例: deployment.environment=production,service.namespace=home）。",
           "token_type": "認証スキーム: Bearerはトークンをそのまま送信、Basicは「ユーザー名:パスワード」としてbase64エンコードして送信します。",
           "token": "任意のトークン。「Authorization」ヘッダーで送信されます。",
-          "headers": "任意の追加HTTPヘッダー。「名前: 値」形式で、1行に1つまたはカンマ区切り（例: stream-name: my-stream）。",
+          "headers": "任意の追加HTTPヘッダー。「名前: 値」形式（例: stream-name: my-stream）。1エントリにつき1つ入力してください。",
           "path": "ログエンドポイントのhost:portに追加するパス（デフォルト: /v1/logs）。API固有のパスをプレフィックスとして追加できます（例: /api/otlp/v1/logs）。"
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
           "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
-          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つまたはカンマ区切り（例: zha_event）。",
+          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
           "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
           "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
           "log_ha_full_state_changes": "Home Assistant状態変化（完全なイベント）とログブックエントリ",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "エンドポイントに接続できません。ホスト、ポート、TLS設定を確認してください。",
       "invalid_attributes": "形式が無効です。カンマ区切りのkey=valueペアを使用してください（例: env=prod,region=jp）。",
-      "invalid_headers": "形式が無効です。「名前: 値」形式のヘッダーを1行に1つ使用してください。",
+      "invalid_headers": "形式が無効です。各エントリは「名前: 値」形式である必要があります（例: stream-name: my-stream）。",
       "invalid_auth": "認証に失敗しました。Bearerトークンを確認してください。",
       "state_changes_exclusive": "状態変化オプションは1つだけ選択してください。",
       "unknown": "予期しないエラーが発生しました。"
@@ -130,7 +130,7 @@
           "resource_attributes": "各ログレコードに追加するカンマ区切りのkey=valueペア（例: deployment.environment=production,service.namespace=home）。",
           "token_type": "認証スキーム: Bearerはトークンをそのまま送信、Basicは「ユーザー名:パスワード」としてbase64エンコードして送信します。",
           "token": "任意のトークン。「Authorization」ヘッダーで送信されます。",
-          "headers": "任意の追加HTTPヘッダー。「名前: 値」形式で、1行に1つまたはカンマ区切り（例: stream-name: my-stream）。",
+          "headers": "任意の追加HTTPヘッダー。「名前: 値」形式（例: stream-name: my-stream）。1エントリにつき1つ入力してください。",
           "path": "ログエンドポイントのhost:portに追加するパス（デフォルト: /v1/logs）。API固有のパスをプレフィックスとして追加できます（例: /api/otlp/v1/logs）。"
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
           "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
-          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト、1行に1つまたはカンマ区切り（例: zha_event）。",
+          "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
           "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
           "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
           "log_ha_full_state_changes": "Home Assistant状態変化（完全なイベント）とログブックエントリ",

@@ -5,7 +5,6 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import logging
-import re
 from functools import partial
 from typing import TYPE_CHECKING, Any
 
@@ -131,10 +130,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         )
         _LOGGER.info("remote_logger: listening for HA core activity")
 
-    custom_events_raw = opts.get(CONF_CUSTOM_EVENTS, "")
     cancel_listeners.extend(
         hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body))
-        for et in (e.strip() for e in re.split(r"[\n,]+", custom_events_raw) if e.strip())
+        for et in opts.get(CONF_CUSTOM_EVENTS, [])
+        if et.strip()
     )
 
     flush_task: asyncio.Task[None] = asyncio.create_task(exporter.flush_loop())

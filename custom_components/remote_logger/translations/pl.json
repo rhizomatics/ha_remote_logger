@@ -33,7 +33,7 @@
           "resource_attributes": "Opcjonalne pary klucz=wartość oddzielone przecinkami, dodawane do każdego rekordu dziennika (np. deployment.environment=production,service.namespace=home).",
           "token_type": "Schemat uwierzytelniania: Bearer wysyła token bez zmian; Basic koduje go w base64 jako 'użytkownik:hasło'.",
           "token": "Opcjonalny token. Wysyłany w nagłówku 'Authorization'.",
-          "headers": "Opcjonalne dodatkowe nagłówki HTTP w formacie 'Nazwa: wartość', jeden w wierszu lub oddzielone przecinkami (np. stream-name: my-stream).",
+          "headers": "Opcjonalne dodatkowe nagłówki HTTP w formacie 'Nazwa: wartość' (np. stream-name: my-stream). Wprowadź jeden nagłówek na wpis.",
           "path": "Ścieżka dołączana do host:port dla punktu końcowego dzienników (domyślnie: /v1/logs). Poprzedź dowolną ścieżką specyficzną dla API (np. /api/otlp/v1/logs)."
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
           "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
-          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant, jedna w wierszu lub oddzielone przecinkami (np. zha_event).",
+          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
           "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
           "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
           "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "Nie można połączyć się z punktem końcowym. Sprawdź host, port i ustawienia TLS.",
       "invalid_attributes": "Nieprawidłowy format. Użyj par klucz=wartość oddzielonych przecinkami (np. env=prod,region=pl).",
-      "invalid_headers": "Nieprawidłowy format. Użyj jednego nagłówka 'Nazwa: wartość' w wierszu.",
+      "invalid_headers": "Nieprawidłowy format. Każdy wpis musi mieć format 'Nazwa: wartość' (np. stream-name: my-stream).",
       "invalid_auth": "Uwierzytelnianie nie powiodło się. Sprawdź token bearer.",
       "state_changes_exclusive": "Wybierz tylko jedną opcję zmian stanu.",
       "unknown": "Wystąpił nieoczekiwany błąd."
@@ -130,7 +130,7 @@
           "resource_attributes": "Opcjonalne pary klucz=wartość oddzielone przecinkami, dodawane do każdego rekordu dziennika (np. deployment.environment=production,service.namespace=home).",
           "token_type": "Schemat uwierzytelniania: Bearer wysyła token bez zmian; Basic koduje go w base64 jako 'użytkownik:hasło'.",
           "token": "Opcjonalny token. Wysyłany w nagłówku 'Authorization'.",
-          "headers": "Opcjonalne dodatkowe nagłówki HTTP w formacie 'Nazwa: wartość', jeden w wierszu lub oddzielone przecinkami (np. stream-name: my-stream).",
+          "headers": "Opcjonalne dodatkowe nagłówki HTTP w formacie 'Nazwa: wartość' (np. stream-name: my-stream). Wprowadź jeden nagłówek na wpis.",
           "path": "Ścieżka dołączana do host:port dla punktu końcowego dzienników (domyślnie: /v1/logs). Poprzedź dowolną ścieżką specyficzną dla API (np. /api/otlp/v1/logs)."
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
           "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
-          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant, jedna w wierszu lub oddzielone przecinkami (np. zha_event).",
+          "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
           "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
           "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
           "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika",

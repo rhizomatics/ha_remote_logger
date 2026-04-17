@@ -33,7 +33,7 @@
           "resource_attributes": "Optionele door komma's gescheiden sleutel=waarde-paren die aan elk logrecord worden toegevoegd (bijv. deployment.environment=production,service.namespace=home).",
           "token_type": "Verificatieschema: Bearer stuurt het token ongewijzigd; Basic codeert het als 'gebruiker:wachtwoord' in base64.",
           "token": "Optioneel token. Verstuurd in de 'Authorization'-header.",
-          "headers": "Optionele extra HTTP-headers in het formaat 'Naam: waarde', één per regel of kommagescheiden (bijv. stream-name: my-stream).",
+          "headers": "Optionele extra HTTP-headers in het formaat 'Naam: waarde' (bijv. stream-name: my-stream). Voer één header per invoer in.",
           "path": "Pad dat wordt toegevoegd aan host:poort voor het logboekeindpunt (standaard: /v1/logs). Voeg een API-specifiek pad toe als voorvoegsel (bijv. /api/otlp/v1/logs)."
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Abonneren op homeassistant_start, homeassistant_started en homeassistant_stop.",
           "log_ha_core_changes": "Abonneren op component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated en user_removed.",
-          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen, één per regel of kommagescheiden (bijv. zha_event).",
+          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
           "log_ha_core_activity": "Kernactiviteit van Home Assistant, inclusief serviceaanroepen, automatiserings- en scriptuitvoering.",
           "log_ha_state_changes": "Statuswijzigingen van Home Assistant (zonder attributen of context) en logboekitems",
           "log_ha_full_state_changes": "Statuswijzigingen van Home Assistant (volledige gebeurtenis) en logboekitems",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "Kan geen verbinding maken met het eindpunt. Controleer de host, poort en TLS-instellingen.",
       "invalid_attributes": "Ongeldig formaat. Gebruik door komma's gescheiden sleutel=waarde-paren (bijv. env=prod,region=nl).",
-      "invalid_headers": "Ongeldig formaat. Gebruik één 'Naam: waarde'-header per regel.",
+      "invalid_headers": "Ongeldig formaat. Elke invoer moet het formaat 'Naam: waarde' hebben (bijv. stream-name: my-stream).",
       "invalid_auth": "Verificatie mislukt. Controleer het bearer-token.",
       "state_changes_exclusive": "Selecteer slechts één optie voor statuswijzigingen.",
       "unknown": "Er is een onverwachte fout opgetreden."
@@ -130,7 +130,7 @@
           "resource_attributes": "Optionele door komma's gescheiden sleutel=waarde-paren die aan elk logrecord worden toegevoegd (bijv. deployment.environment=production,service.namespace=home).",
           "token_type": "Verificatieschema: Bearer stuurt het token ongewijzigd; Basic codeert het als 'gebruiker:wachtwoord' in base64.",
           "token": "Optioneel token. Verstuurd in de 'Authorization'-header.",
-          "headers": "Optionele extra HTTP-headers in het formaat 'Naam: waarde', één per regel of kommagescheiden (bijv. stream-name: my-stream).",
+          "headers": "Optionele extra HTTP-headers in het formaat 'Naam: waarde' (bijv. stream-name: my-stream). Voer één header per invoer in.",
           "path": "Pad dat wordt toegevoegd aan host:poort voor het logboekeindpunt (standaard: /v1/logs). Voeg een API-specifiek pad toe als voorvoegsel (bijv. /api/otlp/v1/logs)."
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Abonneren op homeassistant_start, homeassistant_started en homeassistant_stop.",
           "log_ha_core_changes": "Abonneren op component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated en user_removed.",
-          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen, één per regel of kommagescheiden (bijv. zha_event).",
+          "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
           "log_ha_core_activity": "Kernactiviteit van Home Assistant, inclusief serviceaanroepen, automatiserings- en scriptuitvoering.",
           "log_ha_state_changes": "Statuswijzigingen van Home Assistant (zonder attributen of context) en logboekitems",
           "log_ha_full_state_changes": "Statuswijzigingen van Home Assistant (volledige gebeurtenis) en logboekitems",

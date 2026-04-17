@@ -33,7 +33,7 @@
           "resource_attributes": "Coppie chiave=valore separate da virgola aggiunte a ogni record di log (es. deployment.environment=production,service.namespace=home).",
           "token_type": "Schema di autenticazione: Bearer invia il token così com'è; Basic lo codifica in base64 come 'utente:password'.",
           "token": "Token opzionale. Inviato nell'intestazione 'Authorization'.",
-          "headers": "Intestazioni HTTP aggiuntive opzionali nel formato 'Nome: valore', una per riga o separate da virgole (es. stream-name: mio-stream).",
+          "headers": "Intestazioni HTTP aggiuntive opzionali nel formato 'Nome: valore' (es. stream-name: mio-stream). Inserire una intestazione per voce.",
           "path": "Percorso aggiunto a host:porta per l'endpoint dei log (predefinito: /v1/logs). Prefissare con qualsiasi percorso specifico dell'API (es. /api/otlp/v1/logs)."
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "Si iscrive agli eventi homeassistant_start, homeassistant_started e homeassistant_stop.",
           "log_ha_core_changes": "Si iscrive agli eventi component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
-          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi, uno per riga o separati da virgole (es. zha_event).",
+          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi (es. zha_event). Inserire un nome di evento per voce.",
           "log_ha_core_activity": "Attività del core di Home Assistant, incluse le chiamate di servizio, l'esecuzione di automazioni e script.",
           "log_ha_state_changes": "Cambiamenti di stato di Home Assistant (senza attributi o contesto) e voci del diario",
           "log_ha_full_state_changes": "Cambiamenti di stato di Home Assistant (evento completo) e voci del diario",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "Impossibile connettersi all'endpoint. Verifica host, porta e impostazioni TLS.",
       "invalid_attributes": "Formato non valido. Usa coppie chiave=valore separate da virgola (es. env=prod,region=it).",
-      "invalid_headers": "Formato non valido. Usa un'intestazione 'Nome: valore' per riga.",
+      "invalid_headers": "Formato non valido. Ogni voce deve essere nel formato 'Nome: valore' (es. stream-name: mio-stream).",
       "invalid_auth": "Autenticazione fallita. Controlla il token bearer.",
       "state_changes_exclusive": "Seleziona solo un'opzione di cambio stato.",
       "unknown": "Si è verificato un errore imprevisto."
@@ -130,7 +130,7 @@
           "resource_attributes": "Coppie chiave=valore separate da virgola aggiunte a ogni record di log (es. deployment.environment=production,service.namespace=home).",
           "token_type": "Schema di autenticazione: Bearer invia il token così com'è; Basic lo codifica in base64 come 'utente:password'.",
           "token": "Token opzionale. Inviato nell'intestazione 'Authorization'.",
-          "headers": "Intestazioni HTTP aggiuntive opzionali nel formato 'Nome: valore', una per riga o separate da virgole (es. stream-name: mio-stream).",
+          "headers": "Intestazioni HTTP aggiuntive opzionali nel formato 'Nome: valore' (es. stream-name: mio-stream). Inserire una intestazione per voce.",
           "path": "Percorso aggiunto a host:porta per l'endpoint dei log (predefinito: /v1/logs). Prefissare con qualsiasi percorso specifico dell'API (es. /api/otlp/v1/logs)."
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "Si iscrive agli eventi homeassistant_start, homeassistant_started e homeassistant_stop.",
           "log_ha_core_changes": "Si iscrive agli eventi component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated e user_removed.",
-          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi, uno per riga o separati da virgole (es. zha_event).",
+          "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi (es. zha_event). Inserire un nome di evento per voce.",
           "log_ha_core_activity": "Attività del core di Home Assistant, incluse le chiamate di servizio, l'esecuzione di automazioni e script.",
           "log_ha_state_changes": "Cambiamenti di stato di Home Assistant (senza attributi o contesto) e voci del diario",
           "log_ha_full_state_changes": "Cambiamenti di stato di Home Assistant (evento completo) e voci del diario",

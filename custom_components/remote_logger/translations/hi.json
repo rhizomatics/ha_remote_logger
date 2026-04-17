@@ -33,7 +33,7 @@
           "resource_attributes": "प्रत्येक लॉग रिकॉर्ड में जोड़े जाने वाले वैकल्पिक कॉमा-सेपरेटेड key=value जोड़े (उदा. deployment.environment=production,service.namespace=home)।",
           "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है।",
           "token": "वैकल्पिक टोकन। 'Authorization' हेडर में भेजा जाता है।",
-          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर 'Name: value' फॉर्मेट में, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. stream-name: my-stream)।",
+          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर 'Name: value' फॉर्मेट में (उदा. stream-name: my-stream)। प्रति प्रविष्टि एक हेडर दर्ज करें।",
           "path": "लॉग एंडपॉइंट के लिए host:port में जोड़ा जाने वाला पाथ (डिफ़ॉल्ट: /v1/logs)। किसी भी API-विशिष्ट पाथ से प्रीफिक्स करें (उदा. /api/otlp/v1/logs)।"
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
           "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
-          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. zha_event)।",
+          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची (उदा. zha_event)। प्रति प्रविष्टि एक इवेंट नाम दर्ज करें।",
           "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
           "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
           "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "एंडपॉइंट से कनेक्ट नहीं हो सका। होस्ट, पोर्ट और TLS सेटिंग्स जाँचें।",
       "invalid_attributes": "अमान्य फॉर्मेट। कॉमा-सेपरेटेड key=value जोड़े उपयोग करें (उदा. env=prod,region=in)।",
-      "invalid_headers": "अमान्य फॉर्मेट। प्रति पंक्ति एक 'Name: value' हेडर उपयोग करें।",
+      "invalid_headers": "अमान्य फॉर्मेट। प्रत्येक प्रविष्टि 'Name: value' फॉर्मेट में होनी चाहिए (उदा. stream-name: my-stream)।",
       "invalid_auth": "प्रमाणीकरण विफल। Bearer टोकन जाँचें।",
       "state_changes_exclusive": "केवल एक स्थिति परिवर्तन विकल्प चुनें।",
       "unknown": "एक अप्रत्याशित त्रुटि उत्पन्न हुई।"
@@ -130,7 +130,7 @@
           "resource_attributes": "प्रत्येक लॉग रिकॉर्ड में जोड़े जाने वाले वैकल्पिक कॉमा-सेपरेटेड key=value जोड़े (उदा. deployment.environment=production,service.namespace=home)।",
           "token_type": "प्रमाणीकरण योजना: Bearer टोकन को यथावत भेजता है; Basic इसे 'उपयोगकर्ता:पासवर्ड' के रूप में base64 में एन्कोड करता है।",
           "token": "वैकल्पिक टोकन। 'Authorization' हेडर में भेजा जाता है।",
-          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर 'Name: value' फॉर्मेट में, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. stream-name: my-stream)।",
+          "headers": "वैकल्पिक अतिरिक्त HTTP हेडर 'Name: value' फॉर्मेट में (उदा. stream-name: my-stream)। प्रति प्रविष्टि एक हेडर दर्ज करें।",
           "path": "लॉग एंडपॉइंट के लिए host:port में जोड़ा जाने वाला पाथ (डिफ़ॉल्ट: /v1/logs)। किसी भी API-विशिष्ट पाथ से प्रीफिक्स करें (उदा. /api/otlp/v1/logs)।"
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
           "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
-          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची, प्रति पंक्ति एक या अल्पविराम से अलग (उदा. zha_event)।",
+          "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची (उदा. zha_event)। प्रति प्रविष्टि एक इवेंट नाम दर्ज करें।",
           "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
           "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
           "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",

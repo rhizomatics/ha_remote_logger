@@ -65,7 +65,7 @@ OTEL_DATA_SCHEMA = vol.Schema({
     vol.Optional(CONF_TOKEN, default=""): selector.TextSelector(
         selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD)
     ),
-    vol.Optional(CONF_HEADERS, default=""): selector.TextSelector(selector.TextSelectorConfig(multiline=True)),
+    vol.Optional(CONF_HEADERS, default=[]): selector.TextSelector(selector.TextSelectorConfig(multiple=True)),
     vol.Optional(CONF_PATH, default=OTLP_LOGS_PATH): str,
     vol.Optional(CONF_CLIENT_TIMEOUT, default=DEFAULT_CLIENT_TIMEOUT): vol.All(int, vol.Range(min=1, max=300)),
 })

@@ -33,7 +33,7 @@
           "resource_attributes": "Optionale kommagetrennte Schlüssel=Wert-Paare, die jedem Protokolleintrag hinzugefügt werden (z. B. deployment.environment=production,service.namespace=home).",
           "token_type": "Authentifizierungsschema: Bearer sendet das Token unverändert; Basic kodiert es als 'Benutzername:Passwort' in Base64.",
           "token": "Optionales Token. Wird im Authorization-Header gesendet.",
-          "headers": "Optionale zusätzliche HTTP-Header im Format 'Name: Wert', einer pro Zeile oder kommagetrennt (z. B. stream-name: mein-stream).",
+          "headers": "Optionale zusätzliche HTTP-Header im Format 'Name: Wert' (z. B. stream-name: mein-stream). Einen Header pro Eintrag eingeben.",
           "path": "Pfad, der an Host:Port für den Protokoll-Endpunkt angehängt wird (Standard: /v1/logs)."
         }
       },
@@ -88,14 +88,14 @@
           "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
           "log_ha_full_state_changes": "Home Assistant-Zustandsänderungen (vollständiges Ereignis) und Logbucheinträge.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
-          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile oder kommagetrennt (z. B. zha_event)."
+          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen (z. B. zha_event). Einen Ereignisnamen pro Eintrag eingeben."
         }
       }
     },
     "error": {
       "cannot_connect": "Verbindung zum Endpunkt nicht möglich. Host, Port und TLS-Einstellungen prüfen.",
       "invalid_attributes": "Ungültiges Format. Kommagetrennte Schlüssel=Wert-Paare verwenden (z. B. env=prod,region=de).",
-      "invalid_headers": "Ungültiges Format. Einen Header pro Zeile im Format 'Name: Wert' verwenden.",
+      "invalid_headers": "Ungültiges Format. Jeder Eintrag muss das Format 'Name: Wert' haben (z. B. stream-name: mein-stream).",
       "invalid_auth": "Authentifizierung fehlgeschlagen. Bearer-Token prüfen.",
       "state_changes_exclusive": "Nur eine Zustandsänderungs-Option auswählen.",
       "unknown": "Ein unerwarteter Fehler ist aufgetreten."
@@ -130,7 +130,7 @@
           "resource_attributes": "Optionale kommagetrennte Schlüssel=Wert-Paare, die jedem Protokolleintrag hinzugefügt werden (z. B. deployment.environment=production,service.namespace=home).",
           "token_type": "Authentifizierungsschema: Bearer sendet das Token unverändert; Basic kodiert es als 'Benutzername:Passwort' in Base64.",
           "token": "Optionales Token. Wird im Authorization-Header gesendet.",
-          "headers": "Optionale zusätzliche HTTP-Header im Format 'Name: Wert', einer pro Zeile oder kommagetrennt (z. B. stream-name: mein-stream).",
+          "headers": "Optionale zusätzliche HTTP-Header im Format 'Name: Wert' (z. B. stream-name: mein-stream). Einen Header pro Eintrag eingeben.",
           "path": "Pfad, der an Host:Port für den Protokoll-Endpunkt angehängt wird (Standard: /v1/logs)."
         }
       },
@@ -173,7 +173,7 @@
           "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
           "log_ha_full_state_changes": "Home Assistant-Zustandsänderungen (vollständiges Ereignis) und Logbucheinträge.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
-          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen, einen pro Zeile oder kommagetrennt (z. B. zha_event)."
+          "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen (z. B. zha_event). Einen Ereignisnamen pro Eintrag eingeben."
         }
       }
     }

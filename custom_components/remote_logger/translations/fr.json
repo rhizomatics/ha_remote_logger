@@ -33,7 +33,7 @@
           "resource_attributes": "Paires clé=valeur séparées par des virgules ajoutées à chaque entrée de journal (ex. deployment.environment=production,service.namespace=home).",
           "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'.",
           "token": "Jeton optionnel. Envoyé dans l'en-tête 'Authorization'.",
-          "headers": "En-têtes HTTP supplémentaires optionnels au format 'Nom: valeur', un par ligne ou séparés par des virgules (ex. stream-name: mon-stream).",
+          "headers": "En-têtes HTTP supplémentaires optionnels au format 'Nom: valeur' (ex. stream-name: mon-stream). Saisir un en-tête par entrée.",
           "path": "Chemin ajouté à hôte:port pour le point de terminaison des journaux (par défaut : /v1/logs). Préfixer avec tout chemin spécifique à l'API (ex. /api/otlp/v1/logs)."
         }
       },
@@ -84,7 +84,7 @@
         "data_description": {
           "log_ha_lifecycle": "S'abonne aux événements homeassistant_start, homeassistant_started et homeassistant_stop.",
           "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
-          "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires, un par ligne ou séparés par des virgules (ex. zha_event).",
+          "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires (ex. zha_event). Saisir un nom d'événement par entrée.",
           "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
           "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
           "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal",
@@ -95,7 +95,7 @@
     "error": {
       "cannot_connect": "Impossible de se connecter au point de terminaison. Vérifiez l'hôte, le port et les paramètres TLS.",
       "invalid_attributes": "Format invalide. Utilisez des paires clé=valeur séparées par des virgules (ex. env=prod,region=fr).",
-      "invalid_headers": "Format invalide. Utilisez un en-tête 'Nom: valeur' par ligne.",
+      "invalid_headers": "Format invalide. Chaque entrée doit être au format 'Nom: valeur' (ex. stream-name: mon-stream).",
       "invalid_auth": "Authentification échouée. Vérifiez le jeton bearer.",
       "state_changes_exclusive": "Sélectionnez une seule option de changement d'état.",
       "unknown": "Une erreur inattendue s'est produite."
@@ -130,7 +130,7 @@
           "resource_attributes": "Paires clé=valeur séparées par des virgules ajoutées à chaque entrée de journal (ex. deployment.environment=production,service.namespace=home).",
           "token_type": "Schéma d'authentification : Bearer envoie le jeton tel quel ; Basic l'encode en base64 comme 'utilisateur:motdepasse'.",
           "token": "Jeton optionnel. Envoyé dans l'en-tête 'Authorization'.",
-          "headers": "En-têtes HTTP supplémentaires optionnels au format 'Nom: valeur', un par ligne ou séparés par des virgules (ex. stream-name: mon-stream).",
+          "headers": "En-têtes HTTP supplémentaires optionnels au format 'Nom: valeur' (ex. stream-name: mon-stream). Saisir un en-tête par entrée.",
           "path": "Chemin ajouté à hôte:port pour le point de terminaison des journaux (par défaut : /v1/logs). Préfixer avec tout chemin spécifique à l'API (ex. /api/otlp/v1/logs)."
         }
       },
@@ -169,7 +169,7 @@
         "data_description": {
           "log_ha_lifecycle": "S'abonne aux événements homeassistant_start, homeassistant_started et homeassistant_stop.",
           "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
-          "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires, un par ligne ou séparés par des virgules (ex. zha_event).",
+          "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires (ex. zha_event). Saisir un nom d'événement par entrée.",
           "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
           "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
           "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal",

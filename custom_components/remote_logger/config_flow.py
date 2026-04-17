@@ -43,7 +43,7 @@ COMMON_DATA_SCHEMA = vol.Schema({
     vol.Optional(CONF_LOG_HA_STATE_CHANGES, default=False): selector.BooleanSelector(),
     vol.Optional(CONF_LOG_HA_FULL_STATE_CHANGES, default=False): selector.BooleanSelector(),
     vol.Optional(CONF_LOG_HA_EVENT_BODY, default=True): selector.BooleanSelector(),
-    vol.Optional(CONF_CUSTOM_EVENTS, default=""): selector.TextSelector(selector.TextSelectorConfig(multiline=True)),
+    vol.Optional(CONF_CUSTOM_EVENTS, default=[]): selector.TextSelector(selector.TextSelectorConfig(multiple=True)),
 })
 
 
@@ -96,7 +96,7 @@ class OtelLogsConfigFlow(ConfigFlow, domain=DOMAIN):
                     _LOGGER.warning("remote_logger: token configured without TLS; token will be sent in plain text")
                 token_type = user_input.get(CONF_TOKEN_TYPE, TOKEN_TYPE_BEARER)
                 extra_headers["Authorization"] = build_auth_header(token, token_type)
-            raw_headers = user_input.get(CONF_HEADERS, "").strip()
+            raw_headers = "\n".join(user_input.get(CONF_HEADERS, []))
             if raw_headers:
                 try:
                     extra_headers.update(parse_headers(raw_headers))
@@ -144,7 +144,7 @@ class OtelLogsConfigFlow(ConfigFlow, domain=DOMAIN):
             if token:
                 token_type = user_input.get(CONF_TOKEN_TYPE, TOKEN_TYPE_BEARER)
                 extra_headers["Authorization"] = build_auth_header(token, token_type)
-            raw_headers = reauth_entry.data.get(CONF_HEADERS, "").strip()
+            raw_headers = "\n".join(reauth_entry.data.get(CONF_HEADERS, []))
             if raw_headers:
                 extra_headers.update(parse_headers(raw_headers))
 
@@ -249,7 +249,7 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
             if token:
                 token_type = user_input.get(CONF_TOKEN_TYPE, TOKEN_TYPE_BEARER)
                 extra_headers["Authorization"] = build_auth_header(token, token_type)
-            raw_headers = user_input.get(CONF_HEADERS, "").strip()
+            raw_headers = "\n".join(user_input.get(CONF_HEADERS, []))
             if raw_headers:
                 try:
                     extra_headers.update(parse_headers(raw_headers))
@@ -320,7 +320,7 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
             CONF_LOG_HA_STATE_CHANGES: merged.get(CONF_LOG_HA_STATE_CHANGES, False),
             CONF_LOG_HA_FULL_STATE_CHANGES: merged.get(CONF_LOG_HA_FULL_STATE_CHANGES, False),
             CONF_LOG_HA_EVENT_BODY: merged.get(CONF_LOG_HA_EVENT_BODY, False),
-            CONF_CUSTOM_EVENTS: merged.get(CONF_CUSTOM_EVENTS, ""),
+            CONF_CUSTOM_EVENTS: merged.get(CONF_CUSTOM_EVENTS, []),
         }
         return self.async_show_form(
             step_id="events",

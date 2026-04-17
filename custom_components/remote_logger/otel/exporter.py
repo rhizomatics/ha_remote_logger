@@ -298,7 +298,7 @@ class OtlpLogExporter(LogExporter):
         if token:
             token_type = opts.get(CONF_TOKEN_TYPE, TOKEN_TYPE_BEARER)
             headers["Authorization"] = build_auth_header(token, token_type)
-        raw_headers = opts.get(CONF_HEADERS, "").strip()
+        raw_headers = "\n".join(opts.get(CONF_HEADERS, []))
         if raw_headers:
             headers.update(parse_headers(raw_headers))
         return headers

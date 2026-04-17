@@ -7,8 +7,6 @@ import contextlib
 from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
-
 from custom_components.remote_logger import async_setup_entry, async_unload_entry
 from custom_components.remote_logger.const import (
     CONF_CUSTOM_EVENTS,
@@ -78,13 +76,8 @@ class TestAsyncSetupEntry:
         with contextlib.suppress(asyncio.CancelledError):
             await entry_data["flush_task"]
 
-    @pytest.mark.parametrize(
-        "custom_events_value", ["my_event\nanother_event\n", "my_event,another_event", "my_event, another_event"]
-    )
-    async def test_custom_events_registered(
-        self, hass: HomeAssistant, mock_entry_otel: MagicMock, custom_events_value: str
-    ) -> None:
-        mock_entry_otel.data = {**mock_entry_otel.data, CONF_CUSTOM_EVENTS: custom_events_value}
+    async def test_custom_events_registered(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+        mock_entry_otel.data = {**mock_entry_otel.data, CONF_CUSTOM_EVENTS: ["my_event", "another_event"]}
         with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
             await async_setup_entry(hass, mock_entry_otel)
 

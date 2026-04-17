@@ -72,7 +72,7 @@ class TestOtelConfigFlow:
         assert result["step_id"] == "common"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": ""},
+            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": []},
         )
         assert result["type"] == FlowResultType.CREATE_ENTRY
         assert result["title"] == "OTLP @ localhost:4318"
@@ -123,7 +123,7 @@ class TestOtelConfigFlow:
         assert result["step_id"] == "common"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": ""},
+            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": []},
         )
         assert result["type"] == FlowResultType.CREATE_ENTRY
         assert result["data"]["token_type"] == "basic"  # noqa: S105
@@ -181,7 +181,7 @@ class TestSyslogConfigFlow:
         assert result["step_id"] == "common"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": ""},
+            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": []},
         )
         assert result["type"] == FlowResultType.CREATE_ENTRY
         assert "Syslog @" in result["title"]
@@ -225,7 +225,7 @@ class TestOptionsFlow:
             "resource_attributes": "",
             CONF_LOG_HA_LIFECYCLE: False,
             CONF_LOG_HA_CORE_CHANGES: False,
-            CONF_CUSTOM_EVENTS: "",
+            CONF_CUSTOM_EVENTS: [],
             **(extra or {}),
         }
         entry.options = {}
@@ -264,19 +264,19 @@ class TestOptionsFlow:
         result = await flow.async_step_events({
             CONF_LOG_HA_LIFECYCLE: True,
             CONF_LOG_HA_CORE_CHANGES: False,
-            CONF_CUSTOM_EVENTS: "my_event",
+            CONF_CUSTOM_EVENTS: ["my_event"],
         })
         assert result["type"] == FlowResultType.CREATE_ENTRY  # pyright: ignore[reportTypedDictNotRequiredAccess]
         assert result["data"][CONF_HOST] == "newhost"  # pyright: ignore[reportTypedDictNotRequiredAccess]
         assert result["data"][CONF_LOG_HA_LIFECYCLE] is True  # pyright: ignore[reportTypedDictNotRequiredAccess]
-        assert result["data"][CONF_CUSTOM_EVENTS] == "my_event"  # pyright: ignore[reportTypedDictNotRequiredAccess]
+        assert result["data"][CONF_CUSTOM_EVENTS] == ["my_event"]  # pyright: ignore[reportTypedDictNotRequiredAccess]
 
     async def test_options_flow_prefers_existing_options(self, hass: HomeAssistant) -> None:
         from custom_components.remote_logger.config_flow import RemoteLoggerOptionsFlow
 
         entry: ConfigEntry[Any] = self._make_otel_entry()
         entry.options[CONF_LOG_HA_LIFECYCLE] = True  # type: ignore
-        entry.options[CONF_CUSTOM_EVENTS] = "zha_event"  # type: ignore
+        entry.options[CONF_CUSTOM_EVENTS] = ["zha_event"]  # type: ignore
         flow = RemoteLoggerOptionsFlow(entry)
         flow.hass = hass
         result = await flow.async_step_init(None)
@@ -297,7 +297,7 @@ class TestOptionsFlow:
             "facility": "local0",
             CONF_LOG_HA_LIFECYCLE: False,
             CONF_LOG_HA_CORE_CHANGES: False,
-            CONF_CUSTOM_EVENTS: "",
+            CONF_CUSTOM_EVENTS: [],
         }
         entry.options = {}
         return entry
@@ -334,7 +334,7 @@ class TestOptionsFlow:
         result = await flow.async_step_events({
             CONF_LOG_HA_LIFECYCLE: False,
             CONF_LOG_HA_CORE_CHANGES: False,
-            CONF_CUSTOM_EVENTS: "",
+            CONF_CUSTOM_EVENTS: [],
         })
         assert result["type"] == FlowResultType.CREATE_ENTRY  # pyright: ignore[reportTypedDictNotRequiredAccess]
         assert result["data"][CONF_HOST] == "newhost"  # pyright: ignore[reportTypedDictNotRequiredAccess]
