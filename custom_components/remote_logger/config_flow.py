@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 
 import voluptuous as vol
@@ -35,6 +36,16 @@ from .syslog.const import SYSLOG_DATA_SCHEMA
 from .syslog.exporter import validate as syslog_validate
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def _to_list(value: Any) -> list[str]:
+    """Coerce a stored string (comma/newline-separated) or list to a list of strings."""
+    if isinstance(value, list):
+        return value
+    if not value:
+        return []
+    return [v.strip() for v in re.split(r"[\n,]+", str(value)) if v.strip()]
+
 
 COMMON_DATA_SCHEMA = vol.Schema({
     vol.Optional(CONF_LOG_HA_LIFECYCLE, default=False): selector.BooleanSelector(),
@@ -272,9 +283,10 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
                 self._pending_options = user_input
                 return await self.async_step_events()
 
+        suggested = user_input or {**merged, CONF_HEADERS: _to_list(merged.get(CONF_HEADERS, []))}
         return self.async_show_form(
             step_id="otel",
-            data_schema=self.add_suggested_values_to_schema(OTEL_DATA_SCHEMA, user_input or merged),
+            data_schema=self.add_suggested_values_to_schema(OTEL_DATA_SCHEMA, suggested),
             errors=errors,
         )
 
@@ -320,7 +332,7 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
             CONF_LOG_HA_STATE_CHANGES: merged.get(CONF_LOG_HA_STATE_CHANGES, False),
             CONF_LOG_HA_FULL_STATE_CHANGES: merged.get(CONF_LOG_HA_FULL_STATE_CHANGES, False),
             CONF_LOG_HA_EVENT_BODY: merged.get(CONF_LOG_HA_EVENT_BODY, False),
-            CONF_CUSTOM_EVENTS: merged.get(CONF_CUSTOM_EVENTS, []),
+            CONF_CUSTOM_EVENTS: _to_list(merged.get(CONF_CUSTOM_EVENTS, [])),
         }
         return self.async_show_form(
             step_id="events",
