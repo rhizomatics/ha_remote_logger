@@ -317,9 +317,9 @@ async def validate(hass: Any, host: str, port: int, protocol: str, use_tls: bool
             writer.close()
             await writer.wait_closed()
     except (OSError, TimeoutError, ConnectionRefusedError) as err:
-        _LOGGER.error("Syslog connect failed: %s", err)
+        _LOGGER.error("remote_logger: Syslog connect failed: %s", err)
         return "cannot_connect"
     except Exception as err:
-        _LOGGER.error("Syslog connect unknown error: %s", err)
+        _LOGGER.error("remote_logger: Syslog connect unknown error: %s", err)
         return "unknown"
     return None

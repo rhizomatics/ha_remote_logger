@@ -130,11 +130,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         )
         _LOGGER.info("remote_logger: listening for HA core activity")
 
-    cancel_listeners.extend(
-        hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body))
-        for et in opts.get(CONF_CUSTOM_EVENTS, [])
-        if et.strip()
-    )
+    for et in opts.get(CONF_CUSTOM_EVENTS, []):
+        if et.strip():
+            cancel_listeners.append(hass.bus.async_listen(et, partial(exporter.handle_ha_event, et, event_body=event_body)))
+            _LOGGER.info("remote_logger: Subscribed to custom event %s", et)
 
     flush_task: asyncio.Task[None] = asyncio.create_task(exporter.flush_loop())
 
@@ -210,7 +209,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         try:
             cancel()
         except Exception as e:
-            _LOGGER.warning("Failed to cancel listener on unload: %s", e)
+            _LOGGER.warning("remote_logger: Failed to cancel listener on unload: %s", e)
 
     if data.get(REF_FLUSH_TASK):
         data[REF_FLUSH_TASK].cancel()

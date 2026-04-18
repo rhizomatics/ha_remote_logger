@@ -167,19 +167,19 @@ async def validate(
         ) as resp:
             if resp.status >= 400 and resp.status < 500:
                 errors["base"] = "cannot_connect"
-                _LOGGER.error("OTEL-LOGS client connect failed (%s): %s", resp.status, await resp.text())
+                _LOGGER.error("remote_logger: client connect failed (%s): %s", resp.status, await resp.text())
             if resp.status >= 500:
                 errors["base"] = "cannot_connect"
-                _LOGGER.error("OTEL-LOGS server connect failed (%s): %s", resp.status, await resp.text())
+                _LOGGER.error("remote_logger: server connect failed (%s): %s", resp.status, await resp.text())
     except aiohttp.ClientResponseError as e1:
         errors["base"] = "cannot_connect"
-        _LOGGER.error("OTEL-LOGS connect client response error: %s", e1)
+        _LOGGER.error("remote_logger: connect client response error: %s", e1)
     except aiohttp.ClientError as e2:
         errors["base"] = "cannot_connect"
-        _LOGGER.error("OTEL-LOGS connect client error: %s", e2)
+        _LOGGER.error("remote_logger: connect client error: %s", e2)
     except Exception as e3:
         errors["base"] = "unknown"
-        _LOGGER.error("OTEL-LOGS connect unknown error: %s", e3)
+        _LOGGER.error("remote_logger: connect unknown error: %s", e3)
     return errors
 
 
