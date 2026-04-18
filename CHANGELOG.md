@@ -1,3 +1,5 @@
+# 1.5.5
+- Logging improvements - log each custom event subscribed, and more consistency for log prefix
 # 1.5.4
 - Switch event names to multi value rather than multi-line and remove comma separation
 - Use multi-value also for custom header configuration
