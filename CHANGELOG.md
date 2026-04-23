@@ -1,4 +1,4 @@
-# 1.5.6
+# 1.6.0
 ## Home Assistant Event improvements
 - Corrected name of `repairs_issue_registry_updated`
 - Improved description of core changes and serializing JSON
