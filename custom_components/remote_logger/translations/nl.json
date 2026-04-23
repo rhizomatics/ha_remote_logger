@@ -75,12 +75,14 @@
         "data": {
           "log_ha_lifecycle": "Levenscyclusgebeurtenissen van Home Assistant",
           "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst",
+          "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Een of meer gebeurtenissen"
         },
         "data_description": {
           "log_ha_lifecycle": "Abonneren op homeassistant_start, homeassistant_started en homeassistant_stop.",
           "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
-          "log_ha_event_body": "Indien ingeschakeld worden de volledige gebeurtenisdata als JSON geserialiseerd in de logbodytekst. Alleen entity_id, domain en service worden als gestructureerde attributen bewaard."
+          "log_ha_event_body": "Indien ingeschakeld worden de volledige gebeurtenisdata als JSON geserialiseerd in de logbodytekst. Alleen entity_id, domain en service worden als gestructureerde attributen bewaard.",
+          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
         },
         "sections": {
           "ha_standard_events": {
@@ -169,12 +171,14 @@
         "data": {
           "log_ha_lifecycle": "Levenscyclusgebeurtenissen van Home Assistant",
           "custom_events": "Aangepaste gebeurtenisnamen",
-          "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst"
+          "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst",
+          "suppress_system_log_event_name": "Suppress system_log_event as event name"
         },
         "data_description": {
           "log_ha_lifecycle": "Abonneren op homeassistant_start, homeassistant_started en homeassistant_stop.",
           "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
-          "log_ha_event_body": "Indien ingeschakeld worden de volledige gebeurtenisdata als JSON geserialiseerd in de logbodytekst. Alleen entity_id, domain en service worden als gestructureerde attributen bewaard."
+          "log_ha_event_body": "Indien ingeschakeld worden de volledige gebeurtenisdata als JSON geserialiseerd in de logbodytekst. Alleen entity_id, domain en service worden als gestructureerde attributen bewaard.",
+          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
         },
         "sections": {
           "ha_standard_events": {

@@ -18,6 +18,7 @@ from custom_components.remote_logger.const import (
     CONF_BATCH_MAX_SIZE,
     CONF_CLIENT_TIMEOUT,
     CONF_FACILITY,
+    CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME,
     CONF_USE_TLS,
     DEFAULT_CLIENT_TIMEOUT,
     EVENT_SYSTEM_LOG,
@@ -80,6 +81,7 @@ class SyslogExporter(LogExporter):
         self._facility = SYSLOG_FACILITY_MAP.get(facility_name, 1)
         self._batch_max_size = opts.get(CONF_BATCH_MAX_SIZE, 10)
         self._client_timeout = opts.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
+        self._suppress_system_log_event_name = opts.get(CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME, True)
         self._hostname = "-"
 
         # TCP connection state (lazily created)
@@ -162,7 +164,11 @@ class SyslogExporter(LogExporter):
             exception = data.get("exception")
             if exception:
                 sd_params.append(f'exception.stacktrace="{data["exception"]}"')
-            msgid: str = "-"
+            if not self._suppress_system_log_event_name:
+                sd_params.append(f'eventName="{EVENT_SYSTEM_LOG}"')
+                msgid: str = EVENT_SYSTEM_LOG
+            else:
+                msgid = "-"
         else:
             sd_params.append(f"eventName={event.event_type}")
             # Use HA event type as MSGID for non-system-log events; "-" otherwise

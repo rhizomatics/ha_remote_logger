@@ -5,7 +5,7 @@
 - Automation and script events generate title now only with entity_id for clarity and consistency with other events
 - Tidied up ConfigFlow UI for Home Assistant standard events
 - Defined message titles for all the device/entity/label/floor etc registries
-
+- `system_log_event` is usually suppressed as an event name, since its noisy in a purely logging context. It can now optionally be emitted like any other event name, helpful if remote_logger being used more as a HA event store
 # 1.5.5
 - Logging improvements - log each custom event subscribed, and more consistency for log prefix
 # 1.5.4

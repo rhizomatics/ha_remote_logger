@@ -75,12 +75,14 @@
         "data": {
           "log_ha_lifecycle": "Zdarzenia cyklu życia Home Assistant",
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
+          "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Jedno lub więcej zdarzeń"
         },
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
           "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
-          "log_ha_event_body": "Po włączeniu pełne dane zdarzenia są serializowane jako JSON do treści dziennika. Jako atrybuty strukturalne zachowane są tylko entity_id, domain i service."
+          "log_ha_event_body": "Po włączeniu pełne dane zdarzenia są serializowane jako JSON do treści dziennika. Jako atrybuty strukturalne zachowane są tylko entity_id, domain i service.",
+          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
         },
         "sections": {
           "ha_standard_events": {
@@ -169,12 +171,14 @@
         "data": {
           "log_ha_lifecycle": "Zdarzenia cyklu życia Home Assistant",
           "custom_events": "Niestandardowe nazwy zdarzeń",
-          "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika"
+          "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
+          "suppress_system_log_event_name": "Suppress system_log_event as event name"
         },
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
           "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
-          "log_ha_event_body": "Po włączeniu pełne dane zdarzenia są serializowane jako JSON do treści dziennika. Jako atrybuty strukturalne zachowane są tylko entity_id, domain i service."
+          "log_ha_event_body": "Po włączeniu pełne dane zdarzenia są serializowane jako JSON do treści dziennika. Jako atrybuty strukturalne zachowane są tylko entity_id, domain i service.",
+          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
         },
         "sections": {
           "ha_standard_events": {

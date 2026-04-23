@@ -75,11 +75,13 @@
         "data": {
           "log_ha_lifecycle": "HA-Lebenszyklusereignisse",
           "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
+          "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Ein oder mehrere Ereignisse"
         },
         "data_description": {
           "log_ha_lifecycle": "Abonniert homeassistant_start, homeassistant_started und homeassistant_stop.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
+          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished.",
           "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen (z. B. zha_event). Einen Ereignisnamen pro Eintrag eingeben."
         },
         "sections": {
@@ -169,11 +171,13 @@
         "data": {
           "log_ha_lifecycle": "HA-Lebenszyklusereignisse",
           "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
+          "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Benutzerdefinierte Ereignisnamen"
         },
         "data_description": {
           "log_ha_lifecycle": "Abonniert homeassistant_start, homeassistant_started und homeassistant_stop.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
+          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished.",
           "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen (z. B. zha_event). Einen Ereignisnamen pro Eintrag eingeben."
         },
         "sections": {

@@ -20,6 +20,7 @@ from custom_components.remote_logger.const import (
     CONF_CLIENT_TIMEOUT,
     CONF_ENCODING,
     CONF_RESOURCE_ATTRIBUTES,
+    CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME,
     CONF_USE_TLS,
     DEFAULT_CLIENT_TIMEOUT,
     EVENT_SYSTEM_LOG,
@@ -286,6 +287,7 @@ class OtlpLogExporter(LogExporter):
         self._entry = entry
         self._batch_max_size = opts.get(CONF_BATCH_MAX_SIZE, 100)
         self._client_timeout = opts.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
+        self._suppress_system_log_event_name = opts.get(CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME, True)
         self._extra_headers = self._build_extra_headers(opts)
 
         self._resource = self._build_resource(opts)
@@ -384,7 +386,7 @@ class OtlpLogExporter(LogExporter):
             "body": {"stringValue": message},
             "attributes": attributes,
         }
-        if event.event_type != EVENT_SYSTEM_LOG:
+        if event.event_type != EVENT_SYSTEM_LOG or not self._suppress_system_log_event_name:
             payload["eventName"] = event.event_type
         return OtlpMessage(payload=payload)
 

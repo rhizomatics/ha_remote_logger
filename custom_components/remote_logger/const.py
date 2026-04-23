@@ -35,6 +35,7 @@ CONF_LOG_HA_CORE_ACTIVITY = "log_ha_core_activity"
 CONF_LOG_HA_STATE_CHANGES = "log_ha_state_changes"
 CONF_LOG_HA_FULL_STATE_CHANGES = "log_ha_full_state_changes"
 CONF_LOG_HA_EVENT_BODY = "log_ha_event_body"
+CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME = "suppress_system_log_event_name"
 
 # HA lifecycle event types (EVENT_HOMEASSISTANT_*)
 LIFECYCLE_EVENTS: list[str] = [
