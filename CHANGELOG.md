@@ -1,3 +1,11 @@
+# 1.5.6
+## Home Assistant Event improvements
+- Corrected name of `repairs_issue_registry_updated`
+- Improved description of core changes and serializing JSON
+- Automation and script events generate title now only with entity_id for clarity and consistency with other events
+- Tidied up ConfigFlow UI for Home Assistant standard events
+- Defined message titles for all the device/entity/label/floor etc registries
+
 # 1.5.5
 - Logging improvements - log each custom event subscribed, and more consistency for log prefix
 # 1.5.4

@@ -74,21 +74,30 @@
         "description": "可选择订阅系统日志消息以外的 Home Assistant 事件。",
         "data": {
           "log_ha_lifecycle": "Home Assistant 生命周期事件",
-          "log_ha_core_changes": "Home Assistant 核心变更事件",
-          "log_ha_core_activity": "Home Assistant 核心活动",
-          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）",
-          "log_ha_full_state_changes": "Home Assistant 状态变更",
           "log_ha_event_body": "将事件数据序列化到日志正文",
           "custom_events": "一个或多个事件"
         },
         "data_description": {
           "log_ha_lifecycle": "订阅 homeassistant_start、homeassistant_started 和 homeassistant_stop 事件。",
-          "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
           "custom_events": "可选的附加 Home Assistant 事件名称列表（例如 zha_event）。每个事件名称单独填写一项。",
-          "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
-          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
-          "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目",
           "log_ha_event_body": "启用后，完整的事件数据将以 JSON 格式序列化到日志正文中，仅保留 entity_id、domain 和 service 作为结构化属性。"
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Home Assistant 标准事件",
+            "data": {
+              "log_ha_core_changes": "Home Assistant 核心变更事件",
+              "log_ha_core_activity": "Home Assistant 核心活动",
+              "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）",
+              "log_ha_full_state_changes": "Home Assistant 状态变更"
+            },
+            "data_description": {
+              "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
+              "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
+              "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
+              "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目"
+            }
+          }
         }
       }
     },
@@ -159,21 +168,30 @@
         "description": "可选择订阅系统日志消息以外的 Home Assistant 事件。",
         "data": {
           "log_ha_lifecycle": "Home Assistant 生命周期事件",
-          "log_ha_core_changes": "Home Assistant 核心变更事件",
           "custom_events": "自定义事件名称",
-          "log_ha_core_activity": "Home Assistant 核心活动",
-          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）",
-          "log_ha_full_state_changes": "Home Assistant 状态变更",
           "log_ha_event_body": "将事件数据序列化到日志正文"
         },
         "data_description": {
           "log_ha_lifecycle": "订阅 homeassistant_start、homeassistant_started 和 homeassistant_stop 事件。",
-          "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
           "custom_events": "可选的附加 Home Assistant 事件名称列表（例如 zha_event）。每个事件名称单独填写一项。",
-          "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
-          "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
-          "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目",
           "log_ha_event_body": "启用后，完整的事件数据将以 JSON 格式序列化到日志正文中，仅保留 entity_id、domain 和 service 作为结构化属性。"
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Home Assistant 标准事件",
+            "data": {
+              "log_ha_core_changes": "Home Assistant 核心变更事件",
+              "log_ha_core_activity": "Home Assistant 核心活动",
+              "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）",
+              "log_ha_full_state_changes": "Home Assistant 状态变更"
+            },
+            "data_description": {
+              "log_ha_core_changes": "订阅 component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated 和 user_removed 事件。",
+              "log_ha_core_activity": "Home Assistant 核心活动，包括服务调用、自动化和脚本执行。",
+              "log_ha_state_changes": "Home Assistant 状态变更（不含属性和上下文）及日志本条目",
+              "log_ha_full_state_changes": "Home Assistant 状态变更（完整事件）及日志本条目"
+            }
+          }
         }
       }
     }

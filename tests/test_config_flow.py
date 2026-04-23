@@ -72,7 +72,16 @@ class TestOtelConfigFlow:
         assert result["step_id"] == "common"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": []},
+            {
+                "log_ha_lifecycle": False,
+                "ha_standard_events": {
+                    "log_ha_core_changes": False,
+                    "log_ha_core_activity": False,
+                    "log_ha_state_changes": False,
+                    "log_ha_full_state_changes": False,
+                },
+                "custom_events": [],
+            },
         )
         assert result["type"] == FlowResultType.CREATE_ENTRY
         assert result["title"] == "OTLP @ localhost:4318"
@@ -123,7 +132,16 @@ class TestOtelConfigFlow:
         assert result["step_id"] == "common"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": []},
+            {
+                "log_ha_lifecycle": False,
+                "ha_standard_events": {
+                    "log_ha_core_changes": False,
+                    "log_ha_core_activity": False,
+                    "log_ha_state_changes": False,
+                    "log_ha_full_state_changes": False,
+                },
+                "custom_events": [],
+            },
         )
         assert result["type"] == FlowResultType.CREATE_ENTRY
         assert result["data"]["token_type"] == "basic"  # noqa: S105
@@ -181,7 +199,16 @@ class TestSyslogConfigFlow:
         assert result["step_id"] == "common"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"log_ha_lifecycle": False, "log_ha_core_changes": False, "custom_events": []},
+            {
+                "log_ha_lifecycle": False,
+                "ha_standard_events": {
+                    "log_ha_core_changes": False,
+                    "log_ha_core_activity": False,
+                    "log_ha_state_changes": False,
+                    "log_ha_full_state_changes": False,
+                },
+                "custom_events": [],
+            },
         )
         assert result["type"] == FlowResultType.CREATE_ENTRY
         assert "Syslog @" in result["title"]

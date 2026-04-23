@@ -74,21 +74,30 @@
         "description": "सिस्टम लॉग संदेशों से परे Home Assistant इवेंट वैकल्पिक रूप से सब्सक्राइब करें।",
         "data": {
           "log_ha_lifecycle": "Home Assistant जीवनचक्र इवेंट",
-          "log_ha_core_changes": "Home Assistant कोर परिवर्तन इवेंट",
-          "log_ha_core_activity": "Home Assistant कोर गतिविधि",
-          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन, एट्रिब्यूट या संदर्भ के बिना",
-          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन",
           "log_ha_event_body": "इवेंट डेटा को लॉग बॉडी में सीरियलाइज़ करें",
           "custom_events": "एक या अधिक इवेंट"
         },
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
-          "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
           "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची (उदा. zha_event)। प्रति प्रविष्टि एक इवेंट नाम दर्ज करें।",
-          "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
-          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
-          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",
           "log_ha_event_body": "सक्षम होने पर, पूर्ण इवेंट डेटा को JSON के रूप में लॉग बॉडी में सीरियलाइज़ किया जाता है। केवल entity_id, domain और service को संरचित एट्रिब्यूट के रूप में रखा जाता है।"
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Home Assistant मानक घटनाएँ",
+            "data": {
+              "log_ha_core_changes": "Home Assistant कोर परिवर्तन इवेंट",
+              "log_ha_core_activity": "Home Assistant कोर गतिविधि",
+              "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन, एट्रिब्यूट या संदर्भ के बिना",
+              "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन"
+            },
+            "data_description": {
+              "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
+              "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
+              "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
+              "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ"
+            }
+          }
         }
       }
     },
@@ -159,21 +168,30 @@
         "description": "सिस्टम लॉग संदेशों से परे Home Assistant इवेंट वैकल्पिक रूप से सब्सक्राइब करें।",
         "data": {
           "log_ha_lifecycle": "Home Assistant जीवनचक्र इवेंट",
-          "log_ha_core_changes": "Home Assistant कोर परिवर्तन इवेंट",
           "custom_events": "कस्टम इवेंट नाम",
-          "log_ha_core_activity": "Home Assistant कोर गतिविधि",
-          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन, एट्रिब्यूट या संदर्भ के बिना",
-          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन",
           "log_ha_event_body": "इवेंट डेटा को लॉग बॉडी में सीरियलाइज़ करें"
         },
         "data_description": {
           "log_ha_lifecycle": "homeassistant_start, homeassistant_started और homeassistant_stop इवेंट सब्सक्राइब करें।",
-          "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
           "custom_events": "सब्सक्राइब करने के लिए अतिरिक्त Home Assistant इवेंट नामों की वैकल्पिक सूची (उदा. zha_event)। प्रति प्रविष्टि एक इवेंट नाम दर्ज करें।",
-          "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
-          "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
-          "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ",
           "log_ha_event_body": "सक्षम होने पर, पूर्ण इवेंट डेटा को JSON के रूप में लॉग बॉडी में सीरियलाइज़ किया जाता है। केवल entity_id, domain और service को संरचित एट्रिब्यूट के रूप में रखा जाता है।"
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Home Assistant मानक घटनाएँ",
+            "data": {
+              "log_ha_core_changes": "Home Assistant कोर परिवर्तन इवेंट",
+              "log_ha_core_activity": "Home Assistant कोर गतिविधि",
+              "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन, एट्रिब्यूट या संदर्भ के बिना",
+              "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन"
+            },
+            "data_description": {
+              "log_ha_core_changes": "component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated और user_removed इवेंट सब्सक्राइब करें।",
+              "log_ha_core_activity": "Home Assistant कोर गतिविधि, जिसमें सर्विस कॉल, ऑटोमेशन और स्क्रिप्ट निष्पादन शामिल हैं।",
+              "log_ha_state_changes": "Home Assistant स्थिति परिवर्तन (एट्रिब्यूट या संदर्भ के बिना) और लॉगबुक प्रविष्टियाँ",
+              "log_ha_full_state_changes": "Home Assistant स्थिति परिवर्तन (पूर्ण इवेंट) और लॉगबुक प्रविष्टियाँ"
+            }
+          }
         }
       }
     }

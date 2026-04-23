@@ -531,7 +531,6 @@ class TestOtlpLogExporter:
         event.data = {"name": "My Automation", "entity_id": "automation.my_automation"}
         exporter.handle_ha_event(EVENT_AUTOMATION_TRIGGERED, event)
         body = exporter._buffer[0].payload["body"]["stringValue"]
-        assert "My Automation" in body
         assert "automation.my_automation" in body
 
     def test_handle_ha_event_user_added_message(self, exporter: OtlpLogExporter) -> None:
@@ -545,7 +544,7 @@ class TestOtlpLogExporter:
         body = exporter._buffer[0].payload["body"]["stringValue"]
         assert "abc123" in body
 
-    def test_handle_ha_event_general_fields_message(self, exporter: OtlpLogExporter) -> None:
+    def test_handle_ha_event_title_fields_message(self, exporter: OtlpLogExporter) -> None:
         event = MagicMock()
         event.event_type = "custom_event"
         event.time_fired.timestamp.return_value = 1700000000.0

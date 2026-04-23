@@ -47,37 +47,41 @@ LIFECYCLE_EVENTS: list[str] = [
 
 # HA core change event types
 CORE_CHANGE_EVENTS: list[str] = [
+    "area_registry_updated",
+    "automation_reloaded",
+    "category_registry_updated",
     "component_loaded",
     "core_config_updated",
-    "service_registered",
-    "service_removed",
-    "automation_reloaded",
-    "lovelace_updated",
     "data_entry_flow_progressed",
-    "panels_updated",
-    "themes_updated",
-    "scene_reloaded",
-    "labs_updated",
-    "user_added",
-    "user_updated",
-    "user_removed",
     "device_registry_updated",
     "entity_registry_updated",
-    "area_registry_updated",
     "floor_registry_updated",
     "label_registry_updated",
-    "category_registry_updated",
-    "logging_changed",
     "labs_updated",
+    "logging_changed",
+    "lovelace_updated",
     "panels_updated",
-    "repairs_issues_registry_updated",
+    "repairs_issue_registry_updated",
+    "scene_reloaded",
+    "service_registered",
+    "service_removed",
+    "themes_updated",
+    "user_added",
+    "user_removed",
+    "user_updated",
 ]
 CORE_STATE_EVENTS: list[str] = [
     "state_changed",
     "logbook_entry",
 ]
 
-CORE_ACTIVITY_EVENTS: list[str] = ["automation_triggered", "script_started", "call_service", "mobile_app_notification_action"]
+CORE_ACTIVITY_EVENTS: list[str] = [
+    "automation_triggered",
+    "persistent_notifications_updated",
+    "script_started",
+    "call_service",
+    "mobile_app_notification_action",
+]
 BATCH_FLUSH_INTERVAL_SECONDS = 120
 DEFAULT_BATCH_MAX_SIZE = 20
 

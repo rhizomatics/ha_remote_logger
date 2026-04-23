@@ -74,21 +74,30 @@
         "description": "Abonnez-vous optionnellement aux événements Home Assistant au-delà des journaux système.",
         "data": {
           "log_ha_lifecycle": "Événements du cycle de vie de Home Assistant",
-          "log_ha_core_changes": "Événements de changement du cœur de Home Assistant",
-          "log_ha_core_activity": "Activité du cœur de Home Assistant",
-          "log_ha_state_changes": "Changements d'état de Home Assistant, sans attributs ni contexte",
-          "log_ha_full_state_changes": "Changements d'état de Home Assistant",
           "log_ha_event_body": "Sérialiser les données d'événement dans le corps du journal",
           "custom_events": "Un ou plusieurs événements"
         },
         "data_description": {
           "log_ha_lifecycle": "S'abonne aux événements homeassistant_start, homeassistant_started et homeassistant_stop.",
-          "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
           "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires (ex. zha_event). Saisir un nom d'événement par entrée.",
-          "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
-          "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
-          "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal",
           "log_ha_event_body": "Lorsqu'activé, les données complètes de l'événement sont sérialisées en JSON dans le corps du journal. Seuls entity_id, domain et service sont conservés comme attributs structurés."
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Événements standard de Home Assistant",
+            "data": {
+              "log_ha_core_changes": "Événements de changement du cœur de Home Assistant",
+              "log_ha_core_activity": "Activité du cœur de Home Assistant",
+              "log_ha_state_changes": "Changements d'état de Home Assistant, sans attributs ni contexte",
+              "log_ha_full_state_changes": "Changements d'état de Home Assistant"
+            },
+            "data_description": {
+              "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
+              "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
+              "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
+              "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal"
+            }
+          }
         }
       }
     },
@@ -159,21 +168,30 @@
         "description": "Abonnez-vous optionnellement aux événements Home Assistant au-delà des journaux système.",
         "data": {
           "log_ha_lifecycle": "Événements du cycle de vie de Home Assistant",
-          "log_ha_core_changes": "Événements de changement du cœur de Home Assistant",
-          "log_ha_core_activity": "Activité du cœur de Home Assistant",
-          "log_ha_state_changes": "Changements d'état de Home Assistant, sans attributs ni contexte",
-          "log_ha_full_state_changes": "Changements d'état de Home Assistant",
           "log_ha_event_body": "Sérialiser les données d'événement dans le corps du journal",
           "custom_events": "Noms d'événements personnalisés"
         },
         "data_description": {
           "log_ha_lifecycle": "S'abonne aux événements homeassistant_start, homeassistant_started et homeassistant_stop.",
-          "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
           "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires (ex. zha_event). Saisir un nom d'événement par entrée.",
-          "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
-          "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
-          "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal",
           "log_ha_event_body": "Lorsqu'activé, les données complètes de l'événement sont sérialisées en JSON dans le corps du journal. Seuls entity_id, domain et service sont conservés comme attributs structurés."
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Événements standard de Home Assistant",
+            "data": {
+              "log_ha_core_changes": "Événements de changement du cœur de Home Assistant",
+              "log_ha_core_activity": "Activité du cœur de Home Assistant",
+              "log_ha_state_changes": "Changements d'état de Home Assistant, sans attributs ni contexte",
+              "log_ha_full_state_changes": "Changements d'état de Home Assistant"
+            },
+            "data_description": {
+              "log_ha_core_changes": "S'abonne aux événements component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated et user_removed.",
+              "log_ha_core_activity": "Activité du cœur de Home Assistant, incluant les appels de service, l'exécution d'automatisations et de scripts.",
+              "log_ha_state_changes": "Changements d'état de Home Assistant (sans attributs ni contexte) et entrées du journal",
+              "log_ha_full_state_changes": "Changements d'état de Home Assistant (événement complet) et entrées du journal"
+            }
+          }
         }
       }
     }

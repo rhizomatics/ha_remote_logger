@@ -10,6 +10,7 @@ import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult, OptionsFlow
 from homeassistant.const import CONF_HEADERS, CONF_HOST, CONF_PATH, CONF_PORT, CONF_PROTOCOL, CONF_TOKEN
 from homeassistant.core import callback
+from homeassistant.data_entry_flow import section
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -49,10 +50,15 @@ def _to_list(value: Any) -> list[str]:
 
 COMMON_DATA_SCHEMA = vol.Schema({
     vol.Optional(CONF_LOG_HA_LIFECYCLE, default=False): selector.BooleanSelector(),
-    vol.Optional(CONF_LOG_HA_CORE_CHANGES, default=False): selector.BooleanSelector(),
-    vol.Optional(CONF_LOG_HA_CORE_ACTIVITY, default=False): selector.BooleanSelector(),
-    vol.Optional(CONF_LOG_HA_STATE_CHANGES, default=False): selector.BooleanSelector(),
-    vol.Optional(CONF_LOG_HA_FULL_STATE_CHANGES, default=False): selector.BooleanSelector(),
+    vol.Required("ha_standard_events"): section(
+        vol.Schema({
+            vol.Optional(CONF_LOG_HA_CORE_CHANGES, default=False): selector.BooleanSelector(),
+            vol.Optional(CONF_LOG_HA_CORE_ACTIVITY, default=False): selector.BooleanSelector(),
+            vol.Optional(CONF_LOG_HA_STATE_CHANGES, default=False): selector.BooleanSelector(),
+            vol.Optional(CONF_LOG_HA_FULL_STATE_CHANGES, default=False): selector.BooleanSelector(),
+        }),
+        {"collapsed": False},
+    ),
     vol.Optional(CONF_LOG_HA_EVENT_BODY, default=True): selector.BooleanSelector(),
     vol.Optional(CONF_CUSTOM_EVENTS, default=[]): selector.TextSelector(selector.TextSelectorConfig(multiple=True)),
 })
@@ -214,13 +220,17 @@ class OtelLogsConfigFlow(ConfigFlow, domain=DOMAIN):
         """Configure common event subscription options."""
         errors: dict[str, str] = {}
         if user_input is not None:
-            if user_input.get(CONF_LOG_HA_STATE_CHANGES) and user_input.get(CONF_LOG_HA_FULL_STATE_CHANGES):
+            flat: dict[str, Any] = {k: v for k, v in user_input.items() if not isinstance(v, dict)}
+            for v in user_input.values():
+                if isinstance(v, dict):
+                    flat.update(v)
+            if flat.get(CONF_LOG_HA_STATE_CHANGES) and flat.get(CONF_LOG_HA_FULL_STATE_CHANGES):
                 errors[CONF_LOG_HA_FULL_STATE_CHANGES] = "state_changes_exclusive"
             else:
                 title = self._pending_data.pop("_title")
                 return self.async_create_entry(
                     title=title,
-                    data={**self._pending_data, **user_input},
+                    data={**self._pending_data, **flat},
                 )
 
         return self.async_show_form(
@@ -319,18 +329,24 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
         """Handle event subscription options."""
         errors: dict[str, str] = {}
         if user_input is not None:
-            if user_input.get(CONF_LOG_HA_STATE_CHANGES) and user_input.get(CONF_LOG_HA_FULL_STATE_CHANGES):
+            flat: dict[str, Any] = {k: v for k, v in user_input.items() if not isinstance(v, dict)}
+            for v in user_input.values():
+                if isinstance(v, dict):
+                    flat.update(v)
+            if flat.get(CONF_LOG_HA_STATE_CHANGES) and flat.get(CONF_LOG_HA_FULL_STATE_CHANGES):
                 errors[CONF_LOG_HA_FULL_STATE_CHANGES] = "state_changes_exclusive"
             else:
-                return self.async_create_entry(title="", data={**self._pending_options, **user_input})
+                return self.async_create_entry(title="", data={**self._pending_options, **flat})
 
         merged = {**self._config_entry.data, **self._config_entry.options}
         current = {
-            CONF_LOG_HA_CORE_ACTIVITY: merged.get(CONF_LOG_HA_CORE_ACTIVITY, False),
             CONF_LOG_HA_LIFECYCLE: merged.get(CONF_LOG_HA_LIFECYCLE, False),
-            CONF_LOG_HA_CORE_CHANGES: merged.get(CONF_LOG_HA_CORE_CHANGES, False),
-            CONF_LOG_HA_STATE_CHANGES: merged.get(CONF_LOG_HA_STATE_CHANGES, False),
-            CONF_LOG_HA_FULL_STATE_CHANGES: merged.get(CONF_LOG_HA_FULL_STATE_CHANGES, False),
+            "ha_standard_events": {
+                CONF_LOG_HA_CORE_CHANGES: merged.get(CONF_LOG_HA_CORE_CHANGES, False),
+                CONF_LOG_HA_CORE_ACTIVITY: merged.get(CONF_LOG_HA_CORE_ACTIVITY, False),
+                CONF_LOG_HA_STATE_CHANGES: merged.get(CONF_LOG_HA_STATE_CHANGES, False),
+                CONF_LOG_HA_FULL_STATE_CHANGES: merged.get(CONF_LOG_HA_FULL_STATE_CHANGES, False),
+            },
             CONF_LOG_HA_EVENT_BODY: merged.get(CONF_LOG_HA_EVENT_BODY, False),
             CONF_CUSTOM_EVENTS: _to_list(merged.get(CONF_CUSTOM_EVENTS, [])),
         }

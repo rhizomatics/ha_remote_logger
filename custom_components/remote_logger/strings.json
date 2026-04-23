@@ -74,21 +74,30 @@
         "description": "Optionally subscribe to Home Assistant events beyond system log messages.",
         "data": {
           "log_ha_lifecycle": "Home Assistant lifecycle events",
-          "log_ha_core_changes": "Home Assistant core change events",
-          "log_ha_core_activity":"Home Assistant core activity",
-          "log_ha_state_changes":"Home Assistant state changes, without attributes or context",
-          "log_ha_full_state_changes":"Home Assistant state changes",
           "log_ha_event_body": "Serialize event data into log body",
           "custom_events": "One or more events"
         },
         "data_description": {
           "log_ha_lifecycle": "Subscribe to homeassistant_start, homeassistant_started, and homeassistant_stop events.",
-          "log_ha_core_changes": "Subscribe to component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated, and user_removed events.",
           "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line or comma-separated (e.g. zha_event).",
-          "log_ha_core_activity":"Home Assistant core activity, including service calls, automation and script execution.",
-          "log_ha_state_changes":"Home Assistant state changes (without attributes or context) and logbook entries",
-          "log_ha_full_state_changes":"Home Assistant state changes (complete event) and logbook entries",
-          "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes."
+          "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes. Alternatively, preserve single JSON structure, which will mean a log database generates a column for every possible field."
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Home Assistant Standard Events",
+            "data": {
+              "log_ha_core_changes": "Home Assistant core change events",
+              "log_ha_core_activity": "Home Assistant core activity",
+              "log_ha_state_changes": "Home Assistant state changes, without attributes or context",
+              "log_ha_full_state_changes": "Home Assistant state changes"
+            },
+            "data_description": {
+              "log_ha_core_changes": "Subscribe to core 'loaded', 'updated', 'registered', 'removed', 'added' configuration change events.",
+              "log_ha_core_activity": "Home Assistant core activity, including service calls, automation and script execution.",
+              "log_ha_state_changes": "Home Assistant state changes (without attributes or context) and logbook entries",
+              "log_ha_full_state_changes": "Home Assistant state changes (complete event) and logbook entries"
+            }
+          }
         }
       }
     },
@@ -159,21 +168,30 @@
         "description": "Optionally subscribe to Home Assistant events beyond system log messages.",
         "data": {
           "log_ha_lifecycle": "Home Assistant lifecycle events",
-          "log_ha_core_changes": "Home Assistant core change events",
-          "log_ha_core_activity":"Home Assistant core activity",
-          "log_ha_state_changes":"Home Assistant state changes, without attributes or context",
-          "log_ha_full_state_changes":"Home Assistant state changes",
           "log_ha_event_body": "Serialize event data into log body",
           "custom_events": "Custom event names"
         },
         "data_description": {
           "log_ha_lifecycle": "Subscribe to homeassistant_start, homeassistant_started, and homeassistant_stop events.",
-          "log_ha_core_changes": "Subscribe to component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated, and user_removed events.",
           "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line or comma-separated (e.g. zha_event).",
-          "log_ha_core_activity":"Home Assistant core activity, including service calls, automation and script execution.",
-          "log_ha_state_changes":"Home Assistant state changes (without attributes or context) and logbook entries",
-          "log_ha_full_state_changes":"Home Assistant state changes (complete event) and logbook entries",
-          "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes."
+          "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes. Alternatively, preserve single JSON structure, which will mean a log database generates a column for every possible field."
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Home Assistant Standard Events",
+            "data": {
+              "log_ha_core_changes": "Home Assistant core change events",
+              "log_ha_core_activity": "Home Assistant core activity",
+              "log_ha_state_changes": "Home Assistant state changes, without attributes or context",
+              "log_ha_full_state_changes": "Home Assistant state changes"
+            },
+            "data_description": {
+              "log_ha_core_changes": "Subscribe to core 'loaded', 'updated', 'registered', 'removed', 'added' configuration change events.",
+              "log_ha_core_activity": "Home Assistant core activity, including service calls, automation and script execution.",
+              "log_ha_state_changes": "Home Assistant state changes (without attributes or context) and logbook entries",
+              "log_ha_full_state_changes": "Home Assistant state changes (complete event) and logbook entries"
+            }
+          }
         }
       }
     }

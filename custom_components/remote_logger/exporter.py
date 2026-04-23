@@ -11,6 +11,12 @@ from homeassistant.components.automation import EVENT_AUTOMATION_TRIGGERED
 from homeassistant.components.script import EVENT_SCRIPT_STARTED
 from homeassistant.const import EVENT_COMPONENT_LOADED, EVENT_STATE_CHANGED
 from homeassistant.core import EVENT_CALL_SERVICE, EVENT_SERVICE_REGISTERED, EVENT_SERVICE_REMOVED, Event, callback
+from homeassistant.helpers.area_registry import EVENT_AREA_REGISTRY_UPDATED
+from homeassistant.helpers.category_registry import EVENT_CATEGORY_REGISTRY_UPDATED
+from homeassistant.helpers.device_registry import EVENT_DEVICE_REGISTRY_UPDATED
+from homeassistant.helpers.entity_registry import EVENT_ENTITY_REGISTRY_UPDATED
+from homeassistant.helpers.floor_registry import EVENT_FLOOR_REGISTRY_UPDATED
+from homeassistant.helpers.label_registry import EVENT_LABEL_REGISTRY_UPDATED
 from homeassistant.util import dt as dt_util
 
 from custom_components.remote_logger.const import BATCH_FLUSH_INTERVAL_SECONDS
@@ -102,7 +108,7 @@ class LogExporter:
     def handle_ha_event(self, event_type: str, event: Event, state_only: bool = False, event_body: bool = False) -> None:
         """Handle a non-system-log HA event (lifecycle, core change, or custom)."""
         self.on_event()
-        general_fields: list[str] = ["message", "id", "entity_id", "name", "component", "device_id"]
+        title_fields: list[str] = ["message", "id", "entity_id", "name", "component", "device_id"]
         try:
             if (
                 event_type == EVENT_CALL_SERVICE
@@ -114,17 +120,29 @@ class LogExporter:
             if event_type == EVENT_STATE_CHANGED:
                 old_state: str = (event.data["old_state"] and event.data["old_state"].state) or "N/A"
                 new_state: str = (event.data["new_state"] and event.data["new_state"].state) or "N/A"
-                message = [event_type, ":", event.data["entity_id"], old_state, "->", new_state]
+                message: list[str] = [event_type, ":", event.data["entity_id"], old_state, "->", new_state]
             elif event_type in (EVENT_CALL_SERVICE, EVENT_SERVICE_REGISTERED, EVENT_SERVICE_REMOVED):
                 message = [event_type, ":", event.data["domain"], event.data["service"]]
             elif event_type == EVENT_COMPONENT_LOADED:
                 message = [event_type, ":", event.data["component"]]
             elif event_type in (EVENT_SCRIPT_STARTED, EVENT_AUTOMATION_TRIGGERED):
-                message = [event_type, ":", event.data["name"], event.data["entity_id"]]
+                message = [event_type, ":", event.data["entity_id"]]
+            elif event_type == EVENT_DEVICE_REGISTRY_UPDATED:
+                message = [event_type, ":", event.data["device_id"], event.data.get("action", "???")]
+            elif event_type == EVENT_ENTITY_REGISTRY_UPDATED:
+                message = [event_type, ":", event.data["entity_id"], event.data.get("action", "???")]
+            elif event_type == EVENT_LABEL_REGISTRY_UPDATED:
+                message = [event_type, ":", event.data["label_id"], event.data.get("action", "???")]
+            elif event_type == EVENT_AREA_REGISTRY_UPDATED:
+                message = [event_type, ":", event.data["area_id"], event.data.get("action", "???")]
+            elif event_type == EVENT_CATEGORY_REGISTRY_UPDATED:
+                message = [event_type, ":", event.data["category_id"], event.data.get("action", "???")]
+            elif event_type == EVENT_FLOOR_REGISTRY_UPDATED:
+                message = [event_type, ":", event.data["floor_id"], event.data.get("action", "???")]
             elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
                 message = [event_type, ":", event.data["user_id"]]
-            elif any(v in event.data for v in general_fields):
-                message = [event_type, ":"] + [event.data[v] for v in general_fields if v in event.data]
+            elif any(v in event.data for v in title_fields):
+                message = [event_type, ":"] + [event.data[v] for v in title_fields if v in event.data]
             else:
                 message = [event_type]
 

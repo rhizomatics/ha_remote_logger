@@ -74,21 +74,30 @@
         "description": "Opcjonalnie subskrybuj zdarzenia Home Assistant wykraczające poza komunikaty dziennika systemowego.",
         "data": {
           "log_ha_lifecycle": "Zdarzenia cyklu życia Home Assistant",
-          "log_ha_core_changes": "Zdarzenia zmian rdzenia Home Assistant",
-          "log_ha_core_activity": "Aktywność rdzenia Home Assistant",
-          "log_ha_state_changes": "Zmiany stanu Home Assistant bez atrybutów i kontekstu",
-          "log_ha_full_state_changes": "Zmiany stanu Home Assistant",
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
           "custom_events": "Jedno lub więcej zdarzeń"
         },
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
-          "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
           "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
-          "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
-          "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
-          "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika",
           "log_ha_event_body": "Po włączeniu pełne dane zdarzenia są serializowane jako JSON do treści dziennika. Jako atrybuty strukturalne zachowane są tylko entity_id, domain i service."
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Standardowe zdarzenia Home Assistant",
+            "data": {
+              "log_ha_core_changes": "Zdarzenia zmian rdzenia Home Assistant",
+              "log_ha_core_activity": "Aktywność rdzenia Home Assistant",
+              "log_ha_state_changes": "Zmiany stanu Home Assistant bez atrybutów i kontekstu",
+              "log_ha_full_state_changes": "Zmiany stanu Home Assistant"
+            },
+            "data_description": {
+              "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
+              "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
+              "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
+              "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika"
+            }
+          }
         }
       }
     },
@@ -159,21 +168,30 @@
         "description": "Opcjonalnie subskrybuj zdarzenia Home Assistant wykraczające poza komunikaty dziennika systemowego.",
         "data": {
           "log_ha_lifecycle": "Zdarzenia cyklu życia Home Assistant",
-          "log_ha_core_changes": "Zdarzenia zmian rdzenia Home Assistant",
           "custom_events": "Niestandardowe nazwy zdarzeń",
-          "log_ha_core_activity": "Aktywność rdzenia Home Assistant",
-          "log_ha_state_changes": "Zmiany stanu Home Assistant bez atrybutów i kontekstu",
-          "log_ha_full_state_changes": "Zmiany stanu Home Assistant",
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika"
         },
         "data_description": {
           "log_ha_lifecycle": "Subskrybuj zdarzenia homeassistant_start, homeassistant_started i homeassistant_stop.",
-          "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
           "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
-          "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
-          "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
-          "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika",
           "log_ha_event_body": "Po włączeniu pełne dane zdarzenia są serializowane jako JSON do treści dziennika. Jako atrybuty strukturalne zachowane są tylko entity_id, domain i service."
+        },
+        "sections": {
+          "ha_standard_events": {
+            "name": "Standardowe zdarzenia Home Assistant",
+            "data": {
+              "log_ha_core_changes": "Zdarzenia zmian rdzenia Home Assistant",
+              "log_ha_core_activity": "Aktywność rdzenia Home Assistant",
+              "log_ha_state_changes": "Zmiany stanu Home Assistant bez atrybutów i kontekstu",
+              "log_ha_full_state_changes": "Zmiany stanu Home Assistant"
+            },
+            "data_description": {
+              "log_ha_core_changes": "Subskrybuj zdarzenia component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated i user_removed.",
+              "log_ha_core_activity": "Aktywność rdzenia Home Assistant, w tym wywołania usług, wykonywanie automatyzacji i skryptów.",
+              "log_ha_state_changes": "Zmiany stanu Home Assistant (bez atrybutów i kontekstu) i wpisy dziennika",
+              "log_ha_full_state_changes": "Zmiany stanu Home Assistant (pełne zdarzenie) i wpisy dziennika"
+            }
+          }
         }
       }
     }
