@@ -73,13 +73,11 @@
         "title": "Zusätzliche HA-Ereignisse",
         "description": "Optionale Abonnements für Home Assistant-Ereignisse über Systemprotokolle hinaus.",
         "data": {
-          "log_ha_lifecycle": "HA-Lebenszyklusereignisse",
           "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
           "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Ein oder mehrere Ereignisse"
         },
         "data_description": {
-          "log_ha_lifecycle": "Abonniert homeassistant_start, homeassistant_started und homeassistant_stop.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
           "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished.",
           "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen (z. B. zha_event). Einen Ereignisnamen pro Eintrag eingeben."
@@ -88,12 +86,14 @@
           "ha_standard_events": {
             "name": "Home Assistant Standardereignisse",
             "data": {
+              "log_ha_lifecycle": "HA-Lebenszyklusereignisse",
               "log_ha_core_changes": "HA-Kernänderungsereignisse",
               "log_ha_core_activity": "HA-Kernaktivität",
               "log_ha_state_changes": "HA-Zustandsänderungen, ohne Attribute oder Kontext",
               "log_ha_full_state_changes": "HA-Zustandsänderungen"
             },
             "data_description": {
+              "log_ha_lifecycle": "Abonniert homeassistant_start, homeassistant_started und homeassistant_stop.",
               "log_ha_core_changes": "Abonniert component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated und user_removed.",
               "log_ha_core_activity": "HA-Kernaktivität, einschließlich Dienstaufrufe, Automatisierungs- und Skriptausführung.",
               "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",
@@ -169,13 +169,11 @@
         "title": "Zusätzliche HA-Ereignisse",
         "description": "Optionale Abonnements für Home Assistant-Ereignisse über Systemprotokolle hinaus.",
         "data": {
-          "log_ha_lifecycle": "HA-Lebenszyklusereignisse",
           "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
           "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Benutzerdefinierte Ereignisnamen"
         },
         "data_description": {
-          "log_ha_lifecycle": "Abonniert homeassistant_start, homeassistant_started und homeassistant_stop.",
           "log_ha_event_body": "Wenn aktiviert, werden die vollständigen Ereignisdaten als JSON in den Log-Körper geschrieben. Als strukturierte Attribute werden nur entity_id, domain und service beibehalten.",
           "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished.",
           "custom_events": "Optionale Liste zusätzlicher HA-Ereignisnamen (z. B. zha_event). Einen Ereignisnamen pro Eintrag eingeben."
@@ -184,12 +182,14 @@
           "ha_standard_events": {
             "name": "Home Assistant Standardereignisse",
             "data": {
+              "log_ha_lifecycle": "HA-Lebenszyklusereignisse",
               "log_ha_core_changes": "HA-Kernänderungsereignisse",
               "log_ha_core_activity": "HA-Kernaktivität",
               "log_ha_state_changes": "HA-Zustandsänderungen, ohne Attribute oder Kontext",
               "log_ha_full_state_changes": "HA-Zustandsänderungen"
             },
             "data_description": {
+              "log_ha_lifecycle": "Abonniert homeassistant_start, homeassistant_started und homeassistant_stop.",
               "log_ha_core_changes": "Abonniert component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated und user_removed.",
               "log_ha_core_activity": "HA-Kernaktivität, einschließlich Dienstaufrufe, Automatisierungs- und Skriptausführung.",
               "log_ha_state_changes": "Home Assistant-Zustandsänderungen (ohne Attribute oder Kontext) und Logbucheinträge.",

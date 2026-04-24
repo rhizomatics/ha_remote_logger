@@ -73,8 +73,8 @@ class TestOtelConfigFlow:
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             {
-                "log_ha_lifecycle": False,
                 "ha_standard_events": {
+                    "log_ha_lifecycle": False,
                     "log_ha_core_changes": False,
                     "log_ha_core_activity": False,
                     "log_ha_state_changes": False,
@@ -133,8 +133,8 @@ class TestOtelConfigFlow:
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             {
-                "log_ha_lifecycle": False,
                 "ha_standard_events": {
+                    "log_ha_lifecycle": False,
                     "log_ha_core_changes": False,
                     "log_ha_core_activity": False,
                     "log_ha_state_changes": False,
@@ -200,8 +200,8 @@ class TestSyslogConfigFlow:
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             {
-                "log_ha_lifecycle": False,
                 "ha_standard_events": {
+                    "log_ha_lifecycle": False,
                     "log_ha_core_changes": False,
                     "log_ha_core_activity": False,
                     "log_ha_state_changes": False,

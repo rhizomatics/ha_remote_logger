@@ -73,13 +73,11 @@
         "title": "Eventos adicionales de Home Assistant",
         "description": "Suscríbete opcionalmente a eventos de Home Assistant más allá de los mensajes de registro del sistema.",
         "data": {
-          "log_ha_lifecycle": "Eventos del ciclo de vida de Home Assistant",
           "log_ha_event_body": "Serializar datos de eventos en el cuerpo del registro",
           "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "Uno o más eventos"
         },
         "data_description": {
-          "log_ha_lifecycle": "Se suscribe a los eventos homeassistant_start, homeassistant_started y homeassistant_stop.",
           "custom_events": "Lista opcional de nombres de eventos adicionales de Home Assistant (p. ej. zha_event). Introduce un nombre de evento por entrada.",
           "log_ha_event_body": "Cuando está habilitado, los datos completos del evento se serializan como JSON en el cuerpo del registro. Solo entity_id, domain y service se conservan como atributos estructurados.",
           "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
@@ -88,12 +86,14 @@
           "ha_standard_events": {
             "name": "Eventos estándar de Home Assistant",
             "data": {
+              "log_ha_lifecycle": "Eventos del ciclo de vida de Home Assistant",
               "log_ha_core_changes": "Eventos de cambio del núcleo de Home Assistant",
               "log_ha_core_activity": "Actividad del núcleo de Home Assistant",
               "log_ha_state_changes": "Cambios de estado de Home Assistant, sin atributos ni contexto",
               "log_ha_full_state_changes": "Cambios de estado de Home Assistant"
             },
             "data_description": {
+              "log_ha_lifecycle": "Se suscribe a los eventos homeassistant_start, homeassistant_started y homeassistant_stop.",
               "log_ha_core_changes": "Se suscribe a los eventos component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated y user_removed.",
               "log_ha_core_activity": "Actividad del núcleo de Home Assistant, incluyendo llamadas a servicios, ejecución de automatizaciones y scripts.",
               "log_ha_state_changes": "Cambios de estado de Home Assistant (sin atributos ni contexto) y entradas del libro de registro",
@@ -169,13 +169,11 @@
         "title": "Eventos adicionales de Home Assistant",
         "description": "Suscríbete opcionalmente a eventos de Home Assistant más allá de los mensajes de registro del sistema.",
         "data": {
-          "log_ha_lifecycle": "Eventos del ciclo de vida de Home Assistant",
           "custom_events": "Nombres de eventos personalizados",
           "log_ha_event_body": "Serializar datos de eventos en el cuerpo del registro",
           "suppress_system_log_event_name": "Suppress system_log_event as event name"
         },
         "data_description": {
-          "log_ha_lifecycle": "Se suscribe a los eventos homeassistant_start, homeassistant_started y homeassistant_stop.",
           "custom_events": "Lista opcional de nombres de eventos adicionales de Home Assistant (p. ej. zha_event). Introduce un nombre de evento por entrada.",
           "log_ha_event_body": "Cuando está habilitado, los datos completos del evento se serializan como JSON en el cuerpo del registro. Solo entity_id, domain y service se conservan como atributos estructurados.",
           "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
@@ -184,12 +182,14 @@
           "ha_standard_events": {
             "name": "Eventos estándar de Home Assistant",
             "data": {
+              "log_ha_lifecycle": "Eventos del ciclo de vida de Home Assistant",
               "log_ha_core_changes": "Eventos de cambio del núcleo de Home Assistant",
               "log_ha_core_activity": "Actividad del núcleo de Home Assistant",
               "log_ha_state_changes": "Cambios de estado de Home Assistant, sin atributos ni contexto",
               "log_ha_full_state_changes": "Cambios de estado de Home Assistant"
             },
             "data_description": {
+              "log_ha_lifecycle": "Se suscribe a los eventos homeassistant_start, homeassistant_started y homeassistant_stop.",
               "log_ha_core_changes": "Se suscribe a los eventos component_loaded, core_config_updated, service_registered, service_removed, lovelace_updated, panels_updated, themes_updated, labs_updated, user_added, user_updated y user_removed.",
               "log_ha_core_activity": "Actividad del núcleo de Home Assistant, incluyendo llamadas a servicios, ejecución de automatizaciones y scripts.",
               "log_ha_state_changes": "Cambios de estado de Home Assistant (sin atributos ni contexto) y entradas del libro de registro",

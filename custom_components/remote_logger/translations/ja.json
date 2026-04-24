@@ -73,13 +73,11 @@
         "title": "追加のHome Assistantイベント",
         "description": "システムログメッセージ以外のHome Assistantイベントをオプションで購読します。",
         "data": {
-          "log_ha_lifecycle": "Home Assistantライフサイクルイベント",
           "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
           "suppress_system_log_event_name": "Suppress system_log_event as event name",
           "custom_events": "1つ以上のイベント"
         },
         "data_description": {
-          "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
           "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
           "log_ha_event_body": "有効にすると、完全なイベントデータがJSONとしてログ本文にシリアライズされます。entity_id、domain、serviceのみが構造化属性として保持されます。",
           "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
@@ -88,12 +86,14 @@
           "ha_standard_events": {
             "name": "Home Assistant 標準イベント",
             "data": {
+              "log_ha_lifecycle": "Home Assistantライフサイクルイベント",
               "log_ha_core_changes": "Home Assistantコア変更イベント",
               "log_ha_core_activity": "Home Assistantコアアクティビティ",
               "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）",
               "log_ha_full_state_changes": "Home Assistant状態変化"
             },
             "data_description": {
+              "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
               "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
               "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
               "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",
@@ -169,13 +169,11 @@
         "title": "追加のHome Assistantイベント",
         "description": "システムログメッセージ以外のHome Assistantイベントをオプションで購読します。",
         "data": {
-          "log_ha_lifecycle": "Home Assistantライフサイクルイベント",
           "custom_events": "カスタムイベント名",
           "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
           "suppress_system_log_event_name": "Suppress system_log_event as event name"
         },
         "data_description": {
-          "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
           "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
           "log_ha_event_body": "有効にすると、完全なイベントデータがJSONとしてログ本文にシリアライズされます。entity_id、domain、serviceのみが構造化属性として保持されます。",
           "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished."
@@ -184,12 +182,14 @@
           "ha_standard_events": {
             "name": "Home Assistant 標準イベント",
             "data": {
+              "log_ha_lifecycle": "Home Assistantライフサイクルイベント",
               "log_ha_core_changes": "Home Assistantコア変更イベント",
               "log_ha_core_activity": "Home Assistantコアアクティビティ",
               "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）",
               "log_ha_full_state_changes": "Home Assistant状態変化"
             },
             "data_description": {
+              "log_ha_lifecycle": "homeassistant_start、homeassistant_started、homeassistant_stopイベントを購読します。",
               "log_ha_core_changes": "component_loaded、core_config_updated、service_registered、service_removed、lovelace_updated、panels_updated、themes_updated、labs_updated、user_added、user_updated、user_removedイベントを購読します。",
               "log_ha_core_activity": "サービス呼び出し、オートメーション、スクリプト実行を含むHome Assistantコアアクティビティ。",
               "log_ha_state_changes": "Home Assistant状態変化（属性・コンテキストなし）とログブックエントリ",

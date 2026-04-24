@@ -50,9 +50,9 @@ def _to_list(value: Any) -> list[str]:
 
 
 COMMON_DATA_SCHEMA = vol.Schema({
-    vol.Optional(CONF_LOG_HA_LIFECYCLE, default=False): selector.BooleanSelector(),
     vol.Required("ha_standard_events"): section(
         vol.Schema({
+            vol.Optional(CONF_LOG_HA_LIFECYCLE, default=False): selector.BooleanSelector(),
             vol.Optional(CONF_LOG_HA_CORE_CHANGES, default=False): selector.BooleanSelector(),
             vol.Optional(CONF_LOG_HA_CORE_ACTIVITY, default=False): selector.BooleanSelector(),
             vol.Optional(CONF_LOG_HA_STATE_CHANGES, default=False): selector.BooleanSelector(),
@@ -342,8 +342,8 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
 
         merged = {**self._config_entry.data, **self._config_entry.options}
         current = {
-            CONF_LOG_HA_LIFECYCLE: merged.get(CONF_LOG_HA_LIFECYCLE, False),
             "ha_standard_events": {
+                CONF_LOG_HA_LIFECYCLE: merged.get(CONF_LOG_HA_LIFECYCLE, False),
                 CONF_LOG_HA_CORE_CHANGES: merged.get(CONF_LOG_HA_CORE_CHANGES, False),
                 CONF_LOG_HA_CORE_ACTIVITY: merged.get(CONF_LOG_HA_CORE_ACTIVITY, False),
                 CONF_LOG_HA_STATE_CHANGES: merged.get(CONF_LOG_HA_STATE_CHANGES, False),
