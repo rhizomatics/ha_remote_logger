@@ -3,18 +3,18 @@ name = "remote_logger"
 readme = "README.md"
 description = "Log Home Assistant events to a Syslog or OTEL collector."
 dynamic = ["version"]
-requires-python = ">=3.14.2"
+requires-python = ">=3.13.2"
 
 dependencies = [
-    "homeassistant>=2026.3.2",
+    "homeassistant>=2026.2.1",
 ]
 
 [dependency-groups]
 dev=[
-    "homeassistant-stubs >= 2026.3.2",
+    "homeassistant-stubs",
     "pytest",
     "pytest-cov",
-    "pytest-homeassistant-custom-component>=0.13.316",
+    "pytest-homeassistant-custom-component",
     "pytest-unordered",
     "pytest-mock",
     "pytest-xdist",
@@ -22,13 +22,12 @@ dev=[
     "pre-commit",
     "ruff",
     "mypy",
-    "genbadge[all]",
-    "uv==0.10.6" # hass compatibility
+    "genbadge[all]"
 ]
 docs=[
     "mkdocs-minify-plugin",
     "pymdown-extensions",
-    "mkdocs-material[imaging]>=9.7.1",
+    "mkdocs-material[imaging]",
     "mkdocs-autorefs",
     "mkdocs-coverage",
     "mkdocs-pagetree-plugin",
@@ -65,13 +64,10 @@ exclude = [
 namespaces = true # to disable scanning PEP 420 namespaces (true by default)
 
 
-[tool.poetry.group.dev.dependencies]
-homeassistant-stubs = "2026.2.1"
-
 [tool.ruff]
 line-length = 128
 indent-width = 4
-target-version = "py312"
+target-version = "py314"
 exclude = [
     ".bzr",
     ".direnv",
