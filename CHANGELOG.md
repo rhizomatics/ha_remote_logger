@@ -1,4 +1,6 @@
 # 1.6.0
+## py3.13 and py3.14
+- Automated testing and linting is done for both Python 3.13 ( with the corresponding 2026.2 max Home Assistant version) and Python 3.14 with the latest Home Assistant public release
 ## Home Assistant Event improvements
 - Corrected name of `repairs_issue_registry_updated`
 - Improved description of core changes and serializing JSON
