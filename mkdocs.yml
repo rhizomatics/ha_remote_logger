@@ -108,6 +108,7 @@ not_in_nav: |
   pl/
   pt/
   zh-Hans/
+  zh/
 
 markdown_extensions:
   - admonition

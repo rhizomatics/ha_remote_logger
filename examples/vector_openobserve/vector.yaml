@@ -1,0 +1,91 @@
+data_dir: /var/vector
+schema:
+  log_namespace: false
+
+api:
+    enabled: true
+    address: 0.0.0.0:8686
+
+sources:
+  vector_logs:
+   type: "internal_logs"
+
+  dockernuc_docker:
+    type: docker_logs
+    exclude_containers:
+      - vector
+      - greptime
+      - openobserve
+
+  syslog_daemon:
+    type: syslog
+    address: 0.0.0.0:514
+    mode: udp
+
+  syslog_daemon_tcp:
+     type: syslog
+     address: 0.0.0.0:5514
+     mode: tcp
+
+transforms:
+  vector_errors:
+    type: "filter"
+    inputs:
+      - "vector_logs"
+    condition: '.metadata.level != "INFO"'
+
+  docker_to_otlp:
+    type: remap
+    inputs:
+      - dockernuc_docker
+    file: /etc/vector/docker_to_otlp.vrl
+
+  syslog_to_otlp:
+    type: remap
+    inputs:
+       - syslog_daemon
+       - syslog_daemon_tcp
+    drop_on_abort: true
+    drop_on_error: true
+    reroute_dropped: true
+    file: /etc/vector/syslog_to_otlp.vrl
+
+
+sinks:
+  file_vector:
+    type: "file"
+    inputs:
+      - "vector_errors"
+    compression: "none"
+    path: "/logs/internal_vector_errors.log"
+    encoding:
+      codec: "json"
+  file_dropped:
+    type: "file"
+    inputs:
+      - "syslog_to_otlp.dropped"
+    path: "/logs/syslog_remap_drops.log"
+    compression: "none"
+    encoding:
+      codec: "json"
+  openobserve:
+    inputs:
+      - syslog_to_otlp
+      - docker_to_otlp
+    type: opentelemetry
+    protocol:
+      type: http
+      uri: "http://openobserve:5080/api/default/v1/logs"
+      encoding:
+        codec: otlp
+      method: post
+      request:
+        headers:
+          stream-name: default
+      auth:
+        strategy: basic
+        user: "REDACTED_OO_USER"
+        password: "REDACTED_OO_PASSWORD"
+    healthcheck:
+      enabled: true
+      uri: http://openobserve:5080/healthz

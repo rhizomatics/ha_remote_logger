@@ -239,6 +239,9 @@ class OtelLogsConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="common",
             data_schema=self.add_suggested_values_to_schema(COMMON_DATA_SCHEMA, user_input or {}),
             errors=errors,
+            description_placeholders={
+                "learn_more": "[Learn about HA events](https://www.home-assistant.io/docs/configuration/events/)"
+            },
         )
 
 
@@ -357,4 +360,7 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
             step_id="events",
             data_schema=self.add_suggested_values_to_schema(COMMON_DATA_SCHEMA, current),
             errors=errors,
+            description_placeholders={
+                "learn_more": "[Learn about HA events](https://www.home-assistant.io/docs/configuration/events/)"
+            },
         )

@@ -1,0 +1,75 @@
+ services:
+
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve-enterprise:latest
+    container_name: openobserve
+    restart: always
+    user: "994:994"
+    environment:
+      ZO_ROOT_USER_EMAIL: "REDACTED_OO_USER"
+      ZO_ROOT_USER_PASSWORD: "REDACTED_OO_PASSWORD"
+      ZO_DATA_DIR: "/data"
+      ZO_ALLOW_USER_DEFINED_SCHEMAS: true
+      ZO_SMTP_ENABLED: true
+      ZO_SMTP_HOST: 10.111.10.100
+      RUST_LOG: warn
+      O2_AI_ENABLED: true
+      O2_TOOL_API_URL: http://localhost:5080
+      O2_MCP_VALIDATION_ENABLED: false
+      O2_INCIDENTS_ENABLED: "true"
+      O2_INCIDENTS_RCA_ENABLED: "true"
+      O2_INCIDENTS_ALERT_GRAPH_ENABLED: "true"
+    ports:
+    - protocol: tcp
+      published: 5080
+      target: 5080
+    volumes:
+      - ./oo_data:/data
+  vector:
+    image: timberio/vector:latest-debian
+    container_name: vector
+    user: "994:994"
+    group_add:
+      - "119"
+      - "101"
+    command: --config /etc/vector/vector.yaml
+    volumes:
+      - ./conf:/etc/vector
+      - ./logs:/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./vector_data:/var/vector
+    environment:
+      VECTOR_LOG: warn
+    ports:
+      - 8686:8686
+      - 514:514/udp
+      - 5514:5514/tcp
+    cap_add:
+      - CAP_NET_BIND_SERVICE
+    restart: always
+
+  o2-sre-agent:
+    # The AI add-on, completely usable without this
+    image: public.ecr.aws/zinclabs/o2-sre-agent:latest
+    container_name: o2-sre-agent
+    restart: always
+    environment:
+      O2_SRE_HOST: 0.0.0.0
+      O2_SRE_PORT: 5088
+      O2_SRE_LOG_LEVEL: INFO
+      O2_OTEL_ENABLED: true
+      O2_AI_PROVIDER: anthropic
+      O2_AI_API_KEY: REDACTED_CLAUDE_API_KEY
+      O2_TOOL_API_URL: http://openobserve:5080/api/default/mcp
+      O2_MCP_VALIDATION_ENABLED: "true"
+      O2_MCP_VALIDATION_RETRY: "true"
+      O2_MCP_CONTENT_VALIDATION_ENABLED: "true"
+      O2_MCP_CONTENT_VALIDATION_MODE: "hybrid"
+      O2_MCP_RESPONSE_VALIDATION_ENABLED: "true"
+      O2_MCP_USERNAME: "REDACTED_MCP_USER"
+      O2_MCP_PASSWORD: "REDACTED_MCP_PASSWORD"
+
+    ports:
+      - protocol: tcp
+        published: 5088
+        target: 5088

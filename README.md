@@ -95,20 +95,7 @@ level of Syslog.
 ### Other Events
 
 *Remote Logger* can log any Home Assistant event, and knows about the core
-ones, in order to create a more readable message.
-
-For convenience, four pre-defined bundles of events can be switched on.
-
-| Bundle | Description |
-| ------ | ----------- |
-| Lifecycle | Home Assistant server start and stop events |
-| Core Changes | Components and services loading or unloading, config reapplied |
-| Core Activity | Actions, mobile actions, scripts, automations executed |
-| State Changes | Entity state changes and log book entries, with states stripped of attributes and context to avoid huge log entries |
-| Full State Changes | Entity state changes and log book entries, full and untrimmed |
-
-The free-form event box can be used as an alternative to pick specific
-Home Assistant events, or any other custom component events.
+ones, in order to create a more readable message. Find out more in the [Events](events.md) guidance.
 
 ![Home Assistant Events in OpenObserve](https://remote-logger.rhizomatics.org.uk/assets/images/ha_events_in_openobserve.png){width=720}
 

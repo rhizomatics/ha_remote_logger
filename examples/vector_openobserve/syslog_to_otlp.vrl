@@ -1,0 +1,69 @@
+# remove Home Assistant from HAOS LogSpout since richer events received from Remote Logger
+
+if .appname == "homeassistant" {
+abort
+}
+
+severity_number = if .severity == "emergency" {
+22
+} else if .severity == "alert" {
+18
+} else if .severity == "critical" {
+21
+} else if .severity == "error" {
+17
+} else if .severity == "warning" {
+13
+} else if .severity == "notice" {
+10
+} else if .severity == "info" {
+9
+} else if .severity == "debug" {
+5
+} else if .severity == "trace" {
+1
+} else {
+0
+}
+
+severity_text = upcase(string(.severity) ?? "UNSPECIFIED")
+
+resourceLogs,err = [{
+                "resource": {
+                        "attributes": [
+                                { "key": "source_type", "value": { "stringValue": .source_type  } },
+                                { "key": "service.name", "value": { "stringValue": .appname  } },
+                                { "key": "net.host.ip", "value": { "stringValue": .source_ip } },
+                                { "key": "host.hostname", "value": { "stringValue": .hostname } }
+                        ]
+                },
+                "scopeLogs": [{
+                        "scope": {
+                                "name": .msgid
+                        },
+                        "logRecords": [{
+                                "timeUnixNano": to_unix_timestamp!(.timestamp, unit: "nanoseconds"),
+                                "body": { "stringValue": .message },
+                                "severityText": severity_text,
+                                "severityNumber": severity_number,
+                                "attributes": [
+                                        { "key": "syslog.procid", "value": { "stringValue": to_string(.procid) } },
+                                        { "key": "syslog.facility", "value": { "stringValue": .facility } },
+                                        { "key": "syslog.version", "value": { "stringValue": to_string(.version) } }
+                                ]
+                        }]
+                }]
+        }]
+
+del(.message)
+del(.timestamp)
+del(.service)
+del(.source_type)
+del(.appname)
+del(.facility)
+del(.host)
+del(.hostname)
+del(.severity)
+del(.source_ip)
+assert!(err == null,message:err)
+.resourceLogs = resourceLogs
