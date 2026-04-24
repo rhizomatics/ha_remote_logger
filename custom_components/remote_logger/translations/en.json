@@ -71,7 +71,7 @@
       },
       "common": {
         "title": "Additional Home Assistant Events",
-        "description": "Optionally subscribe to Home Assistant events beyond system log messages.",
+        "description": "Optionally subscribe to Home Assistant events beyond system log messages. [Learn about HA events](https://www.home-assistant.io/docs/configuration/events/)",
         "data": {
           "log_ha_event_body": "Serialize event data into log body",
           "suppress_system_log_event_name": "Suppress system_log_event as event name",

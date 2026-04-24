@@ -6,7 +6,7 @@ Some aggregators can directly consume remote logs, while others need an ingestio
 
 ## OpenObserve
 
-OO can accept Otel logging natively or via Vector, and now needs Vector for Syslog.
+This is one of the easiest to use, since it can accept OTLP natively so doesn't need any other components, though it can work with Vector and others, and now needs Vector for Syslog. It also has a Splunk type UI to show the schema and automatically populate known values for each field to make quick filtering easier.
 
 To configure the preferred OTLP logging, a few overrides are needed.
 
@@ -24,7 +24,7 @@ Note that *Raw Basic* has been selected rather than *Basic* since the token prov
 
 ## GreptimeDB
 
-Use Vector for ingestion, and no transforms are needed
+Uses Vector for ingestion, and no transforms are needed when using OTLP.
 
 ```yaml
 sources:
