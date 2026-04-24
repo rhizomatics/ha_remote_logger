@@ -32,4 +32,6 @@ Its easy to log whole categories of these from the Remote Logger configuration, 
 
 Debugging issues is much easier with full context, not only from Home Assistant itself, also add-on Apps running in HAOS, and other services on the network. For example, include logging from Frigate via a Docker syslog or OTLP collector, or network issues from a Unifi or OPNSense installation.
 
+OpenObserve, GreptimeDB and similar tools (there's a [big list of OTEL vendors and projects](https://opentelemetry.io/ecosystem/vendors/)) can also pull in metrics and traces, for a fuller picture, though its also easy to get overwhelmed - CPU, storage, mentally - by the sheer scale of what could be aggregated, even in a home lab.
+
 See the [examples](examples/index.md) for working configuration.
