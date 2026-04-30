@@ -82,9 +82,7 @@ class TestAsyncSetupEntry:
             await async_setup_entry(hass, mock_entry_otel)
 
         entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
-        assert (
-            len(entry_data["cancel_listeners"]) == 4 + 2
-        )  # stop + close + final_write + update_listener + 2 custom
+        assert len(entry_data["cancel_listeners"]) == 4 + 2  # stop + close + final_write + update_listener + 2 custom
 
         entry_data["flush_task"].cancel()
         with contextlib.suppress(asyncio.CancelledError):

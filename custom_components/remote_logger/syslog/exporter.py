@@ -7,14 +7,12 @@ import os
 import socket
 import ssl
 import time
-import datetime as dt
 from dataclasses import dataclass
-from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, cast
 
-from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PROTOCOL
-from homeassistant.core import Event, HomeAssistant
 from homeassistant.components.system_log import EVENT_SYSTEM_LOG
+from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PROTOCOL
+
 from custom_components.remote_logger.const import (
     CONF_APP_NAME,
     CONF_BATCH_MAX_SIZE,
@@ -37,7 +35,11 @@ from .const import (
 )
 
 if TYPE_CHECKING:
+    import datetime as dt
+    from collections.abc import Mapping
+
     from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import Event, HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -105,18 +107,20 @@ class SyslogExporter(LogExporter):
         level_override: str | None = None,
         state_only: bool = False,
     ) -> SyslogMessage:
-        return self.create_log_record(event.data,
-                                      event.event_type,
-                                      event.time_fired,
-                                      message_override=message_override,
-                                      level_override=level_override,
-                                      state_only=state_only)
-        
+        return self.create_log_record(
+            event.data,
+            event.event_type,
+            event.time_fired,
+            message_override=message_override,
+            level_override=level_override,
+            state_only=state_only,
+        )
+
     def create_log_record(
         self,
-        event_data: Mapping[str,Any],
-        event_type: str|None=None,
-        time_fired: dt.datetime|None = None,
+        event_data: Mapping[str, Any],
+        event_type: str | None = None,
+        time_fired: dt.datetime | None = None,
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
@@ -138,7 +142,7 @@ class SyslogExporter(LogExporter):
         pri = self._facility * 8 + severity
 
         # RFC 3339 timestamp
-        timestamp_s: float = data.get("timestamp", time.time())
+        timestamp_s: float = data.get("timestamp", time_fired.timestamp() if time_fired else time.time())
         timestamp = isotimestamp(timestamp_s)
 
         # Message body

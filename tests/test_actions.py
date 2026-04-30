@@ -50,7 +50,7 @@ class TestSendLogService:
         await hass.services.async_call(
             "remote_logger", "send_log", {"event": "unit_test", "message": "direct log", "level": "ERROR"}, blocking=True
         )
-        
+
         assert len(exporter._buffer) == 1
         assert exporter._buffer[0].payload["body"] == {"stringValue": "direct log"}
         assert exporter._buffer[0].payload["severityNumber"] == 17

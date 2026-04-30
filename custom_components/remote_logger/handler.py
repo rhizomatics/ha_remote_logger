@@ -1,15 +1,21 @@
 from __future__ import annotations
 
-import logging
-from collections.abc import Callable
-from homeassistant import __path__ as HOMEASSISTANT_PATH
-from homeassistant.auth import HomeAssistant
-from homeassistant.components.system_log import LogEntry
-import re
 import datetime as dt
+import logging
+import re
+import typing
 
+from homeassistant import __path__ as HOMEASSISTANT_PATH  # noqa: N812
+from homeassistant.components.system_log import LogEntry
 from homeassistant.util import dt as dt_util
+
+if typing.TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from homeassistant.core import HomeAssistant
+
 type KeyType = tuple[str, tuple[str, int], tuple[str, int, str] | None]
+
 
 class ExportingLogHandler(logging.Handler):
     """Log handler for error messages."""
@@ -22,7 +28,7 @@ class ExportingLogHandler(logging.Handler):
         """Initialize a new LogErrorHandler."""
         super().__init__()
         self.handler = handler
-        self.tz=dt_util.get_default_time_zone()
+        self.tz = dt_util.get_default_time_zone()
         self.paths_re = re.compile(rf"(?:{re.escape(HOMEASSISTANT_PATH[0])}|{re.escape(hass.config.config_dir)})/(.*)")
 
     def emit(self, record: logging.LogRecord) -> None:
@@ -32,10 +38,8 @@ class ExportingLogHandler(logging.Handler):
         default upper limit is set to 50 (older entries are discarded) but can
         be changed if needed.
         """
-        if record.name.startswith('custom_components.remote_logger'):
+        if record.name.startswith("custom_components.remote_logger"):
             # guard against loops, use exposed entities to check for remote_logger errors
             return
-        entry:LogEntry = LogEntry(
-            record, self.paths_re, formatter=self.formatter, figure_out_source=True
-        )
-        self.handler(entry.to_dict(),time_fired=dt.datetime.fromtimestamp(record.created,tz=self.tz))
+        entry: LogEntry = LogEntry(record, self.paths_re, formatter=self.formatter, figure_out_source=True)
+        self.handler(entry.to_dict(), time_fired=dt.datetime.fromtimestamp(record.created, tz=self.tz))

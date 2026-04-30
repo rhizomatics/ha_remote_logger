@@ -9,11 +9,12 @@ from functools import partial
 from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP
 from homeassistant.core import EVENT_HOMEASSISTANT_CLOSE, EVENT_HOMEASSISTANT_FINAL_WRITE, SupportsResponse, callback
-from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 
 from custom_components.remote_logger.handler import ExportingLogHandler
+
 from .const import (
     BACKEND_SYSLOG,
     CONF_BACKEND,

@@ -24,8 +24,6 @@ CONF_APP_NAME = "app_name"
 CONF_FACILITY = "facility"
 
 
-
-
 # Optional HA event subscriptions config keys
 CONF_LOG_HA_LIFECYCLE = "log_ha_lifecycle"
 CONF_LOG_HA_CORE_CHANGES = "log_ha_core_changes"

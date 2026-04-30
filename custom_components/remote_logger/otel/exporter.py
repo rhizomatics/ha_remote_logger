@@ -2,21 +2,21 @@ from __future__ import annotations
 
 import asyncio
 import base64
+import datetime as dt
 import json
 import logging
 import re
 import time
+import typing
 from abc import abstractmethod
 from dataclasses import dataclass
-import typing
-from collections.abc import Mapping
 
 import aiohttp
-import datetime as dt
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from homeassistant.const import CONF_HEADERS, CONF_HOST, CONF_PATH, CONF_PORT, CONF_TOKEN
 from homeassistant.const import __version__ as hass_version
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.components.system_log import EVENT_SYSTEM_LOG
+
 from custom_components.remote_logger.const import (
     CONF_BATCH_MAX_SIZE,
     CONF_CLIENT_TIMEOUT,
@@ -24,7 +24,7 @@ from custom_components.remote_logger.const import (
     CONF_RESOURCE_ATTRIBUTES,
     CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME,
     CONF_USE_TLS,
-    DEFAULT_CLIENT_TIMEOUT
+    DEFAULT_CLIENT_TIMEOUT,
 )
 from custom_components.remote_logger.exporter import LogExporter, LogMessage, LogSubmission
 from custom_components.remote_logger.helpers import flatten_event_data, isotimestamp
@@ -48,6 +48,8 @@ from .const import (
 from .protobuf_encoder import encode_export_logs_request
 
 if typing.TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from homeassistant.config_entries import ConfigEntry
     from homeassistant.core import Event, HomeAssistant
 
@@ -322,7 +324,7 @@ class OtlpLogExporter(LogExporter):
                 append_attr(attrs, key, value)
 
         return {"attributes": attrs}
-    
+
     def event_to_log_record(
         self,
         event: Event,
@@ -330,19 +332,20 @@ class OtlpLogExporter(LogExporter):
         level_override: str | None = None,
         state_only: bool = False,
     ) -> OtlpMessage:
-        return self.create_log_record(event.data,
-                                      event.event_type,
-                                      event.time_fired,
-                                      message_override=message_override,
-                                      level_override=level_override,
-                                      state_only=state_only)
-        
+        return self.create_log_record(
+            event.data,
+            event.event_type,
+            event.time_fired,
+            message_override=message_override,
+            level_override=level_override,
+            state_only=state_only,
+        )
 
     def create_log_record(
         self,
-        event_data: Mapping[str,typing.Any],
-        event_type: str|None=None,
-        time_fired: dt.datetime|None = None,
+        event_data: Mapping[str, typing.Any],
+        event_type: str | None = None,
+        time_fired: dt.datetime | None = None,
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
@@ -358,8 +361,8 @@ class OtlpLogExporter(LogExporter):
             "count": int
             "first_occurred": float
         """
-        data: typing.Mapping[str, typing.Any] | dict[str, typing.Any] = event_data or {}
-        time_fired = time_fired or dt.datetime.now()
+        data: Mapping[str, typing.Any] | dict[str, typing.Any] = event_data or {}
+        time_fired = time_fired or dt.datetime.now(tz=self.tz)
         timestamp_s: float = data.get("timestamp", time.time())
         time_unix_nano = str(int(timestamp_s * 1_000_000_000))
         observed_timestamp: float = time_fired.timestamp()

@@ -6,9 +6,9 @@ from typing import TYPE_CHECKING
 from unittest.mock import MagicMock
 
 import pytest
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from homeassistant.core import Event
 
-from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from custom_components.remote_logger.otel.exporter import (
     OtlpJsonSubmission,
     OtlpLogExporter,

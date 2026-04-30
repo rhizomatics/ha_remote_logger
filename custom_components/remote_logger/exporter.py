@@ -1,5 +1,4 @@
 import asyncio
-from collections.abc import Mapping
 import json
 import logging
 import threading
@@ -24,6 +23,7 @@ from custom_components.remote_logger.const import BATCH_FLUSH_INTERVAL_SECONDS
 
 if TYPE_CHECKING:
     import datetime as dt
+    from collections.abc import Mapping
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -60,6 +60,7 @@ class LogExporter:
         self._hass: HomeAssistant = hass
         self.name: str = self.logger_type
         self.destination: tuple[str, ...]
+        self.tz = dt_util.get_default_time_zone()
 
         self._batch_max_size: int
         self.event_count: int = 0
@@ -84,7 +85,6 @@ class LogExporter:
         self.flushing.clear()
         await self.flush()
 
-
     @callback
     def handle_event(self, event: Event) -> None:
         self.on_event()
@@ -106,18 +106,13 @@ class LogExporter:
             _LOGGER.error("remote_logger: %s event handler failure %s on %s", self.logger_type, e, event.data)
             self.on_format_error(str(e))
 
-    def handle_entry(self, entry: Mapping[str,Any], time_fired:dt.datetime) -> None:
+    def handle_entry(self, entry: Mapping[str, Any], time_fired: dt.datetime) -> None:
         self.on_event()
-        if (
-            entry
-            and entry.get("source")
-            and len(entry["source"]) == 2
-            and self.self_source in entry["source"][0]
-        ):
+        if entry and entry.get("source") and len(entry["source"]) == 2 and self.self_source in entry["source"][0]:
             # prevent log loops
             return
         try:
-            record: LogMessage = self.create_log_record(entry,None,time_fired)
+            record: LogMessage = self.create_log_record(entry, None, time_fired)
             self._buffer.append(record)
 
             if len(self._buffer) >= self._batch_max_size:
@@ -129,15 +124,14 @@ class LogExporter:
     @abstractmethod
     def create_log_record(
         self,
-        event_data: Mapping[str,Any],
-        event_type: str|None=None,
-        time_fired: dt.datetime|None = None,
+        event_data: Mapping[str, Any],
+        event_type: str | None = None,
+        time_fired: dt.datetime | None = None,
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
     ) -> LogMessage:
         pass
-        
 
     @callback
     def handle_ha_event(self, event_type: str, event: Event, state_only: bool = False, event_body: bool = False) -> None:
@@ -177,7 +171,15 @@ class LogExporter:
             elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
                 message = [event_type, ":", event.data["user_id"]]
             elif event_type == "autoarm_change":
-                message = [event_type,":",event.data["original_state"],"->",event.data["new_state"]," from ",event.data["change_source"]]
+                message = [
+                    event_type,
+                    ":",
+                    event.data["original_state"],
+                    "->",
+                    event.data["new_state"],
+                    " from ",
+                    event.data["change_source"],
+                ]
             elif any(v in event.data for v in title_fields):
                 message = [event_type, ":"] + [event.data[v] for v in title_fields if v in event.data]
             else:
