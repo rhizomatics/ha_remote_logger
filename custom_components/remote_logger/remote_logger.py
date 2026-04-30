@@ -95,7 +95,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     ]
     event_based_logging: bool = False # TODO: configurable
     if event_based_logging:
-        hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event),
+        cancel_listeners.append(hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event))
     else:
         handler=ExportingLogHandler(hass,exporter.handle_entry)
         handler.setLevel(logging.DEBUG) # TODO: configurable

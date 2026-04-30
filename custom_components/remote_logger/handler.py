@@ -32,6 +32,9 @@ class ExportingLogHandler(logging.Handler):
         default upper limit is set to 50 (older entries are discarded) but can
         be changed if needed.
         """
+        if record.name.startswith('custom_components.remote_logger'):
+            # guard against loops, use exposed entities to check for remote_logger errors
+            return
         entry:LogEntry = LogEntry(
             record, self.paths_re, formatter=self.formatter, figure_out_source=True
         )

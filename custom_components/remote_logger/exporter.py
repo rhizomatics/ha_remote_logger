@@ -106,7 +106,6 @@ class LogExporter:
             _LOGGER.error("remote_logger: %s event handler failure %s on %s", self.logger_type, e, event.data)
             self.on_format_error(str(e))
 
-    @callback
     def handle_entry(self, entry: Mapping[str,Any], time_fired:dt.datetime) -> None:
         self.on_event()
         if (
@@ -122,7 +121,7 @@ class LogExporter:
             self._buffer.append(record)
 
             if len(self._buffer) >= self._batch_max_size:
-                self._hass.async_create_task(self.flush())
+                asyncio.create_task(self.flush())
         except Exception as e:
             _LOGGER.error("remote_logger: %s entry handler failure %s on %s", self.logger_type, e, entry)
             self.on_format_error(str(e))
