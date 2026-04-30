@@ -20,15 +20,18 @@ from .const import (
     CONF_BACKEND,
     CONF_CUSTOM_EVENTS,
     CONF_ENCODING,
+    CONF_EVENT_BASED_LOGGING,
     CONF_LOG_HA_CORE_ACTIVITY,
     CONF_LOG_HA_CORE_CHANGES,
     CONF_LOG_HA_EVENT_BODY,
     CONF_LOG_HA_FULL_STATE_CHANGES,
     CONF_LOG_HA_LIFECYCLE,
     CONF_LOG_HA_STATE_CHANGES,
+    CONF_LOG_LEVEL,
     CONF_RESOURCE_ATTRIBUTES,
     CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME,
     CONF_USE_TLS,
+    DEFAULT_LOG_LEVEL,
     DOMAIN,
 )
 from .otel.const import CONF_TOKEN_TYPE, OTEL_DATA_SCHEMA, OTLP_LOGS_PATH, REAUTH_OTEL_DATA_SCHEMA, TOKEN_TYPE_BEARER
@@ -50,6 +53,13 @@ def _to_list(value: Any) -> list[str]:
 
 
 COMMON_DATA_SCHEMA = vol.Schema({
+    vol.Optional(CONF_EVENT_BASED_LOGGING, default=False): selector.BooleanSelector(),
+    vol.Optional(CONF_LOG_LEVEL, default=DEFAULT_LOG_LEVEL): selector.SelectSelector(
+        selector.SelectSelectorConfig(
+            options=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+            mode=selector.SelectSelectorMode.DROPDOWN,
+        )
+    ),
     vol.Required("ha_standard_events"): section(
         vol.Schema({
             vol.Optional(CONF_LOG_HA_LIFECYCLE, default=False): selector.BooleanSelector(),
@@ -345,6 +355,8 @@ class RemoteLoggerOptionsFlow(OptionsFlow):
 
         merged = {**self._config_entry.data, **self._config_entry.options}
         current = {
+            CONF_EVENT_BASED_LOGGING: merged.get(CONF_EVENT_BASED_LOGGING, False),
+            CONF_LOG_LEVEL: merged.get(CONF_LOG_LEVEL, DEFAULT_LOG_LEVEL),
             "ha_standard_events": {
                 CONF_LOG_HA_LIFECYCLE: merged.get(CONF_LOG_HA_LIFECYCLE, False),
                 CONF_LOG_HA_CORE_CHANGES: merged.get(CONF_LOG_HA_CORE_CHANGES, False),

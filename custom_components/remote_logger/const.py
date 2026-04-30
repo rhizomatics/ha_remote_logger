@@ -89,3 +89,7 @@ DEFAULT_USE_TLS = False
 
 CONF_CLIENT_TIMEOUT = "client_timeout"
 DEFAULT_CLIENT_TIMEOUT = 10
+
+CONF_EVENT_BASED_LOGGING = "event_based_logging"
+CONF_LOG_LEVEL = "log_level"
+DEFAULT_LOG_LEVEL = "INFO"

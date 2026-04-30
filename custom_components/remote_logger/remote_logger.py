@@ -18,15 +18,18 @@ from .const import (
     BACKEND_SYSLOG,
     CONF_BACKEND,
     CONF_CUSTOM_EVENTS,
+    CONF_EVENT_BASED_LOGGING,
     CONF_LOG_HA_CORE_ACTIVITY,
     CONF_LOG_HA_CORE_CHANGES,
     CONF_LOG_HA_EVENT_BODY,
     CONF_LOG_HA_FULL_STATE_CHANGES,
     CONF_LOG_HA_LIFECYCLE,
     CONF_LOG_HA_STATE_CHANGES,
+    CONF_LOG_LEVEL,
     CORE_ACTIVITY_EVENTS,
     CORE_CHANGE_EVENTS,
     CORE_STATE_EVENTS,
+    DEFAULT_LOG_LEVEL,
     DOMAIN,
     LIFECYCLE_EVENTS,
     PLATFORMS,
@@ -37,6 +40,7 @@ from .syslog.exporter import SyslogExporter
 REF_CANCEL_LISTENERS = "cancel_listeners"
 REF_FLUSH_TASK = "flush_task"
 REF_EXPORTER = "exporter"
+REF_LOG_HANDLER = "log_handler"
 
 SERVICE_SEND_LOG = "send_log"
 SERVICE_SEND_LOG_SCHEMA = vol.Schema({
@@ -93,15 +97,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_FINAL_WRITE, _flush_on_stop),
         entry.add_update_listener(_async_update_listener),
     ]
-    event_based_logging: bool = False # TODO: configurable
+
+    log_handler: logging.Handler | None = None
+    event_based_logging: bool = bool(opts.get(CONF_EVENT_BASED_LOGGING, False))
     if event_based_logging:
         cancel_listeners.append(hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event))
     else:
-        handler=ExportingLogHandler(hass,exporter.handle_entry)
-        handler.setLevel(logging.INFO) # TODO: configurable
-        logging.root.addHandler(handler)
+        log_level_name: str = opts.get(CONF_LOG_LEVEL, DEFAULT_LOG_LEVEL)
+        log_handler = ExportingLogHandler(hass, exporter.handle_entry)
+        log_handler.setLevel(getattr(logging, log_level_name, logging.INFO))
+        logging.root.addHandler(log_handler)
 
-    _LOGGER.info("remote_logger: listening for system_log_event, exporting %s to %s", backend, label)
+    _LOGGER.info("remote_logger: exporting %s to %s", backend, label)
 
     event_body: bool = bool(opts.get(CONF_LOG_HA_EVENT_BODY))
 
@@ -150,6 +157,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         REF_CANCEL_LISTENERS: cancel_listeners,
         REF_FLUSH_TASK: flush_task,
         REF_EXPORTER: exporter,
+        REF_LOG_HANDLER: log_handler,
     }
 
     if not hass.services.has_service(DOMAIN, SERVICE_SEND_LOG):
@@ -218,6 +226,10 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             cancel()
         except Exception as e:
             _LOGGER.warning("remote_logger: Failed to cancel listener on unload: %s", e)
+
+    handler = data.get(REF_LOG_HANDLER)
+    if handler is not None:
+        logging.root.removeHandler(handler)
 
     if data.get(REF_FLUSH_TASK):
         data[REF_FLUSH_TASK].cancel()
