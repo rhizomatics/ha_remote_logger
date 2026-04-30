@@ -7,12 +7,14 @@ import os
 import socket
 import ssl
 import time
+import datetime as dt
 from dataclasses import dataclass
+from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, cast
 
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PROTOCOL
-from homeassistant.core import Event, HomeAssistant, callback
-
+from homeassistant.core import Event, HomeAssistant
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from custom_components.remote_logger.const import (
     CONF_APP_NAME,
     CONF_BATCH_MAX_SIZE,
@@ -21,7 +23,6 @@ from custom_components.remote_logger.const import (
     CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME,
     CONF_USE_TLS,
     DEFAULT_CLIENT_TIMEOUT,
-    EVENT_SYSTEM_LOG,
 )
 from custom_components.remote_logger.exporter import LogExporter, LogMessage, LogSubmission
 from custom_components.remote_logger.helpers import flatten_event_data, isotimestamp
@@ -97,25 +98,25 @@ class SyslogExporter(LogExporter):
         )
         _LOGGER.info(f"remote_logger: syslog configured for {self.endpoint_desc}")
 
-    @callback
-    def handle_event(self, event: Event) -> None:
-        """Receive a system_log_event and buffer it."""
-        self.on_event()
-        if (
-            event.data
-            and event.data.get("source")
-            and len(event.data["source"]) == 2
-            and "custom_components/remote_logger/syslog" in event.data["source"][0]
-        ):
-            # prevent log loops
-            return
-        self._buffer.append(self._to_log_record(event))
-        if len(self._buffer) >= self._batch_max_size:
-            self._hass.async_create_task(self.flush())
-
-    def _to_log_record(
+    def event_to_log_record(
         self,
         event: Event,
+        message_override: list[str] | None = None,
+        level_override: str | None = None,
+        state_only: bool = False,
+    ) -> SyslogMessage:
+        return self.create_log_record(event.data,
+                                      event.event_type,
+                                      event.time_fired,
+                                      message_override=message_override,
+                                      level_override=level_override,
+                                      state_only=state_only)
+        
+    def create_log_record(
+        self,
+        event_data: Mapping[str,Any],
+        event_type: str|None=None,
+        time_fired: dt.datetime|None = None,
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
@@ -131,7 +132,7 @@ class SyslogExporter(LogExporter):
             "count": int
             "first_occurred": float
         """
-        data = event.data
+        data = event_data
         level: str = level_override or data.get("level", "INFO").upper()
         severity = SYSLOG_SEVERITY_MAP.get(level, DEFAULT_SYSLOG_SEVERITY)
         pri = self._facility * 8 + severity
@@ -147,7 +148,7 @@ class SyslogExporter(LogExporter):
         # Structured data with meta info
         sd = "-"
         sd_params: list[str] = []
-        if event.event_type == EVENT_SYSTEM_LOG:
+        if event_type == EVENT_SYSTEM_LOG:
             source = data.get("source")
             if source and isinstance(source, tuple):
                 source_path, source_linenum = source
@@ -170,9 +171,10 @@ class SyslogExporter(LogExporter):
             else:
                 msgid = "-"
         else:
-            sd_params.append(f"eventName={event.event_type}")
+            if event_type is not None:
+                sd_params.append(f"eventName={event_type}")
             # Use HA event type as MSGID for non-system-log events; "-" otherwise
-            msgid = event.event_type or "-"
+            msgid = event_type or "-"
             for k, v in data.items():
                 for flat_key, flat_val in flatten_event_data(f"event.data.{k}" if k != "event.data" else k, v, state_only):
                     sd_params.append(f'{_sd_escape(flat_key)}="{_sd_escape(str(flat_val))}"')

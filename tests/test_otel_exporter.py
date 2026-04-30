@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 import pytest
 from homeassistant.core import Event
 
-from custom_components.remote_logger.const import EVENT_SYSTEM_LOG
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from custom_components.remote_logger.otel.exporter import (
     OtlpJsonSubmission,
     OtlpLogExporter,
@@ -204,7 +204,7 @@ class TestOtlpLogExporter:
         assert "region" in keys
 
     def test_to_log_record_full(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
-        record: OtlpMessage = exporter._to_log_record(sample_log_event)
+        record: OtlpMessage = exporter.event_to_log_record(sample_log_event)
 
         assert record.payload["severityNumber"] == 17
         assert record.payload["severityText"] == "ERROR"
@@ -221,7 +221,7 @@ class TestOtlpLogExporter:
         assert "exception.first_occurred" in attr_keys
 
     def test_to_log_record_minimal(self, exporter: OtlpLogExporter, minimal_log_event: Event) -> None:
-        record = exporter._to_log_record(minimal_log_event)
+        record = exporter.event_to_log_record(minimal_log_event)
 
         assert record.payload["severityNumber"] == 9
         assert record.payload["severityText"] == "INFO"
@@ -230,19 +230,19 @@ class TestOtlpLogExporter:
         assert record.payload["attributes"] == []
 
     def test_to_log_record_unknown_level(self, exporter: OtlpLogExporter) -> None:
-        record = exporter._to_log_record(Event("system_log_event", data={"level": "TRACE", "message": ["test"]}))
+        record = exporter.event_to_log_record(Event("system_log_event", data={"level": "TRACE", "message": ["test"]}))
         # Falls back to default severity (INFO)
         assert record.payload["severityNumber"] == 9
         assert record.payload["severityText"] == "INFO"
 
     def test_to_log_record_multiple_messages(self, exporter: OtlpLogExporter) -> None:
-        record = exporter._to_log_record(Event("system_log_event", data={"message": ["line 1", "line 2", "line 3"]}))
+        record = exporter.event_to_log_record(Event("system_log_event", data={"message": ["line 1", "line 2", "line 3"]}))
         assert record.payload["body"]["stringValue"] == "line 1\nline 2\nline 3"
 
     def test_to_protobuf(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
         from custom_components.remote_logger.otel.exporter import OtlpProtobufSubmission
 
-        record = exporter._to_log_record(sample_log_event)
+        record = exporter.event_to_log_record(sample_log_event)
         submission = OtlpProtobufSubmission(exporter._resource, [record])
         result = submission.body()
         assert result["data"] is not None
@@ -252,7 +252,7 @@ class TestOtlpLogExporter:
     def test_to_json(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
         from custom_components.remote_logger.otel.exporter import OtlpJsonSubmission
 
-        record = exporter._to_log_record(sample_log_event)
+        record = exporter.event_to_log_record(sample_log_event)
         submission = OtlpJsonSubmission(exporter._resource, [record])
         result = submission.body()
         body = result["json"]
@@ -329,7 +329,7 @@ class TestOtlpLogExporter:
     def test_handle_event_exception_is_logged(self, exporter: OtlpLogExporter, mock_event: MagicMock) -> None:
         from unittest.mock import patch
 
-        with patch.object(exporter, "_to_log_record", side_effect=RuntimeError("bad")):
+        with patch.object(exporter, "event_to_log_record", side_effect=RuntimeError("bad")):
             exporter.handle_event(mock_event)
         assert len(exporter._buffer) == 0
 
@@ -424,21 +424,21 @@ class TestOtlpLogExporter:
 
     def test_to_log_record_event_data_as_attributes(self, exporter: OtlpLogExporter) -> None:
         data = {"domain": "light", "service": "turn_on", "count": 3}
-        record = exporter._to_log_record(Event("homeassistant_start", data=data))
+        record = exporter.event_to_log_record(Event("homeassistant_start", data=data))
         attr_keys = [a["key"] for a in record.payload["attributes"]]
         assert "event.data.domain" in attr_keys
         assert "event.data.service" in attr_keys
         assert "event.data.count" in attr_keys
 
     def test_to_log_record_ha_event_name_as_event_name(self, exporter: OtlpLogExporter) -> None:
-        record = exporter._to_log_record(Event("component_loaded"))
+        record = exporter.event_to_log_record(Event("component_loaded"))
         assert record.payload["eventName"] == "component_loaded"
 
     def test_to_log_record_system_log_has_no_event_name(self, exporter: OtlpLogExporter) -> None:
         event: Event[Mapping[str, list[str] | str | float]] = Event(
             EVENT_SYSTEM_LOG, {"message": ["test"], "level": "error", "timestamp": 1700000000.0}
         )
-        record: OtlpMessage = exporter._to_log_record(event)
+        record: OtlpMessage = exporter.event_to_log_record(event)
         assert "eventName" not in record.payload
 
     def test_handle_ha_event_buffers(self, exporter: OtlpLogExporter) -> None:
@@ -466,7 +466,7 @@ class TestOtlpLogExporter:
         event = MagicMock()
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {}
-        with patch.object(exporter, "_to_log_record", side_effect=RuntimeError("fail")):
+        with patch.object(exporter, "event_to_log_record", side_effect=RuntimeError("fail")):
             exporter.handle_ha_event("bad_event", event)
         assert exporter.format_error_count == 1
 

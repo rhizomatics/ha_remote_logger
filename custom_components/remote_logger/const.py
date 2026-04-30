@@ -24,8 +24,7 @@ CONF_APP_NAME = "app_name"
 CONF_FACILITY = "facility"
 
 
-# HA event type
-EVENT_SYSTEM_LOG = "system_log_event"
+
 
 # Optional HA event subscriptions config keys
 CONF_LOG_HA_LIFECYCLE = "log_ha_lifecycle"

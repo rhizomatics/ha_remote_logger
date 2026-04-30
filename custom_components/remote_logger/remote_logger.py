@@ -11,7 +11,9 @@ from typing import TYPE_CHECKING, Any
 import voluptuous as vol
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP
 from homeassistant.core import EVENT_HOMEASSISTANT_CLOSE, EVENT_HOMEASSISTANT_FINAL_WRITE, SupportsResponse, callback
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 
+from custom_components.remote_logger.handler import ExportingLogHandler
 from .const import (
     BACKEND_SYSLOG,
     CONF_BACKEND,
@@ -26,7 +28,6 @@ from .const import (
     CORE_CHANGE_EVENTS,
     CORE_STATE_EVENTS,
     DOMAIN,
-    EVENT_SYSTEM_LOG,
     LIFECYCLE_EVENTS,
     PLATFORMS,
 )
@@ -87,12 +88,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await exporter.disable_buffer()
 
     cancel_listeners: list[Callable[[], None]] = [
-        hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event),
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _flush_on_stop),
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_CLOSE, _flush_on_stop),
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_FINAL_WRITE, _flush_on_stop),
         entry.add_update_listener(_async_update_listener),
     ]
+    event_based_logging: bool = False # TODO: configurable
+    if event_based_logging:
+        hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event),
+    else:
+        handler=ExportingLogHandler(hass,exporter.handle_entry)
+        handler.setLevel(logging.DEBUG) # TODO: configurable
+        logging.root.addHandler(handler)
+
     _LOGGER.info("remote_logger: listening for system_log_event, exporting %s to %s", backend, label)
 
     event_body: bool = bool(opts.get(CONF_LOG_HA_EVENT_BODY))

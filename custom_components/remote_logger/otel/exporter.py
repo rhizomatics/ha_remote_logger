@@ -8,13 +8,15 @@ import re
 import time
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, cast
+import typing
+from collections.abc import Mapping
 
 import aiohttp
+import datetime as dt
 from homeassistant.const import CONF_HEADERS, CONF_HOST, CONF_PATH, CONF_PORT, CONF_TOKEN
 from homeassistant.const import __version__ as hass_version
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-
+from homeassistant.components.system_log import EVENT_SYSTEM_LOG
 from custom_components.remote_logger.const import (
     CONF_BATCH_MAX_SIZE,
     CONF_CLIENT_TIMEOUT,
@@ -22,8 +24,7 @@ from custom_components.remote_logger.const import (
     CONF_RESOURCE_ATTRIBUTES,
     CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME,
     CONF_USE_TLS,
-    DEFAULT_CLIENT_TIMEOUT,
-    EVENT_SYSTEM_LOG,
+    DEFAULT_CLIENT_TIMEOUT
 )
 from custom_components.remote_logger.exporter import LogExporter, LogMessage, LogSubmission
 from custom_components.remote_logger.helpers import flatten_event_data, isotimestamp
@@ -46,7 +47,7 @@ from .const import (
 )
 from .protobuf_encoder import encode_export_logs_request
 
-if TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
     from homeassistant.core import Event, HomeAssistant
 
@@ -118,13 +119,13 @@ def _mask_auth_headers(headers: dict[str, str]) -> dict[str, str]:
     return {k: _mask_credential(v) if k.lower() == "authorization" else v for k, v in headers.items()}
 
 
-def append_attr(attrs: list[dict[str, Any]], key: str, value: Any, force_null: bool = False) -> None:
-    attr: dict[str, Any] | None = _kv(key, value, force_null=force_null)
+def append_attr(attrs: list[dict[str, typing.Any]], key: str, value: typing.Any, force_null: bool = False) -> None:
+    attr: dict[str, typing.Any] | None = _kv(key, value, force_null=force_null)
     if attr is not None:
         attrs.append(attr)
 
 
-def _kv(key: str, value: Any, force_null: bool = False) -> dict[str, Any] | None:
+def _kv(key: str, value: typing.Any, force_null: bool = False) -> dict[str, typing.Any] | None:
     """Build an OTLP KeyValue attribute"""
     if value is None and not force_null:
         return None
@@ -186,22 +187,22 @@ async def validate(
 
 @dataclass
 class OtlpMessage(LogMessage):
-    payload: dict[str, Any]
+    payload: dict[str, typing.Any]
 
 
 class OtlpSubmission(LogSubmission):
     def __init__(
-        self, resource: dict[str, Any], records: list[OtlpMessage], extra_headers: dict[str, Any] | None = None
+        self, resource: dict[str, typing.Any], records: list[OtlpMessage], extra_headers: dict[str, typing.Any] | None = None
     ) -> None:
         self.extra_headers = extra_headers or {}
-        self.resource: dict[str, Any] = resource
-        self.request: dict[str, Any] = self._build_export_request(records)
+        self.resource: dict[str, typing.Any] = resource
+        self.request: dict[str, typing.Any] = self._build_export_request(records)
 
     @abstractmethod
-    def body(self) -> dict[str, Any]:
+    def body(self) -> dict[str, typing.Any]:
         pass
 
-    def _build_export_request(self, records: list[OtlpMessage]) -> dict[str, Any]:
+    def _build_export_request(self, records: list[OtlpMessage]) -> dict[str, typing.Any]:
         """Wrap logRecords in the ExportLogsServiceRequest envelope."""
         return {
             "resourceLogs": [
@@ -223,31 +224,31 @@ class OtlpSubmission(LogSubmission):
 
 class OtlpJsonSubmission(OtlpSubmission):
     def __init__(
-        self, resource: dict[str, Any], records: list[OtlpMessage], extra_headers: dict[str, Any] | None = None
+        self, resource: dict[str, typing.Any], records: list[OtlpMessage], extra_headers: dict[str, typing.Any] | None = None
     ) -> None:
         super().__init__(resource, records, extra_headers)
 
-    def body(self) -> dict[str, Any]:
+    def body(self) -> dict[str, typing.Any]:
         return {"headers": {"Content-Type": "application/json", **self.extra_headers}, "json": self.request}
 
-    def for_display(self) -> dict[str, Any]:
+    def for_display(self) -> dict[str, typing.Any]:
         body = self.body()
         return {**body, "headers": _mask_auth_headers(body["headers"])}
 
 
 class OtlpProtobufSubmission(OtlpSubmission):
     def __init__(
-        self, resource: dict[str, Any], records: list[OtlpMessage], extra_headers: dict[str, Any] | None = None
+        self, resource: dict[str, typing.Any], records: list[OtlpMessage], extra_headers: dict[str, typing.Any] | None = None
     ) -> None:
         super().__init__(resource, records, extra_headers)
 
-    def body(self) -> dict[str, Any]:
+    def body(self) -> dict[str, typing.Any]:
         return {
             "headers": {"Content-Type": "application/x-protobuf", **self.extra_headers},
             "data": encode_export_logs_request(self.request),
         }
 
-    def for_display(self) -> dict[str, Any]:
+    def for_display(self) -> dict[str, typing.Any]:
         base = self.body()
         return {
             "headers": _mask_auth_headers(base["headers"]),
@@ -289,12 +290,11 @@ class OtlpLogExporter(LogExporter):
         self._client_timeout = opts.get(CONF_CLIENT_TIMEOUT, DEFAULT_CLIENT_TIMEOUT)
         self._suppress_system_log_event_name = opts.get(CONF_SUPPRESS_SYSTEM_LOG_EVENT_NAME, True)
         self._extra_headers = self._build_extra_headers(opts)
-
         self._resource = self._build_resource(opts)
 
         _LOGGER.info(f"remote_logger: otel configured for {self.endpoint_url}, protobuf={self._use_protobuf}")
 
-    def _build_extra_headers(self, opts: dict[str, Any]) -> dict[str, str]:
+    def _build_extra_headers(self, opts: dict[str, typing.Any]) -> dict[str, str]:
         headers: dict[str, str] = {}
         token = opts.get(CONF_TOKEN, "").strip()
         if token:
@@ -305,9 +305,9 @@ class OtlpLogExporter(LogExporter):
             headers.update(parse_headers(raw_headers))
         return headers
 
-    def _build_resource(self, opts: dict[str, Any]) -> dict[str, Any]:
+    def _build_resource(self, opts: dict[str, typing.Any]) -> dict[str, typing.Any]:
         """Build the OTLP Resource object with attributes."""
-        attrs: list[dict[str, Any]] = []
+        attrs: list[dict[str, typing.Any]] = []
         append_attr(attrs, "service.name", DEFAULT_SERVICE_NAME)
         append_attr(attrs, "service.version", hass_version or "unknown")
 
@@ -322,10 +322,27 @@ class OtlpLogExporter(LogExporter):
                 append_attr(attrs, key, value)
 
         return {"attributes": attrs}
-
-    def _to_log_record(
+    
+    def event_to_log_record(
         self,
         event: Event,
+        message_override: list[str] | None = None,
+        level_override: str | None = None,
+        state_only: bool = False,
+    ) -> OtlpMessage:
+        return self.create_log_record(event.data,
+                                      event.event_type,
+                                      event.time_fired,
+                                      message_override=message_override,
+                                      level_override=level_override,
+                                      state_only=state_only)
+        
+
+    def create_log_record(
+        self,
+        event_data: Mapping[str,typing.Any],
+        event_type: str|None=None,
+        time_fired: dt.datetime|None = None,
         message_override: list[str] | None = None,
         level_override: str | None = None,
         state_only: bool = False,
@@ -341,10 +358,11 @@ class OtlpLogExporter(LogExporter):
             "count": int
             "first_occurred": float
         """
-        data = event.data or {}
+        data: typing.Mapping[str, typing.Any] | dict[str, typing.Any] = event_data or {}
+        time_fired = time_fired or dt.datetime.now()
         timestamp_s: float = data.get("timestamp", time.time())
         time_unix_nano = str(int(timestamp_s * 1_000_000_000))
-        observed_timestamp: float = event.time_fired.timestamp()
+        observed_timestamp: float = time_fired.timestamp()
         observed_time_unix_nano = str(int(observed_timestamp * 1_000_000_000))
 
         level: str = level_override or data.get("level", "INFO").upper()
@@ -353,9 +371,9 @@ class OtlpLogExporter(LogExporter):
         messages: list[str] = message_override or data.get("message", [])
         message: str = "\n".join(messages)
 
-        attributes: list[dict[str, Any]] = []
+        attributes: list[dict[str, typing.Any]] = []
 
-        if event.event_type == EVENT_SYSTEM_LOG:
+        if event_type == EVENT_SYSTEM_LOG or event_type is None:
             source = data.get("source")
             if source and isinstance(source, tuple):
                 source_path, source_lineno = source
@@ -378,7 +396,7 @@ class OtlpLogExporter(LogExporter):
                     append_attr(attributes, flat_key, flat_val)
 
         # https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/logs/v1/logs.proto
-        payload: dict[str, Any] = {
+        payload: dict[str, typing.Any] = {
             "timeUnixNano": time_unix_nano,
             "observedTimeUnixNano": observed_time_unix_nano,
             "severityNumber": severity_number,
@@ -386,8 +404,8 @@ class OtlpLogExporter(LogExporter):
             "body": {"stringValue": message},
             "attributes": attributes,
         }
-        if event.event_type != EVENT_SYSTEM_LOG or not self._suppress_system_log_event_name:
-            payload["eventName"] = event.event_type
+        if event_type is not None and (event_type != EVENT_SYSTEM_LOG or not self._suppress_system_log_event_name):
+            payload["eventName"] = event_type
         return OtlpMessage(payload=payload)
 
     async def flush(self) -> None:
@@ -396,7 +414,7 @@ class OtlpLogExporter(LogExporter):
         async with self._lock:
             if not self._buffer:
                 return
-            records = cast("list[OtlpMessage]", self._buffer.copy())
+            records = typing.cast("list[OtlpMessage]", self._buffer.copy())
             self._buffer.clear()
 
         try:
@@ -441,12 +459,12 @@ class OtlpLogExporter(LogExporter):
             _LOGGER.exception("remote_logger: unexpected error %s sending logs, skipping records", e)
             self.on_posting_error(str(e))
 
-    def log_direct(self, event_name: str, message: str, level: str, attributes: dict[str, Any] | None = None) -> None:
+    def log_direct(self, event_name: str, message: str, level: str, attributes: dict[str, typing.Any] | None = None) -> None:
         """Buffer a custom log record without requiring a HA Event."""
         now = time.time()
         time_unix_nano = str(int(now * 1_000_000_000))
         severity_number, severity_text = SEVERITY_MAP.get(level.upper(), DEFAULT_SEVERITY)
-        attrs: list[dict[str, Any]] = []
+        attrs: list[dict[str, typing.Any]] = []
         for k, v in (attributes or {}).items():
             append_attr(attrs, k, v)
 

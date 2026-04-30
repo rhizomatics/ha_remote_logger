@@ -1,4 +1,5 @@
 import asyncio
+from collections.abc import Mapping
 import json
 import logging
 import threading
@@ -83,6 +84,7 @@ class LogExporter:
         self.flushing.clear()
         await self.flush()
 
+
     @callback
     def handle_event(self, event: Event) -> None:
         self.on_event()
@@ -95,14 +97,48 @@ class LogExporter:
             # prevent log loops
             return
         try:
-            record: LogMessage = self._to_log_record(event)
+            record: LogMessage = self.event_to_log_record(event)
             self._buffer.append(record)
 
             if len(self._buffer) >= self._batch_max_size:
                 self._hass.async_create_task(self.flush())
         except Exception as e:
-            _LOGGER.error("remote_logger: %s handler failure %s on %s", self.logger_type, e, event.data)
+            _LOGGER.error("remote_logger: %s event handler failure %s on %s", self.logger_type, e, event.data)
             self.on_format_error(str(e))
+
+    @callback
+    def handle_entry(self, entry: Mapping[str,Any], time_fired:dt.datetime) -> None:
+        self.on_event()
+        if (
+            entry
+            and entry.get("source")
+            and len(entry["source"]) == 2
+            and self.self_source in entry["source"][0]
+        ):
+            # prevent log loops
+            return
+        try:
+            record: LogMessage = self.create_log_record(entry,None,time_fired)
+            self._buffer.append(record)
+
+            if len(self._buffer) >= self._batch_max_size:
+                self._hass.async_create_task(self.flush())
+        except Exception as e:
+            _LOGGER.error("remote_logger: %s entry handler failure %s on %s", self.logger_type, e, entry)
+            self.on_format_error(str(e))
+
+    @abstractmethod
+    def create_log_record(
+        self,
+        event_data: Mapping[str,Any],
+        event_type: str|None=None,
+        time_fired: dt.datetime|None = None,
+        message_override: list[str] | None = None,
+        level_override: str | None = None,
+        state_only: bool = False,
+    ) -> LogMessage:
+        pass
+        
 
     @callback
     def handle_ha_event(self, event_type: str, event: Event, state_only: bool = False, event_body: bool = False) -> None:
@@ -154,7 +190,7 @@ class LogExporter:
                 if flat_event:
                     event.data["event.data"] = json.dumps(flat_event, default=_event_data_serializer, indent=2)
 
-            record: LogMessage = self._to_log_record(
+            record: LogMessage = self.event_to_log_record(
                 event, message_override=message, level_override="INFO", state_only=state_only
             )
             self._buffer.append(record)
@@ -165,7 +201,7 @@ class LogExporter:
             self.on_format_error(str(e))
 
     @abstractmethod
-    def _to_log_record(
+    def event_to_log_record(
         self,
         event: Event,
         message_override: list[str] | None = None,
