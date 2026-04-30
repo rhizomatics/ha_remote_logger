@@ -98,7 +98,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         cancel_listeners.append(hass.bus.async_listen(EVENT_SYSTEM_LOG, exporter.handle_event))
     else:
         handler=ExportingLogHandler(hass,exporter.handle_entry)
-        handler.setLevel(logging.DEBUG) # TODO: configurable
+        handler.setLevel(logging.INFO) # TODO: configurable
         logging.root.addHandler(handler)
 
     _LOGGER.info("remote_logger: listening for system_log_event, exporting %s to %s", backend, label)
