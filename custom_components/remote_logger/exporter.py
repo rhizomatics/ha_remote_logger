@@ -141,6 +141,8 @@ class LogExporter:
                 message = [event_type, ":", event.data["floor_id"], event.data.get("action", "???")]
             elif event_type in (EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED):
                 message = [event_type, ":", event.data["user_id"]]
+            elif event_type == "autoarm_change":
+                message = [event_type,":",event.data["original_state"],"->",event.data["new_state"]," from ",event.data["change_source"]]
             elif any(v in event.data for v in title_fields):
                 message = [event_type, ":"] + [event.data[v] for v in title_fields if v in event.data]
             else:
