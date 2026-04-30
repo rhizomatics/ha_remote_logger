@@ -19,11 +19,11 @@
 <br/>
 
 Use log aggregation and analysis tools to get a complete picture of your home automation. Remote Logger for Home Assistant
-listens to Home Assistant system log events and sends structured log events to a remote Syslog or OpenTelemetry (OTLP) collector. Optionally forwards other Home Assistant events, such as lifecycle events, service calls, configuration updates, state changes.
+listens to Home Assistant logging at source and sends structured log events to a remote Syslog or OpenTelemetry (OTLP) collector. Optionally forwards other Home Assistant events, such as lifecycle events, service calls, configuration updates, state changes.
 
 ![Example OTEL Stack Trace](https://remote-logger.rhizomatics.org.uk/assets/images/otel_stack_trace.png){width=600}
 
-Unlike many logging solutions that scrape consoles logs, Remote Logger taps into the internal Home Assistant internal event, preserving the full structure so multi-line logs and stacktraces are preserved as single log entries, and will capture script names, line numbers and versions properly.
+Unlike many logging solutions that scrape consoles logs, Remote Logger taps into either the root Python logger or the `system_log_event` Event fired by Home Assistant, preserving the full structure so multi-line logs and stacktraces are preserved as single log entries, utilizes the Home Assistant logic to tie exceptions back to source code lines, and will capture script names, line numbers and versions properly.
 
 Only Home Assistant server itself, with its custom components is supported. Logs from *apps* (previously known as 'add-ins'), HAOS or the HA Supervisor aren't provided as events to be captured, so require an alternative solution, like Bert Baron's [LogSpout Home Assistant App](https://github.com/bertbaron/hassio-addons/tree/main/logspout) will cover these. It can be used in combination with *Remote Logger* so that Home Assistant has good structured logs, and everything else is at least logged. Since it uses Syslog and OTLP it can also be easily integrated with practically
 everything else in your environment, including SIEM cybersecurity logs from firewalls, Unifi networking, Docker logs etc. See the section on [aggregators](aggregators.md) for suggestions if you're not familiar with these.
@@ -38,7 +38,9 @@ The integration installs using the Home Assistant integrations page, and has **n
 
 ![Choose Integration](https://remote-logger.rhizomatics.org.uk/assets/images/config_choose.png){width=400}
 
-However, a YAML change is required to the Home Assistant [System Log](https://www.home-assistant.io/integrations/system_log/) integration, to enable event forwarding for `system_log_event`.
+### Event Based Logging
+
+If choosing event based logging over the Python root logger, then a YAML change is required to the Home Assistant [System Log](https://www.home-assistant.io/integrations/system_log/) integration, to enable event forwarding for `system_log_event`. This is not required if using the default Python root logger approach.
 
 ```yaml title="Home Assistant Configuration"
 system_log:
@@ -71,12 +73,10 @@ Syslog can be sent as TCP or UDP.
 
 ### System Log Event
 
-Note the requirement at [Installation](#installation) to enable this event,
-which isn't fired by default.
+Note the requirement at [Installation](#installation) to enable this event, which isn't fired by default. This
+is limited to *Warning* and *Error* events. Find out more at the [System Log](https://www.home-assistant.io/integrations/system_log/) integration documentation.
 
-*Remote Logger* will omit its own log events from the stream, to prevent
-the possibility of event loops. As an alternative, error stats and messages
-are available as diagnostic entities.
+*Remote Logger* will omit its own log events from the stream, to prevent the possibility of event loops. As an alternative, error stats and messages are available as diagnostic entities.
 
 #### Additional Attributes
 
@@ -95,8 +95,7 @@ level of Syslog.
 
 ### Other Events
 
-*Remote Logger* can log any Home Assistant event, and knows about the core
-ones, in order to create a more readable message. Find out more in the [Events](events.md) guidance.
+*Remote Logger* can log any Home Assistant event, and knows about the core ones, in order to create a more readable message. Find out more in the [Events](events.md) guidance.
 
 ![Home Assistant Events in OpenObserve](https://remote-logger.rhizomatics.org.uk/assets/images/ha_events_in_openobserve.png){width=720}
 

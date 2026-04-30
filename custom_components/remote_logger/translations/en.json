@@ -73,7 +73,7 @@
         "title": "Additional Home Assistant Events",
         "description": "Optionally subscribe to Home Assistant events beyond system log messages.",
         "data": {
-          "event_based_logging": "Use system_log_event instead of Python root logger",
+          "event_based_logging": "Use System Log events in place of Python root logger",
           "log_level": "Minimum log level (root logger mode only)",
           "log_ha_event_body": "Serialize event data into log body",
           "suppress_system_log_event_name": "Suppress system_log_event as event name",

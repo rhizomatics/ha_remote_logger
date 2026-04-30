@@ -1,3 +1,11 @@
+# 2.0.0
+## Root Log Handler
+- New way to capture logs at any level
+  - `system_log_event` based logging is clean but limited to WARN and ERROR levels
+    - Also requires a YAML change to fire event
+  - Config now has a choice of using Python root logger
+    - Configurable to a minimum log level (default `INFO` can be `DEBUG` if needed) which captures all logging
+    - Reuses same logic as System Log to tie back exceptions to source code
 # 1.6.0
 ## py3.13 and py3.14
 - Automated testing and linting is done for both Python 3.13 ( with the corresponding 2026.2 max Home Assistant version) and Python 3.14 with the latest Home Assistant public release
