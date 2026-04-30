@@ -121,7 +121,7 @@ class LogExporter:
             self._buffer.append(record)
 
             if len(self._buffer) >= self._batch_max_size:
-                asyncio.create_task(self.flush())
+                self._hass.create_task(self.flush())
         except Exception as e:
             _LOGGER.error("remote_logger: %s entry handler failure %s on %s", self.logger_type, e, entry)
             self.on_format_error(str(e))
