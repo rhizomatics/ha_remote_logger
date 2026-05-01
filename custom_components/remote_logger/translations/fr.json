@@ -83,8 +83,8 @@
           "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires (ex. zha_event). Saisir un nom d'événement par entrée.",
           "log_ha_event_body": "Lorsqu'activé, les données complètes de l'événement sont sérialisées en JSON dans le corps du journal. Seuls entity_id, domain et service sont conservés comme attributs structurés.",
           "suppress_system_log_event_name": "Lorsqu'il est activé, les enregistrements system_log_event sont exportés sans champ eventName. Désactiver lors de l'utilisation de remote_logger comme enregistreur d'événements général afin que tous les types d'événements puissent être distingués.",
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
-          "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
+          "event_based_logging": "Lorsqu'il est désactivé (par défaut), les journaux sont capturés via le logger racine Python — tous les niveaux de log sont disponibles et le niveau minimum est configurable. Lorsqu'il est activé, les journaux sont capturés via l'événement de bus system_log_event de Home Assistant, qui ne remonte que les enregistrements WARNING et ERROR.",
+          "log_level": "Sévérité minimale transmise à l'endpoint distant. S'applique uniquement lorsque le mode logger racine est actif (system_log_event désactivé). Défaut : INFO."
         },
         "sections": {
           "ha_standard_events": {
@@ -183,8 +183,8 @@
           "custom_events": "Liste optionnelle de noms d'événements Home Assistant supplémentaires (ex. zha_event). Saisir un nom d'événement par entrée.",
           "log_ha_event_body": "Lorsqu'activé, les données complètes de l'événement sont sérialisées en JSON dans le corps du journal. Seuls entity_id, domain et service sont conservés comme attributs structurés.",
           "suppress_system_log_event_name": "Lorsqu'il est activé, les enregistrements system_log_event sont exportés sans champ eventName. Désactiver lors de l'utilisation de remote_logger comme enregistreur d'événements général afin que tous les types d'événements puissent être distingués.",
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
-          "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
+          "event_based_logging": "Lorsqu'il est désactivé (par défaut), les journaux sont capturés via le logger racine Python — tous les niveaux de log sont disponibles et le niveau minimum est configurable. Lorsqu'il est activé, les journaux sont capturés via l'événement de bus system_log_event de Home Assistant, qui ne remonte que les enregistrements WARNING et ERROR.",
+          "log_level": "Sévérité minimale transmise à l'endpoint distant. S'applique uniquement lorsque le mode logger racine est actif (system_log_event désactivé). Défaut : INFO."
         },
         "sections": {
           "ha_standard_events": {

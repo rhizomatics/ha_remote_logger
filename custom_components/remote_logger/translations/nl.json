@@ -83,8 +83,8 @@
           "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
           "log_ha_event_body": "Indien ingeschakeld worden de volledige gebeurtenisdata als JSON geserialiseerd in de logbodytekst. Alleen entity_id, domain en service worden als gestructureerde attributen bewaard.",
           "suppress_system_log_event_name": "Wanneer ingeschakeld, worden system_log_event-records geëxporteerd zonder een eventName-veld. Schakel uit wanneer remote_logger als algemene gebeurtenisrecorder wordt gebruikt, zodat alle typen gebeurtenissen onderscheiden kunnen worden.",
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
-          "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
+          "event_based_logging": "Wanneer uitgeschakeld (standaard), worden logboeken vastgelegd via de Python-rootlogger — alle logniveaus zijn beschikbaar en het minimale niveau is instelbaar. Wanneer ingeschakeld, worden logboeken vastgelegd via de Home Assistant system_log_event-busgebeurtenis, die alleen WARNING- en ERROR-records toont.",
+          "log_level": "Minimale ernst doorgestuurd naar het externe eindpunt. Geldt alleen wanneer de rootloggermodus actief is (system_log_event uitgeschakeld). Standaard: INFO."
         },
         "sections": {
           "ha_standard_events": {
@@ -183,8 +183,8 @@
           "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
           "log_ha_event_body": "Indien ingeschakeld worden de volledige gebeurtenisdata als JSON geserialiseerd in de logbodytekst. Alleen entity_id, domain en service worden als gestructureerde attributen bewaard.",
           "suppress_system_log_event_name": "Wanneer ingeschakeld, worden system_log_event-records geëxporteerd zonder een eventName-veld. Schakel uit wanneer remote_logger als algemene gebeurtenisrecorder wordt gebruikt, zodat alle typen gebeurtenissen onderscheiden kunnen worden.",
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
-          "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
+          "event_based_logging": "Wanneer uitgeschakeld (standaard), worden logboeken vastgelegd via de Python-rootlogger — alle logniveaus zijn beschikbaar en het minimale niveau is instelbaar. Wanneer ingeschakeld, worden logboeken vastgelegd via de Home Assistant system_log_event-busgebeurtenis, die alleen WARNING- en ERROR-records toont.",
+          "log_level": "Minimale ernst doorgestuurd naar het externe eindpunt. Geldt alleen wanneer de rootloggermodus actief is (system_log_event uitgeschakeld). Standaard: INFO."
         },
         "sections": {
           "ha_standard_events": {

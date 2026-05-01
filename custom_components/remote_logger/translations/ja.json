@@ -83,8 +83,8 @@
           "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
           "log_ha_event_body": "有効にすると、完全なイベントデータがJSONとしてログ本文にシリアライズされます。entity_id、domain、serviceのみが構造化属性として保持されます。",
           "suppress_system_log_event_name": "有効にすると、system_log_event レコードは eventName フィールドなしでエクスポートされます。remote_logger を汎用イベントレコーダーとして使用する場合は無効にし、すべてのイベントタイプを区別できるようにしてください。",
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
-          "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
+          "event_based_logging": "無効（デフォルト）の場合、ログは Python ルートロガー経由でキャプチャされます — すべてのログレベルが利用可能で、最小レベルは設定可能です。有効の場合、ログは Home Assistant の system_log_event バスイベント経由でキャプチャされ、WARNING および ERROR レコードのみが表示されます。",
+          "log_level": "リモートエンドポイントに転送される最小重大度。ルートロガーモードが有効な場合（system_log_event が無効）にのみ適用されます。デフォルト：INFO。"
         },
         "sections": {
           "ha_standard_events": {
@@ -183,8 +183,8 @@
           "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
           "log_ha_event_body": "有効にすると、完全なイベントデータがJSONとしてログ本文にシリアライズされます。entity_id、domain、serviceのみが構造化属性として保持されます。",
           "suppress_system_log_event_name": "有効にすると、system_log_event レコードは eventName フィールドなしでエクスポートされます。remote_logger を汎用イベントレコーダーとして使用する場合は無効にし、すべてのイベントタイプを区別できるようにしてください。",
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
-          "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
+          "event_based_logging": "無効（デフォルト）の場合、ログは Python ルートロガー経由でキャプチャされます — すべてのログレベルが利用可能で、最小レベルは設定可能です。有効の場合、ログは Home Assistant の system_log_event バスイベント経由でキャプチャされ、WARNING および ERROR レコードのみが表示されます。",
+          "log_level": "リモートエンドポイントに転送される最小重大度。ルートロガーモードが有効な場合（system_log_event が無効）にのみ適用されます。デフォルト：INFO。"
         },
         "sections": {
           "ha_standard_events": {
