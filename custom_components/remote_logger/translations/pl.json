@@ -74,7 +74,7 @@
         "description": "Opcjonalnie subskrybuj zdarzenia Home Assistant wykraczające poza komunikaty dziennika systemowego.",
         "data": {
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "Pomiń system_log_event jako nazwę zdarzenia",
           "custom_events": "Jedno lub więcej zdarzeń",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -175,7 +175,7 @@
         "data": {
           "custom_events": "Niestandardowe nazwy zdarzeń",
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "Pomiń system_log_event jako nazwę zdarzenia",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
         },

@@ -74,7 +74,7 @@
         "description": "システムログメッセージ以外のHome Assistantイベントをオプションで購読します。",
         "data": {
           "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "イベント名としての system_log_event を抑制",
           "custom_events": "1つ以上のイベント",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -175,7 +175,7 @@
         "data": {
           "custom_events": "カスタムイベント名",
           "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "イベント名としての system_log_event を抑制",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
         },

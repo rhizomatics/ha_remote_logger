@@ -74,7 +74,7 @@
         "description": "Abonnez-vous optionnellement aux événements Home Assistant au-delà des journaux système.",
         "data": {
           "log_ha_event_body": "Sérialiser les données d'événement dans le corps du journal",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "Supprimer system_log_event comme nom d'événement",
           "custom_events": "Un ou plusieurs événements",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -174,7 +174,7 @@
         "description": "Abonnez-vous optionnellement aux événements Home Assistant au-delà des journaux système.",
         "data": {
           "log_ha_event_body": "Sérialiser les données d'événement dans le corps du journal",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "Supprimer system_log_event comme nom d'événement",
           "custom_events": "Noms d'événements personnalisés",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"

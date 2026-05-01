@@ -74,7 +74,7 @@
         "description": "Suscríbete opcionalmente a eventos de Home Assistant más allá de los mensajes de registro del sistema.",
         "data": {
           "log_ha_event_body": "Serializar datos de eventos en el cuerpo del registro",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "Suprimir system_log_event como nombre de evento",
           "custom_events": "Uno o más eventos",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -175,7 +175,7 @@
         "data": {
           "custom_events": "Nombres de eventos personalizados",
           "log_ha_event_body": "Serializar datos de eventos en el cuerpo del registro",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "Suprimir system_log_event como nombre de evento",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
         },

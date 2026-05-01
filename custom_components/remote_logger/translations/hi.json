@@ -74,7 +74,7 @@
         "description": "सिस्टम लॉग संदेशों से परे Home Assistant इवेंट वैकल्पिक रूप से सब्सक्राइब करें।",
         "data": {
           "log_ha_event_body": "इवेंट डेटा को लॉग बॉडी में सीरियलाइज़ करें",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "इवेंट नाम के रूप में system_log_event को दबाएँ",
           "custom_events": "एक या अधिक इवेंट",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -175,7 +175,7 @@
         "data": {
           "custom_events": "कस्टम इवेंट नाम",
           "log_ha_event_body": "इवेंट डेटा को लॉग बॉडी में सीरियलाइज़ करें",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "इवेंट नाम के रूप में system_log_event को दबाएँ",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
         },

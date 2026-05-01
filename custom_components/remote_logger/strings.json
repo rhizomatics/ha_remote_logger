@@ -80,7 +80,7 @@
           "custom_events": "One or more events"
         },
         "data_description": {
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
+          "event_based_logging": "Alternative to the default capture via Python root logger. More standard but only warning and error logs available.",
           "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO.",
           "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line or comma-separated (e.g. zha_event).",
           "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes. Alternatively, preserve single JSON structure, which will mean a log database generates a column for every possible field.",
@@ -180,7 +180,7 @@
           "custom_events": "Custom event names"
         },
         "data_description": {
-          "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
+          "event_based_logging": "Alternative to the default capture via Python root logger. More standard but only warning and error logs available.",
           "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO.",
           "custom_events": "Optional list of additional Home Assistant event names to subscribe to, one per line or comma-separated (e.g. zha_event).",
           "log_ha_event_body": "When enabled, the full event data is serialized as JSON into the log body. Only entity_id, domain, and service are retained as structured attributes. Alternatively, preserve single JSON structure, which will mean a log database generates a column for every possible field.",

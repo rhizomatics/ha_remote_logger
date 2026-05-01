@@ -74,7 +74,7 @@
         "description": "可选择订阅系统日志消息以外的 Home Assistant 事件。",
         "data": {
           "log_ha_event_body": "将事件数据序列化到日志正文",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "将 system_log_event 作为事件名称时进行抑制",
           "custom_events": "一个或多个事件",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -175,7 +175,7 @@
         "data": {
           "custom_events": "自定义事件名称",
           "log_ha_event_body": "将事件数据序列化到日志正文",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "将 system_log_event 作为事件名称时进行抑制",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
         },

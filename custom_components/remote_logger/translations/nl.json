@@ -74,7 +74,7 @@
         "description": "Abonneer u optioneel op Home Assistant-gebeurtenissen buiten de systeemlogberichten.",
         "data": {
           "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "system_log_event als gebeurtenisnaam onderdrukken",
           "custom_events": "Een of meer gebeurtenissen",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
@@ -175,7 +175,7 @@
         "data": {
           "custom_events": "Aangepaste gebeurtenisnamen",
           "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "system_log_event als gebeurtenisnaam onderdrukken",
           "event_based_logging": "Use system_log_event instead of Python root logger",
           "log_level": "Minimum log level (root logger mode only)"
         },

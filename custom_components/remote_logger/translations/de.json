@@ -74,9 +74,9 @@
         "description": "Optionale Abonnements für Home Assistant-Ereignisse über Systemprotokolle hinaus.",
         "data": {
           "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "system_log_event als Ereignisname unterdrücken",
           "custom_events": "Ein oder mehrere Ereignisse",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
+          "event_based_logging": "system_log_event statt Python-Root-Logger verwenden",
           "log_level": "Minimum log level (root logger mode only)"
         },
         "data_description": {
@@ -174,9 +174,9 @@
         "description": "Optionale Abonnements für Home Assistant-Ereignisse über Systemprotokolle hinaus.",
         "data": {
           "log_ha_event_body": "Ereignisdaten in den Log-Körper serialisieren",
-          "suppress_system_log_event_name": "Suppress system_log_event as event name",
+          "suppress_system_log_event_name": "system_log_event als Ereignisname unterdrücken",
           "custom_events": "Benutzerdefinierte Ereignisnamen",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
+          "event_based_logging": "system_log_event statt Python-Root-Logger verwenden",
           "log_level": "Minimum log level (root logger mode only)"
         },
         "data_description": {
