@@ -76,8 +76,8 @@
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
           "suppress_system_log_event_name": "Pomiń system_log_event jako nazwę zdarzenia",
           "custom_events": "Jedno lub więcej zdarzeń",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "Użyj system_log_event zamiast głównego rejestratora Python",
+          "log_level": "Minimalny poziom dziennika (tylko tryb głównego rejestratora)"
         },
         "data_description": {
           "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",
@@ -176,8 +176,8 @@
           "custom_events": "Niestandardowe nazwy zdarzeń",
           "log_ha_event_body": "Serializuj dane zdarzenia do treści dziennika",
           "suppress_system_log_event_name": "Pomiń system_log_event jako nazwę zdarzenia",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "Użyj system_log_event zamiast głównego rejestratora Python",
+          "log_level": "Minimalny poziom dziennika (tylko tryb głównego rejestratora)"
         },
         "data_description": {
           "custom_events": "Opcjonalna lista dodatkowych nazw zdarzeń Home Assistant (np. zha_event). Wprowadź jedną nazwę zdarzenia na wpis.",

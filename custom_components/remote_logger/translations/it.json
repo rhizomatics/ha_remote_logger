@@ -76,13 +76,13 @@
           "log_ha_event_body": "Serializza i dati dell'evento nel corpo del log",
           "suppress_system_log_event_name": "Sopprimi system_log_event come nome evento",
           "custom_events": "Uno o più eventi",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "Usa system_log_event al posto del logger radice Python",
+          "log_level": "Livello di log minimo (solo modalità logger radice)"
         },
         "data_description": {
           "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi (es. zha_event). Inserire un nome di evento per voce.",
           "log_ha_event_body": "Quando abilitato, i dati completi dell'evento vengono serializzati come JSON nel corpo del log. Solo entity_id, domain e service vengono mantenuti come attributi strutturati.",
-          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished.",
+          "suppress_system_log_event_name": "Quando abilitato, i record system_log_event vengono esportati senza un campo eventName. Disabilitare quando si utilizza remote_logger come registratore di eventi generale in modo che tutti i tipi di eventi possano essere distinti.",
           "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
           "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
         },
@@ -176,13 +176,13 @@
           "log_ha_event_body": "Serializza i dati dell'evento nel corpo del log",
           "suppress_system_log_event_name": "Sopprimi system_log_event come nome evento",
           "custom_events": "Nomi di eventi personalizzati",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "Usa system_log_event al posto del logger radice Python",
+          "log_level": "Livello di log minimo (solo modalità logger radice)"
         },
         "data_description": {
           "custom_events": "Lista opzionale di nomi di eventi Home Assistant aggiuntivi (es. zha_event). Inserire un nome di evento per voce.",
           "log_ha_event_body": "Quando abilitato, i dati completi dell'evento vengono serializzati come JSON nel corpo del log. Solo entity_id, domain e service vengono mantenuti come attributi strutturati.",
-          "suppress_system_log_event_name": "When enabled, system_log_event records are exported without an eventName field. Disable when using remote_logger as a general event recorder so all event types can be distinguished.",
+          "suppress_system_log_event_name": "Quando abilitato, i record system_log_event vengono esportati senza un campo eventName. Disabilitare quando si utilizza remote_logger come registratore di eventi generale in modo che tutti i tipi di eventi possano essere distinti.",
           "event_based_logging": "When disabled (default), logs are captured via the Python root logger — all log levels are available and the minimum level is configurable. When enabled, logs are captured via the Home Assistant system_log_event bus event, which only surfaces WARNING and ERROR records.",
           "log_level": "Minimum severity forwarded to the remote endpoint. Only applies when root logger mode is active (system_log_event disabled). Default: INFO."
         },

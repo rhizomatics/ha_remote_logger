@@ -76,8 +76,8 @@
           "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst",
           "suppress_system_log_event_name": "system_log_event als gebeurtenisnaam onderdrukken",
           "custom_events": "Een of meer gebeurtenissen",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "system_log_event gebruiken in plaats van Python-rootlogger",
+          "log_level": "Minimaal logniveau (alleen rootloggermodus)"
         },
         "data_description": {
           "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",
@@ -176,8 +176,8 @@
           "custom_events": "Aangepaste gebeurtenisnamen",
           "log_ha_event_body": "Gebeurtenisdata serialiseren naar de logbodytekst",
           "suppress_system_log_event_name": "system_log_event als gebeurtenisnaam onderdrukken",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "system_log_event gebruiken in plaats van Python-rootlogger",
+          "log_level": "Minimaal logniveau (alleen rootloggermodus)"
         },
         "data_description": {
           "custom_events": "Optionele lijst met aanvullende Home Assistant-gebeurtenisnamen (bijv. zha_event). Voer één gebeurtenisnaam per invoer in.",

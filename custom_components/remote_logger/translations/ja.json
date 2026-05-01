@@ -76,8 +76,8 @@
           "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
           "suppress_system_log_event_name": "イベント名としての system_log_event を抑制",
           "custom_events": "1つ以上のイベント",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "Python ルートロガーの代わりに system_log_event を使用",
+          "log_level": "最小ログレベル（ルートロガーモードのみ）"
         },
         "data_description": {
           "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",
@@ -176,8 +176,8 @@
           "custom_events": "カスタムイベント名",
           "log_ha_event_body": "イベントデータをログ本文にシリアライズ",
           "suppress_system_log_event_name": "イベント名としての system_log_event を抑制",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "Python ルートロガーの代わりに system_log_event を使用",
+          "log_level": "最小ログレベル（ルートロガーモードのみ）"
         },
         "data_description": {
           "custom_events": "購読する追加のHome Assistantイベント名のオプションリスト（例: zha_event）。1エントリにつき1つ入力してください。",

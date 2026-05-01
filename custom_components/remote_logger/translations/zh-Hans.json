@@ -76,8 +76,8 @@
           "log_ha_event_body": "将事件数据序列化到日志正文",
           "suppress_system_log_event_name": "将 system_log_event 作为事件名称时进行抑制",
           "custom_events": "一个或多个事件",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "使用 system_log_event 代替 Python 根日志记录器",
+          "log_level": "最低日志级别（仅限根日志记录器模式）"
         },
         "data_description": {
           "custom_events": "可选的附加 Home Assistant 事件名称列表（例如 zha_event）。每个事件名称单独填写一项。",
@@ -176,8 +176,8 @@
           "custom_events": "自定义事件名称",
           "log_ha_event_body": "将事件数据序列化到日志正文",
           "suppress_system_log_event_name": "将 system_log_event 作为事件名称时进行抑制",
-          "event_based_logging": "Use system_log_event instead of Python root logger",
-          "log_level": "Minimum log level (root logger mode only)"
+          "event_based_logging": "使用 system_log_event 代替 Python 根日志记录器",
+          "log_level": "最低日志级别（仅限根日志记录器模式）"
         },
         "data_description": {
           "custom_events": "可选的附加 Home Assistant 事件名称列表（例如 zha_event）。每个事件名称单独填写一项。",
