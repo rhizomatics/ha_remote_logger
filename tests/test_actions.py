@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
-from typing import TYPE_CHECKING, Any, AsyncGenerator, Generator
+from typing import TYPE_CHECKING, Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -16,6 +16,8 @@ from custom_components.remote_logger.const import (
 from custom_components.remote_logger.otel.exporter import OtlpJsonSubmission, OtlpMessage, OtlpProtobufSubmission
 
 if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
+
     from homeassistant.core import HomeAssistant
 
 
@@ -318,7 +320,6 @@ class TestLastLogService:
         assert result["headers"]["Authorization"] == "Bearer *************"
 
     async def test_last_log_returns_empty_dict_for_unknown_entry(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
-
         with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
             await async_setup_entry(hass, mock_entry_otel)
 

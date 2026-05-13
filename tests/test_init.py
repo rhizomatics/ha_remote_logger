@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import logging
 from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, patch
-
-import logging
 
 from custom_components.remote_logger import async_setup_entry, async_unload_entry
 from custom_components.remote_logger.const import (

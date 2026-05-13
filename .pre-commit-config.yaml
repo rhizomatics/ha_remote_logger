@@ -24,7 +24,7 @@ repos:
       - id: codespell
         args:
           - --ignore-words-list=hass,alot,NotIn,datas,dof,dur,farenheit,hist,iff,ines,ist,lightsensor,mut,nd,pres,referer,ser,serie,te,technik,ue,uint,visability,wan,wanna,withing
-          - --skip="./.*,*.csv,*.json"
+          - --skip="./.*,*.csv,*.json,uv.lock"
           - --quiet-level=2
         exclude: ^(README\.[a-z]{2}(-[A-Za-z]+)?\.md|docs/[a-z]{2}(-[A-Za-z]+)?/index\.md)$
         exclude_types: [csv, json]
