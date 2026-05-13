@@ -1,3 +1,7 @@
+# 2.0.1
+## Fixes
+- Validation could fail with a 422 because of the empty payload when used with Loki, this status code is now taken to
+reflect remote service is available and authenticated
 # 2.0.0
 ## Root Log Handler
 - New way to capture logs at any level

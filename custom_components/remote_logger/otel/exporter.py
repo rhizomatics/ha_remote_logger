@@ -169,7 +169,9 @@ async def validate(
             headers=headers,
             timeout=aiohttp.ClientTimeout(total=10),
         ) as resp:
-            if resp.status >= 400 and resp.status < 500:
+            if resp.status >= 400 and resp.status < 500 and resp.status != 422:
+                # 422 Unprocessable Entity means the endpoint is reachable but rejected
+                # our empty validation payload — that confirms connectivity.
                 errors["base"] = "cannot_connect"
                 _LOGGER.error("remote_logger: client connect failed (%s): %s", resp.status, await resp.text())
             if resp.status >= 500:

@@ -704,6 +704,23 @@ class TestOtelValidate:
         result = await validate(mock_session, "http://localhost:4318/v1/logs", "json")
         assert result == {"base": "cannot_connect"}
 
+    async def test_422_does_not_return_cannot_connect(self) -> None:
+        # Loki returns 422 for empty payloads; this confirms the endpoint is reachable.
+        from unittest.mock import AsyncMock
+
+        from custom_components.remote_logger.otel.exporter import validate
+
+        mock_resp = MagicMock()
+        mock_resp.status = 422
+        mock_resp.text = AsyncMock(return_value="empty resourceLogs")
+        mock_resp.__aenter__ = AsyncMock(return_value=mock_resp)
+        mock_resp.__aexit__ = AsyncMock(return_value=False)
+        mock_session = MagicMock()
+        mock_session.post = MagicMock(return_value=mock_resp)
+
+        result = await validate(mock_session, "http://localhost:3100/otlp/v1/logs", "json")
+        assert result == {}
+
     async def test_5xx_returns_cannot_connect(self) -> None:
         from unittest.mock import AsyncMock
 
