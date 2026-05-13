@@ -7,11 +7,15 @@ import contextlib
 from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import logging
+
 from custom_components.remote_logger import async_setup_entry, async_unload_entry
 from custom_components.remote_logger.const import (
     CONF_CUSTOM_EVENTS,
+    CONF_EVENT_BASED_LOGGING,
     CONF_LOG_HA_CORE_CHANGES,
     CONF_LOG_HA_LIFECYCLE,
+    CONF_LOG_LEVEL,
     CORE_CHANGE_EVENTS,
     DOMAIN,
     LIFECYCLE_EVENTS,
@@ -160,6 +164,67 @@ class TestShutdownFlush:
         entry_data["flush_task"].cancel()
         with contextlib.suppress(asyncio.CancelledError):
             await entry_data["flush_task"]
+
+
+class TestEventBasedLogging:
+    async def test_default_adds_log_handler_to_root(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+        """Default config (no event_based_logging key) uses the log handler path."""
+        with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
+            await async_setup_entry(hass, mock_entry_otel)
+
+        entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
+        assert entry_data["log_handler"] is not None
+        assert entry_data["log_handler"] in logging.root.handlers
+
+        with patch.object(hass.config_entries, "async_unload_platforms", AsyncMock(return_value=True)):
+            await async_unload_entry(hass, mock_entry_otel)
+
+    async def test_event_based_true_uses_listener_not_handler(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+        mock_entry_otel.data = {**mock_entry_otel.data, CONF_EVENT_BASED_LOGGING: True}
+        with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
+            await async_setup_entry(hass, mock_entry_otel)
+
+        entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
+        assert entry_data["log_handler"] is None
+        # stop + close + final_write + update_listener + system_log listener
+        assert len(entry_data["cancel_listeners"]) == 5
+
+        entry_data["flush_task"].cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await entry_data["flush_task"]
+
+    async def test_log_handler_default_level_is_info(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+        with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
+            await async_setup_entry(hass, mock_entry_otel)
+
+        entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
+        assert entry_data["log_handler"].level == logging.INFO
+
+        with patch.object(hass.config_entries, "async_unload_platforms", AsyncMock(return_value=True)):
+            await async_unload_entry(hass, mock_entry_otel)
+
+    async def test_log_handler_custom_level(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+        mock_entry_otel.data = {**mock_entry_otel.data, CONF_LOG_LEVEL: "WARNING"}
+        with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
+            await async_setup_entry(hass, mock_entry_otel)
+
+        entry_data = hass.data[DOMAIN][mock_entry_otel.entry_id]
+        assert entry_data["log_handler"].level == logging.WARNING
+
+        with patch.object(hass.config_entries, "async_unload_platforms", AsyncMock(return_value=True)):
+            await async_unload_entry(hass, mock_entry_otel)
+
+    async def test_unload_removes_log_handler_from_root(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
+        with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
+            await async_setup_entry(hass, mock_entry_otel)
+
+        handler = hass.data[DOMAIN][mock_entry_otel.entry_id]["log_handler"]
+        assert handler in logging.root.handlers
+
+        with patch.object(hass.config_entries, "async_unload_platforms", AsyncMock(return_value=True)):
+            await async_unload_entry(hass, mock_entry_otel)
+
+        assert handler not in logging.root.handlers
 
 
 class TestUpdateListener:

@@ -7,6 +7,8 @@ import contextlib
 from typing import TYPE_CHECKING, Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import pytest
+
 from custom_components.remote_logger import async_setup_entry
 from custom_components.remote_logger.const import (
     DOMAIN,
@@ -137,6 +139,15 @@ class TestFlushService:
 
 
 class TestLastLogService:
+    @pytest.fixture(autouse=True)
+    async def _cancel_flush_tasks(self, hass: HomeAssistant):
+        yield
+        for entry_data in hass.data.get(DOMAIN, {}).values():
+            if task := entry_data.get("flush_task"):
+                task.cancel()
+                with contextlib.suppress(asyncio.CancelledError):
+                    await task
+
     async def test_last_log_service_registered(self, hass: HomeAssistant, mock_entry_otel: MagicMock) -> None:
         with patch.object(hass.config_entries, "async_forward_entry_setups", AsyncMock()):
             await async_setup_entry(hass, mock_entry_otel)

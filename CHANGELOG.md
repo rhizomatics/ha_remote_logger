@@ -1,3 +1,6 @@
+# 2.0.2
+## Fixes
+- Fixed test issues on CI, and improve HA async compatibility for log event handler
 # 2.0.1
 ## Fixes
 - Validation could fail with a 422 because of the empty payload when used with Loki, this status code is now taken to
