@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, AsyncGenerator, Generator
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -140,7 +140,7 @@ class TestFlushService:
 
 class TestLastLogService:
     @pytest.fixture(autouse=True)
-    async def _cancel_flush_tasks(self, hass: HomeAssistant):
+    async def _cancel_flush_tasks(self, hass: HomeAssistant) -> AsyncGenerator[None, Any]:
         yield
         for entry_data in hass.data.get(DOMAIN, {}).values():
             if task := entry_data.get("flush_task"):
