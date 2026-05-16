@@ -4,7 +4,7 @@ import logging
 import threading
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Mapping
 
 from homeassistant.auth import EVENT_USER_ADDED, EVENT_USER_REMOVED, EVENT_USER_UPDATED, HomeAssistant
 from homeassistant.components.automation import EVENT_AUTOMATION_TRIGGERED
@@ -97,7 +97,7 @@ class LogExporter:
             # prevent log loops
             return
         try:
-            record: LogMessage = self.event_to_log_record(event)
+            record: LogMessage = self.create_log_record(event.data, event.event_type, event.time_fired)
             self._buffer.append(record)
 
             if len(self._buffer) >= self._batch_max_size:
@@ -190,12 +190,14 @@ class LogExporter:
 
             if event_body:
                 flat_event: dict[str, Any] = {k: v for k, v in event.data.items() if k not in _HA_EVENT_BODY_ATTRIBUTE_KEYS}
-                event.data = {k: v for k, v in event.data.items() if k in _HA_EVENT_BODY_ATTRIBUTE_KEYS}
+                event_data = {k: v for k, v in event.data.items() if k in _HA_EVENT_BODY_ATTRIBUTE_KEYS}
                 if flat_event:
-                    event.data["event.data"] = json.dumps(flat_event, default=_event_data_serializer, indent=2)
+                    event_data["event.data"] = json.dumps(flat_event, default=_event_data_serializer, indent=2)
+            else:
+                event_data: Mapping[str, Any]=dict(event.data)
 
-            record: LogMessage = self.event_to_log_record(
-                event, message_override=message, level_override="INFO", state_only=state_only
+            record: LogMessage = self.create_log_record(
+                event_data, event.event_type, event.time_fired, message_override=message, level_override="INFO", state_only=state_only
             )
             self._buffer.append(record)
             if len(self._buffer) >= self._batch_max_size:
@@ -203,16 +205,6 @@ class LogExporter:
         except Exception as e:
             _LOGGER.error("remote_logger: %s ha_event handler failure %s on %s", self.logger_type, e, event_type)
             self.on_format_error(str(e))
-
-    @abstractmethod
-    def event_to_log_record(
-        self,
-        event: Event,
-        message_override: list[str] | None = None,
-        level_override: str | None = None,
-        state_only: bool = False,
-    ) -> LogMessage:
-        pass
 
     @callback
     @abstractmethod

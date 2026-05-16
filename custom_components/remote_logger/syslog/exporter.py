@@ -39,7 +39,7 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
 
     from homeassistant.config_entries import ConfigEntry
-    from homeassistant.core import Event, HomeAssistant
+    from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -99,22 +99,6 @@ class SyslogExporter(LogExporter):
             f"{'+TLS' if self._use_tls and self._protocol != PROTOCOL_UDP else ''})"
         )
         _LOGGER.info(f"remote_logger: syslog configured for {self.endpoint_desc}")
-
-    def event_to_log_record(
-        self,
-        event: Event,
-        message_override: list[str] | None = None,
-        level_override: str | None = None,
-        state_only: bool = False,
-    ) -> SyslogMessage:
-        return self.create_log_record(
-            event.data,
-            event.event_type,
-            event.time_fired,
-            message_override=message_override,
-            level_override=level_override,
-            state_only=state_only,
-        )
 
     def create_log_record(
         self,

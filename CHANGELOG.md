@@ -1,3 +1,6 @@
+# 2.0.3
+## Fixes
+- Prevent `state_changed` event handling mutating event data and interfering with subsequent handlers
 # 2.0.2
 ## Fixes
 - Fixed test issues on CI, and improve HA async compatibility for log event handler

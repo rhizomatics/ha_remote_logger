@@ -327,22 +327,6 @@ class OtlpLogExporter(LogExporter):
 
         return {"attributes": attrs}
 
-    def event_to_log_record(
-        self,
-        event: Event,
-        message_override: list[str] | None = None,
-        level_override: str | None = None,
-        state_only: bool = False,
-    ) -> OtlpMessage:
-        return self.create_log_record(
-            event.data,
-            event.event_type,
-            event.time_fired,
-            message_override=message_override,
-            level_override=level_override,
-            state_only=state_only,
-        )
-
     def create_log_record(
         self,
         event_data: Mapping[str, typing.Any],

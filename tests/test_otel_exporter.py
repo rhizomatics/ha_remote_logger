@@ -204,7 +204,7 @@ class TestOtlpLogExporter:
         assert "region" in keys
 
     def test_to_log_record_full(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
-        record: OtlpMessage = exporter.event_to_log_record(sample_log_event)
+        record: OtlpMessage = exporter.create_log_record(sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired)
 
         assert record.payload["severityNumber"] == 17
         assert record.payload["severityText"] == "ERROR"
@@ -221,7 +221,7 @@ class TestOtlpLogExporter:
         assert "exception.first_occurred" in attr_keys
 
     def test_to_log_record_minimal(self, exporter: OtlpLogExporter, minimal_log_event: Event) -> None:
-        record = exporter.event_to_log_record(minimal_log_event)
+        record = exporter.create_log_record(minimal_log_event.data, minimal_log_event.event_type, minimal_log_event.time_fired)
 
         assert record.payload["severityNumber"] == 9
         assert record.payload["severityText"] == "INFO"
@@ -230,19 +230,19 @@ class TestOtlpLogExporter:
         assert record.payload["attributes"] == []
 
     def test_to_log_record_unknown_level(self, exporter: OtlpLogExporter) -> None:
-        record = exporter.event_to_log_record(Event("system_log_event", data={"level": "TRACE", "message": ["test"]}))
+        record = exporter.create_log_record({"level": "TRACE", "message": ["test"]}, "system_log_event", None)
         # Falls back to default severity (INFO)
         assert record.payload["severityNumber"] == 9
         assert record.payload["severityText"] == "INFO"
 
     def test_to_log_record_multiple_messages(self, exporter: OtlpLogExporter) -> None:
-        record = exporter.event_to_log_record(Event("system_log_event", data={"message": ["line 1", "line 2", "line 3"]}))
+        record = exporter.create_log_record({"message": ["line 1", "line 2", "line 3"]}, "system_log_event", None)
         assert record.payload["body"]["stringValue"] == "line 1\nline 2\nline 3"
 
     def test_to_protobuf(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
         from custom_components.remote_logger.otel.exporter import OtlpProtobufSubmission
 
-        record = exporter.event_to_log_record(sample_log_event)
+        record = exporter.create_log_record(sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired)
         submission = OtlpProtobufSubmission(exporter._resource, [record])
         result = submission.body()
         assert result["data"] is not None
@@ -252,7 +252,7 @@ class TestOtlpLogExporter:
     def test_to_json(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
         from custom_components.remote_logger.otel.exporter import OtlpJsonSubmission
 
-        record = exporter.event_to_log_record(sample_log_event)
+        record = exporter.create_log_record(sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired)
         submission = OtlpJsonSubmission(exporter._resource, [record])
         result = submission.body()
         body = result["json"]
@@ -329,7 +329,7 @@ class TestOtlpLogExporter:
     def test_handle_event_exception_is_logged(self, exporter: OtlpLogExporter, mock_event: MagicMock) -> None:
         from unittest.mock import patch
 
-        with patch.object(exporter, "event_to_log_record", side_effect=RuntimeError("bad")):
+        with patch.object(exporter, "create_log_record", side_effect=RuntimeError("bad")):
             exporter.handle_event(mock_event)
         assert len(exporter._buffer) == 0
 
@@ -424,21 +424,21 @@ class TestOtlpLogExporter:
 
     def test_to_log_record_event_data_as_attributes(self, exporter: OtlpLogExporter) -> None:
         data = {"domain": "light", "service": "turn_on", "count": 3}
-        record = exporter.event_to_log_record(Event("homeassistant_start", data=data))
+        record = exporter.create_log_record(data, "homeassistant_start", None)
         attr_keys = [a["key"] for a in record.payload["attributes"]]
         assert "event.data.domain" in attr_keys
         assert "event.data.service" in attr_keys
         assert "event.data.count" in attr_keys
 
     def test_to_log_record_ha_event_name_as_event_name(self, exporter: OtlpLogExporter) -> None:
-        record = exporter.event_to_log_record(Event("component_loaded"))
+        record = exporter.create_log_record({}, "component_loaded", None)
         assert record.payload["eventName"] == "component_loaded"
 
     def test_to_log_record_system_log_has_no_event_name(self, exporter: OtlpLogExporter) -> None:
         event: Event[Mapping[str, list[str] | str | float]] = Event(
             EVENT_SYSTEM_LOG, {"message": ["test"], "level": "error", "timestamp": 1700000000.0}
         )
-        record: OtlpMessage = exporter.event_to_log_record(event)
+        record: OtlpMessage = exporter.create_log_record(event.data, event.event_type, event.time_fired)
         assert "eventName" not in record.payload
 
     def test_handle_ha_event_buffers(self, exporter: OtlpLogExporter) -> None:
@@ -466,7 +466,7 @@ class TestOtlpLogExporter:
         event = MagicMock()
         event.time_fired.timestamp.return_value = 1700000000.0
         event.data = {}
-        with patch.object(exporter, "event_to_log_record", side_effect=RuntimeError("fail")):
+        with patch.object(exporter, "create_log_record", side_effect=RuntimeError("fail")):
             exporter.handle_ha_event("bad_event", event)
         assert exporter.format_error_count == 1
 
