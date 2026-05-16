@@ -7,7 +7,6 @@ from unittest.mock import MagicMock
 from urllib.parse import urlparse
 
 import pytest
-from homeassistant.core import Event
 
 from custom_components.remote_logger.syslog.exporter import (
     SyslogExporter,
@@ -16,7 +15,7 @@ from custom_components.remote_logger.syslog.exporter import (
 )
 
 if TYPE_CHECKING:
-    from homeassistant.core import HomeAssistant
+    from homeassistant.core import Event, HomeAssistant
 
 # ---------------------------------------------------------------------------
 # _sd_escape
@@ -212,7 +211,9 @@ class TestSyslogExporter:
         assert len(exporter._buffer) == 0
 
     def test_to_protobuf(self, exporter: SyslogExporter, sample_log_event: Event) -> None:
-        msg = exporter.create_log_record(sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired).payload.decode("utf-8")
+        msg = exporter.create_log_record(
+            sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired
+        ).payload.decode("utf-8")
         assert msg is not None
         assert msg.startswith("<131>")
         assert len(msg) > 300
@@ -409,7 +410,6 @@ class TestSyslogExporter:
         assert 'event.data.service="turn_on"' in msg
 
     def test_to_syslog_message_msgid_from_event(self, exporter: SyslogExporter) -> None:
-
         msg = exporter.create_log_record({}, "component_loaded", None).payload.decode("utf-8")
         # MSGID field (6th SP-delimited token) should be the event type
         parts = msg.split(" ")

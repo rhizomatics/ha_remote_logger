@@ -204,7 +204,9 @@ class TestOtlpLogExporter:
         assert "region" in keys
 
     def test_to_log_record_full(self, exporter: OtlpLogExporter, sample_log_event: Event) -> None:
-        record: OtlpMessage = exporter.create_log_record(sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired)
+        record: OtlpMessage = exporter.create_log_record(
+            sample_log_event.data, sample_log_event.event_type, sample_log_event.time_fired
+        )
 
         assert record.payload["severityNumber"] == 17
         assert record.payload["severityText"] == "ERROR"

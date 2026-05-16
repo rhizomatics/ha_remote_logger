@@ -51,7 +51,7 @@ if typing.TYPE_CHECKING:
     from collections.abc import Mapping
 
     from homeassistant.config_entries import ConfigEntry
-    from homeassistant.core import Event, HomeAssistant
+    from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
