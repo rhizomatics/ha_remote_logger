@@ -118,7 +118,9 @@ unfixable = ["B"]
 [tool.ruff.format]
 preview = true
 
-
+[tool.uv]
+exclude-newer = "5 days"
+add-bounds = "major"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
