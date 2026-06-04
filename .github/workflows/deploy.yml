@@ -22,7 +22,7 @@ jobs:
         python-version: ["3.14"]
 
     steps:
-    - uses: actions/checkout@v6.0.2
+    - uses: actions/checkout@v6.0.3
     - name: HACS Action
       uses: "hacs/action@dcb30e72781db3f207d5236b861172774ab0b485"
       with:
