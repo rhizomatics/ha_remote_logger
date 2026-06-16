@@ -29,7 +29,7 @@ jobs:
         category: "integration"
         ignore: "brands"
     - name: HACS Hassfest
-      uses: "home-assistant/actions/hassfest@868e6cb4607727d764341a158d98872cd63fa658"
+      uses: "home-assistant/actions/hassfest@e91ad1948e57189485b9c1ad608af0c303946f89"
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6
       with:
