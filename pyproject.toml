@@ -6,7 +6,8 @@ dynamic = ["version"]
 requires-python = ">=3.13.2"
 
 dependencies = [
-    "homeassistant>=2026.2.3",
+    "homeassistant>=2026.6.0; python_full_version > '3.14.2'",
+    "homeassistant<2026.3.0; python_full_version < '3.14.2'",
 ]
 
 [dependency-groups]
@@ -121,6 +122,19 @@ preview = true
 [tool.uv]
 exclude-newer = "5 days"
 add-bounds = "major"
+# Skip the 3.14.0-3.14.1 gap: HA 2026.3+ requires >=3.14.2, so those patch
+# versions are unusable regardless.
+environments = [
+    "python_full_version < '3.14'",
+    "python_full_version >= '3.14.2'",
+]
+override-dependencies = [
+    "homeassistant<2026.3.0; python_full_version < '3.14.2'",
+    "homeassistant>=2026.6.0; python_full_version >= '3.14.2'",
+    "homeassistant-stubs<2026.3.0; python_full_version < '3.14.2'",
+    "homeassistant-stubs>=2026.6.0; python_full_version >= '3.14.2'",
+]
+
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
