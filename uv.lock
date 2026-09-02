@@ -17,7 +17,7 @@ exclude-newer-span = "P5D"
 
 [manifest]
 overrides = [
-    { name = "homeassistant", marker = "python_full_version < '3.14.2'", specifier = "<2026.3.0" },
+    { name = "homeassistant", marker = "python_full_version < '3.14.2'", specifier = ">=2025.10.4,<2026.3.0" },
     { name = "homeassistant", marker = "python_full_version >= '3.14.2'", specifier = ">=2026.6.4" },
     { name = "homeassistant-stubs", marker = "python_full_version < '3.14.2'", specifier = "<2026.3.0" },
     { name = "homeassistant-stubs", marker = "python_full_version >= '3.14.2'", specifier = ">=2026.6.4" },

@@ -130,7 +130,7 @@ environments = [
     "python_full_version >= '3.14.2'",
 ]
 override-dependencies = [
-    "homeassistant<2026.3.0; python_full_version < '3.14.2'",
+    "homeassistant>=2025.10.4,<2026.3.0; python_full_version < '3.14.2'",
     "homeassistant>=2026.6.4; python_full_version >= '3.14.2'",
     "homeassistant-stubs<2026.3.0; python_full_version < '3.14.2'",
     "homeassistant-stubs>=2026.6.4; python_full_version >= '3.14.2'",
